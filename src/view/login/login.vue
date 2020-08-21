@@ -1,4 +1,6 @@
-
+<style lang="less" >
+  @import './login.less';
+</style>
 
 <template>
   <div class="login">
@@ -61,66 +63,6 @@ export default {
 }
 </script>
 
-
-<style lang="less" scoped>
-.login{
-    width: 100%;
-    height: 100%;
-    background-image: url('../../assets/images/login-bg.jpg');
-    background-size: cover;
-    background-position: center;
-    position: relative;
-    &-bg1{
-        width: 100%;
-        height: 237px;
-        background: #347ebc;
-        opacity: 0.6;
-        position: absolute;
-        left: 0;
-        top: 0px;
-        right: 0px;
-        bottom: 0px;
-        margin: auto;   
-    }
-    .login-gy1{
-        width: 510px;
-        height: 237px;
-        color: #FFFFFF;
-        font-size: 72px;
-        position: absolute;
-        left: 15%;
-        top: 11%;
-        bottom: 0px;
-        margin: auto;
-        .login-gy2{
-            color: #fff;
-            margin-left: 6px;
-            font-size: 18px;
-            text-align: center;
-            margin-top: 10px;
-        }
-    }
-    &-con{
-        position: absolute;
-        right: 160px;
-        top: 50%;
-        transform: translateY(-60%);
-        width: 300px;
-        &-header{
-            font-size: 16px;
-            font-weight: 300;
-            text-align: center;
-            padding: 30px 0;
-        }
-        .form-con{
-            padding: 10px 0 0;
-        }
-        .login-tip{
-            font-size: 10px;
-            text-align: center;
-            color: #c3c3c3;
-        }
-    }
-}
+<style>
 
 </style>

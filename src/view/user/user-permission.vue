@@ -25,7 +25,8 @@
             </Card>
           </div>
           <div slot="right" class="demo-split-pane">
-            <Tree :data="data4" show-checkbox multiple></Tree>
+            <Button class="search-btn" type="primary" @click="update" >√修改</Button>
+            <Tree ref="tree" :data="data4" show-checkbox multiple></Tree>
           </div>
       </Split>
   </div>
@@ -33,6 +34,8 @@
 
 <script>
 import Tables from '_c/tables'
+import { formatTreeData, formatTreeDataEx, formatTreePremsToString} from '../../func/perms-pub.js'
+import {Uniq} from '../../func/uniq.js'
 export default {
   name: 'user_permission',
   components: {
@@ -106,7 +109,14 @@ export default {
                   }
               ]
           }
-      ]
+      ],
+      perms:{
+        f_id: '',
+        f_name: '',
+        f_perms: '',
+      },
+      subdata:'',
+      d_perms_all: [], //源数据--tree
     }
   },
   methods: {
@@ -125,7 +135,11 @@ export default {
       console.log(row,index)
       let data = {}
       data['f_name'] = row.name
-       this.getPermsGroupToget(data)
+      this.perms.f_id = row.id
+      this.perms.f_name = row.name
+         
+      this.getPermsGroupToget(data)
+      this.getpermsinform()
       
     },
     
@@ -167,18 +181,25 @@ export default {
           f_limit: this.pageSize
         })
         if(!res) return false
-
-        this.pageTotal = res.f_data.f_count
-        this.pageNum = res.f_data.f_page
+        console.log(res)
+        this.pageTotal = res.f_data_json.f_count
+        this.pageNum = res.f_data_json.f_page
 
         let tableJson = []
-        res.f_data.f_values.forEach((item, index) => {
+        res.f_data_json.f_values.forEach((item, index) => {
             tableJson.push({
-                id: item.id,
-                name: item.f_name, //账号
+                id: item.f_id,
+                name: item.f_name, 
             })
         });
+        this.perms.f_id =  res.f_data_json.f_values[0].f_id
+        this.perms.f_name =  res.f_data_json.f_values[0].f_name
         this.tableData = tableJson
+         let data = {
+          f_name: res.f_data_json.f_values[0].f_name
+        }
+
+        this.getPermsGroupToget(data)
     },
       //搜索
     async getSearchData(data) {
@@ -202,14 +223,67 @@ export default {
       if(!res) return false
       console.log(res)
     },
+    //修改
+    async update() {
+      this.subdata = this.$refs.tree.getCheckedNodes() //获取勾线的节点 checked
+      console.log(this.subdata)
+      let f_perms_data = []
+      this.subdata.forEach((item, index) => {
+        f_perms_data.push(item.id)
+      })
+      let data = {
+        f_id: this.perms.f_id,
+        f_name: this.perms.f_name,
+        f_perms: f_perms_data
+      }
+      let res = await $ajax("permsGroupTogetPut", 'put', data)
+      if(!res) return false
+      console.log(res)
+      let arr1 = this.d_perms_all
+      let arr2 = res.f_data_json.f_values[0].f_perms
+      let d_perms_all = Uniq(arr1, arr2)
+      console.log(d_perms_all)
+      let databasic = []
+            , dataapp = []
+            , dataweb = []
+            , transpermsall = [];
+
+       transpermsall = formatTreeDataEx(databasic, dataapp, dataweb, d_perms_all);
+      
+      console.log(transpermsall)
+      this.data4 = transpermsall
+
+    },
+    //获取当前分组名称-》权限
     async getPermsGroupToget (data) {
       let res = await $ajax("permsGroupToget", 'get', data)
       if(!res) return false
+      console.log(res)
+      let arr1 = JSON.parse(localStorage.getItem('d_perms_all'))
+      let arr2 = res.f_data_json.f_values[0].f_perms
+      console.log('arr1',arr1)
+      console.log('arr2',arr2)
+      let d_perms_all = Uniq(arr1, arr2)
+      console.log(d_perms_all)
+      let databasic = []
+            , dataapp = []
+            , dataweb = []
+            , transpermsall = [];
+
+       transpermsall = formatTreeDataEx(databasic, dataapp, dataweb, d_perms_all);
+      
+      console.log(transpermsall)
+      this.data4 = transpermsall
     },
     async getpermsinform () {
       let res = await $ajax("permsget", 'get')
       if(!res) return false
       console.log(res)
+      this.d_perms_all = res.f_data_json.f_values
+      console.log('源数据', this.d_perms_all )
+      localStorage.setItem('d_perms_all', JSON.stringify( this.d_perms_all))
+      
+
     },
     
   },
@@ -220,6 +294,7 @@ export default {
     // })
     this.getdata()
     this.getpermsinform()
+   
 
   }
 }

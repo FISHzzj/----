@@ -23,6 +23,7 @@ import 'vant/lib/index.css'
 import { Dialog, Field, Toast } from 'vant';
 import md5 from 'blueimp-md5'
 import qs from 'qs'
+import $ from 'jquery'
 
 Vue.component('Button', Button);
 Vue.component('Table', Table);
@@ -61,6 +62,8 @@ window.Dialog = Dialog
 window.Toast = Toast
 window.md5 = md5
 window.qs = qs
+window.$ = $
+
 
 /* eslint-disable no-new */
 new Vue({

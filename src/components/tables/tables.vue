@@ -396,13 +396,13 @@ export default {
         })
         return arrColumns
       },
-      // set(newValue) {
+      set(newValue) {
      
-      //   newValue['valuetext'] = ''
-      //   console.log(newValue)
-      //   let arrColumns = newValue
-      //   return arrColumns
-      // }
+        // newValue['valuetext'] = ''
+        // console.log(newValue)
+        // let arrColumns = newValue
+        // return arrColumns
+      }
      
     }
   },

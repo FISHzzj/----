@@ -21,7 +21,7 @@ import { setToken, getToken } from '@/libs/util'
  */
 
 export default function (port, method, data = {}, errCallback) {
-    if (!data) return console.warn('沒有傳遞 data 參數, 作爲請求的數據')
+    if (!data) return console.warn('没有传递 data 参数，作为请求参数')
     //判断  f_ttype 终端类型, 1-WEB 2-微信小程序 //f_ltype 登录方式, 1-账号 2-微信 3-手机 4-安全秘钥
     data['f_ttype'] = 1
     data['f_ltype'] = 1
@@ -72,7 +72,7 @@ export default function (port, method, data = {}, errCallback) {
                 console.warn(err)
                 // 對 請求錯誤, 進行統一處理
                 Dialog.alert({
-                    title: '服務器錯誤',
+                    title: '服务器错误',
                     message: err
                 })
             })
@@ -97,7 +97,7 @@ export default function (port, method, data = {}, errCallback) {
                 console.warn(err)
                 // 對 請求錯誤, 進行統一處理
                 Dialog.alert({
-                    title: '服務器錯誤',
+                    title: '服务器错误',
                     message: err
                 })
             })

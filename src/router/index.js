@@ -23,7 +23,7 @@ router.beforeEach((to, from, next) => {
   // iView.LoadingBar.start()
   // const token = getToken()
     let csrftoken = getToken('csrftoken')
-    // let sessionid = getCookie('sessionid') || '7wllzi0fjc3ac0e9t6n8k8cjyjf3alkn'
+    let sessionid = getCookie('sessionid') || '7wllzi0fjc3ac0e9t6n8k8cjyjf3alkn'
     // console.log('csrftoken', csrftoken)
 
     // console.log('sessionid', sessionid)
