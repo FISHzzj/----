@@ -69,7 +69,7 @@ export default {
         }
       ],
       tableData: [],
-      title: "用户信息添加",
+      title: "分组名称添加",
       pageTotal: 10,
       pageNum: 1,
       pageSize: 10,
@@ -159,9 +159,9 @@ export default {
       this.getdata()
     },
     //获取页数
-    onPageSizeChage() {
-      console.log(pageNum)
-      this.pageNum = pageNum
+    onPageSizeChage(pageSize) {
+      console.log(pageSize)
+      this.pageSize = pageSize
       this.getdata()
     },
     //搜索
@@ -275,6 +275,7 @@ export default {
       console.log(transpermsall)
       this.data4 = transpermsall
     },
+    //获取所有权限信息
     async getpermsinform () {
       let res = await $ajax("permsget", 'get')
       if(!res) return false

@@ -18,6 +18,9 @@ export default {
     permsGroupTogetPut: `${common}/ktacs/sys/perms/groups/perms/`, //权限和分组(分组视角) put update
     permsget: `${common}/ktacs/sys/perms/perms/`, //获取所有权限信息 get Read
     resetPut: `${common}/ktacs/sys/perms/reset/`, //重置系统默认权限分组 put update
-
+    togroupGet: `${common}/ktacs/sys/users/togroup/`, //用户与权限分组名 的关系 get Read
+    togroupPost: `${common}/ktacs/sys/users/togroup/`, //用户与权限分组名 的关系 post create
+    togroupDelete: `${common}/ktacs/sys/users/togroup/`, //用户与权限分组名 的关系 delete 
+    orgGet: `${common}/ktacs/sys/org`, //组织架构 对组织进行管理 get Read
 
 }
