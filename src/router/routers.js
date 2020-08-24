@@ -125,7 +125,7 @@ export default [
         name: 'user_information',
         meta: {
           icon: '_qq',
-          title: '信息维护',
+          title: '用户信息维护',
           mustLogin:true,
         },
         component: () => import('@/view/user/user-information.vue')

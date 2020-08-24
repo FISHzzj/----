@@ -1,27 +1,21 @@
 <template>
   <div>
     <div v-if="searchable && searchPlace === 'top'" class="search-con search-con-top">
-      <Select v-model="searchKey" class="search-col" v-if="searchCol">
+      <!-- <Select v-model="searchKey" class="search-col" v-if="searchCol">
         <Option v-for="item in columns" v-if="item.key !== 'handle'" :value="item.key" :key="`search-col-${item.key}`">{{ item.title }}</Option>
       </Select>
-      <Input @on-change="handleClear" clearable placeholder="输入关键字搜索" class="search-input" v-model="searchValue"/>
+      <Input @on-change="handleClear" clearable placeholder="输入关键字搜索" class="search-input" v-model="searchValue"/> -->
+      <div v-for="(item, index) in arrsearch" :key="index">
+        <span>{{item.title}}：</span>
+        <Input placeholder="输入关键字搜索" class="search-input" v-model="item.val"/>
+      </div>
       <Button @click="handleSearch" class="search-btn" type="primary"><Icon type="search"/>&nbsp;&nbsp;搜索</Button>
-      <Button class="search-btn" type="primary" @click="modal1 = true" v-if="addSearchBtn">新增</Button>
+      <Button class="search-btn" type="primary" @click="addBtn" v-if="addSearchBtn">新增</Button>
+      <Button class="search-btn" type="primary" @click="permaddBtn" v-else>新增</Button>
       <Button class="search-btn" type="primary" @click="Resetbtn" v-if="permsReset">重置</Button>
-      <Modal
-          v-model="modal1"
-          :title="title"
-          @on-ok="ok"
-          @on-cancel="cancel">
-          <p v-for="(item, index) in arrColumns" :key="index" style="margin-bottom: 10px;"> 
-            <Input v-model="item.valuetext">
-              <span slot="prepend">{{item.nametitle}}</span>
-            </Input>
-          </p>
-      </Modal>
     </div>
     <Table
-      ref="tablesMain"
+      ref="tablesMain" 
       :data="insideTableData"
       :columns="insideColumns"
       :stripe="stripe"
@@ -71,7 +65,8 @@
       />
     </div>
     <a id="hrefToExportTable" style="display: none;width: 0px;height: 0px;"></a>
-
+    <Form v-if="fromshow" @on-handle-save="onHandleSave" @on-handle-close="onHandleClose"></Form>
+    <permForm v-if="permfromshow" @on-handle-save="onPermHandleSave" @on-handle-close="onPermHandleClose"></permForm>
   </div>
 
 </template>
@@ -80,8 +75,14 @@
 import TablesEdit from './edit.vue'
 import handleBtns from './handle-btns'
 import './index.less'
+import Form from './form.vue'
+import permForm from './permForm.vue'
 export default {
   name: 'Tables',
+  components: {
+    Form,
+    permForm,
+  },
   props: {
     value: {
       type: Array,
@@ -203,6 +204,18 @@ export default {
       type: Boolean,
       default: false
     },
+    addListArr: {
+      type:Array,
+      default() {
+        return []
+      }
+    },
+    arrsearch: {
+      type:Array,
+      default() {
+        return []
+      }
+    }
   },
   /**
    * Events
@@ -218,13 +231,13 @@ export default {
       edittingText: '',
       searchValue: '',
       searchKey: '',
-      modal1: false,
       page: {
         index: 1,
         size: 10,
         total: 50
-      }
-  
+      },
+      fromshow: false,
+      permfromshow:false,
     }
   },
   methods: {
@@ -290,11 +303,19 @@ export default {
       if (e.target.value === '') this.insideTableData = this.value
     },
     handleSearch () {
-      
-      // this.insideTableData = this.value.filter(item => item[this.searchKey].indexOf(this.searchValue) > -1)
-      let obj = {searchKey: this.searchKey, searchValue: this.searchValue}
+      console.log(this.arrsearch)
+      let obj = {}
+      this.arrsearch.forEach((item, index) => {
+        if(item.name == 'f_mobile' && item.val !== ''){
+          if(!/^1[3456789]\d{9}$/.test(item.val)){
+            return Toast('手机号格式不正确')
+          }
+        }
+        obj[`${item.name}`] = item.val
+      })
+     
       this.$emit('onHandleSearch', obj)
-      this.searchValue = ''
+
 
     },
     handleTableData () {
@@ -340,31 +361,6 @@ export default {
     onExpand (row, status) {
       this.$emit('on-expand', row, status)
     },
-    //新增row
-    ok () {
-        // this.$Message.info('Clicked ok');
-        let arrlist = this.arrColumns
-        let data = {}
-        arrlist.forEach((item, index) => {
-          if(item.valuetext == " ") {
-            this.$Message.info(`${item.nametitle}不能为空`)
-            return false
-          }else {
-            let title = item.key
-            data[title] = item.valuetext
-          }
-        })
-        if(Object.keys(data).length == arrlist.length){
-          this.$emit('onAddRow', data)
-          // let newValve = []
-          this.arrColumns = arrlist
-        }
-        
-
-    },
-    cancel () {
-        this.$Message.info('Clicked cancel');
-    },
     //获取页码
     onChange (pageNum) {
       // console.log(pageNum)
@@ -376,35 +372,64 @@ export default {
       // this.page.size = pageSize
       this.$emit('onPageSizeChage', pageSize)
     },
+    //新增btn
+    addBtn() {
+      this.fromshow = true
+    },
+    permaddBtn() {
+      this.permfromshow = true
+    },
     //重置按钮
     Resetbtn () {
       this.$emit('onResetBtn', '重置系统默认权限分组')
+    },
+    //新增  关闭表单 用户信息
+    onHandleClose() {
+      this.fromshow = false
+    },
+    //新增 保存 表单 用户信息
+    onHandleSave(formValidate) {
+      console.log(formValidate)
+      if(!formValidate) return false
+      this.$emit('on-handle-from', formValidate)
+      this.fromshow = false
+    },
+    //新增  关闭表单  权限分组
+    onPermHandleClose() {
+      this.permfromshow = false
+    },
+    //新增 保存 表单 权限分组
+    onPermHandleSave(formValidate) {
+      console.log(formValidate)
+      if(!formValidate) return false
+      this.$emit('on-perm-handle-from', formValidate)
+      this.permfromshow = false
     }
   },
   computed: {
-    arrColumns: {
-      get() {
-         // this.columns[0].key !== 'handle' 
-        let arrColumns =[]
-        this.insideColumns.map((item, index) => {
-          if(item.key !== 'handle' && item.key !== 'createTime')
-          arrColumns.push({
-            nametitle: item.title,
-            valuetext: " ",
-            key:item.key
-          })
-        })
-        return arrColumns
-      },
-      set(newValue) {
+    // arrColumns: {
+    //   get() {
+    //      // this.columns[0].key !== 'handle' 
+    //     let arrColumns =[]
+    //     this.insideColumns.map((item, index) => {
+    //       if(item.key !== 'handle' && item.key !== 'createTime')
+    //       arrColumns.push({
+    //         nametitle: item.title,
+    //         valuetext: " ",
+    //         key:item.key
+    //       })
+    //     })
+    //     return arrColumns
+    //   },
+      // set(newValue) {
      
-        // newValue['valuetext'] = ''
-        // console.log(newValue)
-        // let arrColumns = newValue
-        // return arrColumns
-      }
+      //   newValue['valuetext'] = ''
+      //   console.log(newValue)
+      //   let arrColumns = newValue
+      //   return arrColumns
+      // }
      
-    }
+    // }
   },
   watch: {
     columns (columns) {
@@ -414,7 +439,7 @@ export default {
     },
     value (val) {
       this.handleTableData()
-      if (this.searchable) this.handleSearch()
+      // if (this.searchable) this.handleSearch()
     }
   },
   mounted () {
@@ -424,5 +449,50 @@ export default {
   }
 }
 </script>
+
+<style lang="less" scoped>
+.demo-upload-list{
+    display: inline-block;
+    width: 60px;
+    height: 60px;
+    text-align: center;
+    line-height: 60px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    overflow: hidden;
+    background: #fff;
+    position: relative;
+    box-shadow: 0 1px 1px rgba(0,0,0,.2);
+    margin-right: 4px;
+}
+.demo-upload-list img{
+    width: 100%;
+    height: 100%;
+}
+.demo-upload-list-cover{
+    display: none;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0,0,0,.6);
+}
+.demo-upload-list:hover .demo-upload-list-cover{
+    display: block;
+}
+.demo-upload-list-cover i{
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+    margin: 0 2px;
+}
+.search-con{
+  display: flex;
+  div{
+    margin-right: 2px;
+  }
+}
+</style>
 
 

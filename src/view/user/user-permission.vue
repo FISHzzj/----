@@ -6,6 +6,7 @@
               <tables ref="tables" 
                 editable 
                 searchable 
+                stripe
                 search-place="top" 
                 v-model="tableData" 
                 :columns="columns" 
@@ -14,19 +15,30 @@
                 :pageNum="pageNum"
                 :addSearchBtn="addSearchBtn"
                 :permsReset="permsReset"
+                :height="height"
                 @on-delete="handleDelete" 
                 @onPageChage="onPageChage"
                 @onPageSizeChage="onPageSizeChage"
                 @onHandleSearch="onHandleSearch"
                 @on-row-dblclick="onRowDblclick"
-                @onAddRow="onAddRow"
                 @onResetBtn="onResetBtn"
+                @on-perm-handle-from="onPermHandleFrom"
               />
             </Card>
           </div>
           <div slot="right" class="demo-split-pane">
-            <Button class="search-btn" type="primary" @click="update" >√修改</Button>
-            <Tree ref="tree" :data="data4" show-checkbox multiple></Tree>
+            <Button class="search-btn" type="primary" @click="update" >修改</Button>
+            <div class="treeflex"> 
+              <List header="基础功能权限"  border>
+                <Tree ref="tree" :data="data4" show-checkbox multiple></Tree>
+              </List>
+              <List header="移动端功能权限"  border>
+                <Tree ref="tree1" :data="data5" show-checkbox multiple></Tree>
+              </List>
+              <List header="WEB端功能权限"  border>
+                <Tree ref="tree2" :data="data6" show-checkbox multiple></Tree>
+              </List>              
+            </div>
           </div>
       </Split>
   </div>
@@ -43,11 +55,12 @@ export default {
   },
   data () {
     return {
-      split1: 0.4,
+      split1: 0.3,
+      height:450,
       columns: [
         { title: '分组名称', key: 'name',},
         {
-          title: '操作',
+          title: '删除',
           key: 'handle',
           options: ['delete'],
           button: [
@@ -63,7 +76,14 @@ export default {
                     vm.$emit('input', params.tableData.filter((item, index) => index !== params.row.initRowIndex))
                   }
                 }
-              })
+              },[
+                h('Button', {
+                  props: {
+                      type: 'primary',
+                      size: 'small'
+                  },
+                }, '删除')
+              ])
             }
           ],
         }
@@ -73,43 +93,45 @@ export default {
       pageTotal: 10,
       pageNum: 1,
       pageSize: 10,
-      addSearchBtn:true,
+      addSearchBtn:false,
       permsReset:true,
       data4: [
-          {
-              title: 'parent 1',
-              expand: true,
-              selected: true,
-              children: [
-                  {
-                      title: 'parent 1-1',
-                      expand: true,
-                      children: [
-                          {
-                              title: 'leaf 1-1-1',
-                              // disabled: true
-                          },
-                          {
-                              title: 'leaf 1-1-2'
-                          }
-                      ]
-                  },
-                  {
-                      title: 'parent 1-2',
-                      expand: true,
-                      children: [
-                          {
-                              title: 'leaf 1-2-1',
-                              checked: true
-                          },
-                          {
-                              title: 'leaf 1-2-1'
-                          }
-                      ]
-                  }
-              ]
-          }
+          // {
+          //     title: 'parent 1',
+          //     expand: true,
+          //     selected: true,
+          //     children: [
+          //         {
+          //             title: 'parent 1-1',
+          //             expand: true,
+          //             children: [
+          //                 {
+          //                     title: 'leaf 1-1-1',
+          //                     // disabled: true
+          //                 },
+          //                 {
+          //                     title: 'leaf 1-1-2'
+          //                 }
+          //             ]
+          //         },
+          //         {
+          //             title: 'parent 1-2',
+          //             expand: true,
+          //             children: [
+          //                 {
+          //                     title: 'leaf 1-2-1',
+          //                     checked: true
+          //                 },
+          //                 {
+          //                     title: 'leaf 1-2-1'
+          //                 }
+          //             ]
+          //         }
+          //     ]
+          // }
       ],
+      data5:[],
+      data6:[],
       perms:{
         f_id: '',
         f_name: '',
@@ -121,11 +143,7 @@ export default {
   },
   methods: {
     //新增
-    async onAddRow(data){
-      let arrData = {}
-      Object.keys(data).forEach((key) => {
-        arrData[`f_${key}`] = data[key]
-      })
+    async onPermHandleFrom(arrData){
       let res = await $ajax('permsGroupsAdd', 'post', arrData)
       if(!res) return 
       this.getdata()
@@ -272,8 +290,10 @@ export default {
 
        transpermsall = formatTreeDataEx(databasic, dataapp, dataweb, d_perms_all);
       
-      console.log(transpermsall)
-      this.data4 = transpermsall
+      console.log(transpermsall)      
+      this.data4.push(transpermsall[0])
+      this.data5.push(transpermsall[1])
+      this.data6.push(transpermsall[2])
     },
     //获取所有权限信息
     async getpermsinform () {
@@ -308,5 +328,15 @@ export default {
 }
 .demo-split-pane{
     padding: 10px;
+}
+.treeflex{
+  display: flex;
+  justify-content: space-between;
+  >div{
+     flex:1 1 auto;
+  }
+}
+.search-btn{
+  margin-bottom: 10px;
 }
 </style>

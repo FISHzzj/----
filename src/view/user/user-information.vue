@@ -4,6 +4,7 @@
       <tables ref="tables" 
         editable 
         searchable 
+        stripe
         search-place="top" 
         v-model="tableData" 
         :addSearchBtn="addSearchBtn"
@@ -12,12 +13,15 @@
         :title="title" 
         :pageTotal="pageTotal"
         :pageNum="pageNum"
+        :addListArr="addListArr"
+        :arrsearch="arrsearch"
+        :height="height"
         @on-delete="handleDelete" 
         @on-save-edit="handleSaveEdit" 
         @onPageChage="onPageChage"
         @onPageSizeChage="onPageSizeChage"
         @onHandleSearch="onHandleSearch"
-        @onAddRow="onAddRow"
+        @on-handle-from="onHandleFrom"
       />
       <!-- <Button style="margin: 10px 0;" type="primary" @click="exportExcel">导出为Csv文件</Button> -->
     </Card>
@@ -35,12 +39,12 @@ export default {
   data () {
     return {
       columns: [
-        { title: 'Username', key: 'username', editable: true },
-        { title: 'Name', key: 'name', editable: true },
-        { title: 'Mobile', key: 'mobile', editable: true },
-        { title: 'Create-Time', key: 'createTime', editable: true },
+        { title: '账号', key: 'username', editable: true },
+        { title: '用户名', key: 'name', editable: true },
+        { title: '手机号', key: 'mobile', editable: true },
+        { title: '时间', key: 'createTime', editable: true },
         {
-          title: 'Handle',
+          title: '删除',
           key: 'handle',
           options: ['delete'],
           button: [
@@ -57,7 +61,12 @@ export default {
                   }
                 }
               }, [
-                h('Button', '自定义删除')
+                h('Button', {
+                  props: {
+                      type: 'primary',
+                      size: 'small'
+                  },
+                }, '删除')
               ])
             }
           ],
@@ -76,10 +85,33 @@ export default {
       pageNum: 1,
       pageSize: 10,
       addSearchBtn:true,
-      searchCol:true
+      searchCol:true,
+      addListArr:[
+        {nametitle: '账号', key:'f_username', valuetext: ''},
+        {nametitle: '用户名', key:'f_name',valuetext: ''},
+        {nametitle: '手机号', key:'f_mobile', valuetext: ''},
+        {nametitle: '员工号', key:'f_emid', valuetext: ''},
+        {nametitle: '昵称', key:'f_nickname', valuetext: ''},
+        {nametitle: '性别', key:'f_sex', valuetext: ''},
+        {nametitle: '生日', key:'f_birthday', valuetext: ''},
+        {nametitle: '用户属性', key:'f_attribute', valuetext: ''},
+        {nametitle: '头像', key:'f_img', valuetext: ''},
+      ],
+      arrsearch:[
+        {title: '账号', val: '', name: 'f_username'},
+        {title: '用户名', val: '', name: 'f_name'},
+        {title: '手机号', val: '', name: 'f_mobile'},
+      ],
+      height:450,
     }
   },
   methods: {
+    // 新增 表单 确认btn
+    async onHandleFrom(arrData) {
+      let res = await $ajax('userDataAdd', 'post', arrData)
+      if(!res) return 
+      this.getdata()
+    },
     async handleSaveEdit (params) {
         // console.log(params)
         let data = {}
@@ -119,27 +151,10 @@ export default {
 
     },
     //搜索
-    onHandleSearch({searchKey, searchValue}) {
-   
-      let shuxin = `f_${searchKey}`
-      if(!searchValue) return false
-      let data = {}
-      data[`${shuxin}`] = `${searchValue}`
-      console.log(data)
+    onHandleSearch(...obj) {
+      let data = obj[0]
       this.getSearchData(data)
-      // let res = await $ajax('selectPageNum', data)
-      // if(!res) return 
 
-    },
-    //新增
-    async onAddRow(data){
-      let arrData = {}
-      Object.keys(data).forEach((key) => {
-        arrData[`f_${key}`] = data[key]
-      })
-      let res = await $ajax('userDataAdd', 'post', arrData)
-      if(!res) return 
-      this.getdata()
     },
     async getdata() {
         let res = await $ajax("userdataget", 'get', {

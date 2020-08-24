@@ -20,7 +20,7 @@ import { Button, Table } from 'view-design'
 import 'view-design/dist/styles/iview.css'
 import Vant from 'vant'
 import 'vant/lib/index.css'
-import { Dialog, Field, Toast } from 'vant';
+import { Dialog, Field, Toast, Uploader } from 'vant';
 import md5 from 'blueimp-md5'
 import qs from 'qs'
 import $ from 'jquery'
@@ -37,6 +37,7 @@ Vue.use(iView, {
 Vue.use(TreeTable)
 Vue.use(VOrgTree)
 Vue.use(Field)
+Vue.use(Uploader)
 
 /**
  * @description 注册admin内置插件

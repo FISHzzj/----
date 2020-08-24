@@ -12,22 +12,7 @@ const btns = {
           vm.$emit('input', params.tableData.filter((item, index) => index !== params.row.initRowIndex))
         }
       }
-    }, [
-      h('Button', {
-        props: {
-          type: 'text',
-          ghost: true
-        }
-      }, [
-        h('Icon', {
-          props: {
-            type: 'md-trash',
-            size: 18,
-            color: '#000000'
-          }
-        })
-      ])
-    ])
+    })
   }
 }
 
