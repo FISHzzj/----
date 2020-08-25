@@ -25,17 +25,20 @@
         @on-handle-from="onHandleFrom"
       />
       <!-- <Button style="margin: 10px 0;" type="primary" @click="exportExcel">导出为Csv文件</Button> -->
+      <Editfrom v-if="editfromshow" @on-handle-save="onHandleSave" @on-handle-close="onHandleClose" :getEditData="getEditData"></Editfrom>
     </Card>
   </div>
 </template>
 
 <script>
 import Tables from '_c/tables'
+import Editfrom from '_c/tables/editForm.vue'
 // import { getTableData } from '@/api/data'
 export default {
   name: 'user_information',
   components: {
-    Tables
+    Tables,
+    Editfrom,
   },
   data () {
     return {
@@ -47,7 +50,7 @@ export default {
         {
           title: '删除',
           key: 'handle',
-          options: ['delete'],
+          options: ['delete', 'edit'],
           button: [
             (h, params, vm) => {
               return h('Poptip', {
@@ -64,12 +67,29 @@ export default {
               }, [
                 h('Button', {
                   props: {
-                      type: 'error',
+                      type: 'warning',
                       size: 'small',
                       icon:'logo-tumblr'
                   },
+                  style: {
+                    marginRight:'10px'
+                  }
                 }, '删除')
               ])
+            },
+            (h, params, vm) => {
+              return h('Button', {
+                props: {
+                    type: 'error',
+                    size: 'small',
+                    icon:'ios-build'
+                },
+                on: {
+                  click: () => {
+                      this.editshow(params)
+                  }
+                },
+              }, '编辑')
             }
           ],
           editable: true,
@@ -106,6 +126,8 @@ export default {
         {title: '手机号', val: '', name: 'f_mobile'},
       ],
       height:450,
+      editfromshow: false,
+      getEditData: {}
     }
   },
   methods: {
@@ -204,6 +226,59 @@ export default {
         this.tableData = tableJson
 
     },
+    //编辑获取单条数据
+    async getEditHandle(data) {
+      let res = await $ajax("userdataget", 'get', data)
+        if(!res) return false
+        this.pageTotal = res.f_data_json.f_count
+        this.pageNum = res.f_data_json.f_page
+        let formdata = []
+        res.f_data_json.f_values.forEach((item, index) => {
+            formdata.push({
+                f_id: item.id,
+                f_username: item.f_username, //账号
+                f_name: item.f_name, // 用户名
+                f_mobile: item.f_mobile, // 手机号
+                f_emid: item.f_emid,
+                f_nickname: item.f_nickname,
+                f_sex: item.f_sex,
+                f_birthday: item.f_birthday,
+                f_attribute: item.f_attribute,
+                f_img: item.f_img,
+
+            })
+        });
+        // console.log(formdata)
+        this.getEditData = formdata[0]
+      
+        this.editfromshow = true
+    },
+    //编辑显示
+    editshow(params) {
+      // console.log(params)
+      let data = {
+        f_username: params.row.username
+      }
+      this.getEditHandle(data)
+      // console.log(res)
+      
+      
+     
+    },
+    //编辑保存
+    async onHandleSave(data) {
+      console.log(data)
+      let res = await $ajax('userDataUpdate', 'put', data)
+      if(!res) return false
+      Toast('更新成功')
+      this.editfromshow = false
+      this.getdata()
+      
+    },
+    //编辑 取消
+    onHandleClose() {
+      this.editfromshow = false
+    }
   },
   mounted () {
     this.getdata()

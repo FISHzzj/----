@@ -6,6 +6,7 @@
 let common = '' //公共字段
 
 export default {
+    uploader: `${common}/ktacs/data/upload/`, //图片上传
     login: `${common}/ktacs/sys/users/login/`, //登录
     userdataget: `${common}/ktacs/sys/users/data/`, //用户信息维护 get Read
     userDataUpdate: `${common}/ktacs/sys/users/data/`,  //用户信息维护 put update

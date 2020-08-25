@@ -20,9 +20,16 @@ function mistake (data) {
 
 export default {
     uploader (data) {
-        // console.log(data)
+        console.log(data)
         if ( mistake(data) ) return false
-        return data.data
+        let {f_ver, f_type, f_mac, f_data } = data
+        let f_data_json = JSON.parse(f_data)
+        return {
+            f_ver,
+            f_type,
+            f_mac,
+            f_data_json
+        }
     },
     login (data) {
         console.log(data)
