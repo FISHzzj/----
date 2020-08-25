@@ -7,6 +7,7 @@
         stripe
         search-place="top" 
         v-model="tableData" 
+        :border="border"
         :addSearchBtn="addSearchBtn"
         :searchCol="searchCol"
         :columns="columns" 
@@ -63,8 +64,9 @@ export default {
               }, [
                 h('Button', {
                   props: {
-                      type: 'primary',
-                      size: 'small'
+                      type: 'error',
+                      size: 'small',
+                      icon:'logo-tumblr'
                   },
                 }, '删除')
               ])
@@ -86,6 +88,7 @@ export default {
       pageSize: 10,
       addSearchBtn:true,
       searchCol:true,
+      border:true,
       addListArr:[
         {nametitle: '账号', key:'f_username', valuetext: ''},
         {nametitle: '用户名', key:'f_name',valuetext: ''},

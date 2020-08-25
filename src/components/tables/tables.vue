@@ -9,10 +9,10 @@
         <span>{{item.title}}：</span>
         <Input placeholder="输入关键字搜索" class="search-input" v-model="item.val"/>
       </div>
-      <Button @click="handleSearch" class="search-btn" type="primary"><Icon type="search"/>&nbsp;&nbsp;搜索</Button>
-      <Button class="search-btn" type="primary" @click="addBtn" v-if="addSearchBtn">新增</Button>
-      <Button class="search-btn" type="primary" @click="permaddBtn" v-else>新增</Button>
-      <Button class="search-btn" type="primary" @click="Resetbtn" v-if="permsReset">重置</Button>
+      <Button @click="handleSearch" class="search-btn" type="success" icon='ios-search'>搜索</Button>
+      <Button class="search-btn" type="primary" icon='ios-add' @click="addBtn"  v-if="addSearchBtn" >新增</Button>
+      <Button class="search-btn" type="primary" icon='ios-add' @click="permaddBtn" v-else>新增</Button>
+      <Button class="search-btn" type="info" icon="md-refresh" @click="Resetbtn" v-if="permsReset">重置</Button>
     </div>
     <Table
       ref="tablesMain" 
