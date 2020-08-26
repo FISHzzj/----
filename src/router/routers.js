@@ -98,6 +98,17 @@ export default [
         
       },
       {
+        path: 'system_type',
+        name: 'system_type',
+        meta: {
+          icon: '_qq',
+          title: '组织类型',
+          mustLogin:true,
+        },
+        component: () => import('@/view/system/system-type.vue')
+        
+      },
+      {
         path: 'organization',
         name: 'organization',
         meta: {

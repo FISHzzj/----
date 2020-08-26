@@ -24,6 +24,9 @@ import { Dialog, Field, Toast, Uploader } from 'vant';
 import md5 from 'blueimp-md5'
 import qs from 'qs'
 import $ from 'jquery'
+import OrgTree from 'v-org-tree'
+import 'v-org-tree/dist/v-org-tree.css'
+
 
 Vue.component('Button', Button);
 Vue.component('Table', Table);
@@ -38,6 +41,7 @@ Vue.use(TreeTable)
 Vue.use(VOrgTree)
 Vue.use(Field)
 Vue.use(Uploader)
+Vue.use(OrgTree)
 
 /**
  * @description 注册admin内置插件
