@@ -61,118 +61,116 @@
 
 <script>
 export default {
-    data() {
-        return {
-            formValidate: {
-                f_username: '',
-                f_name: '',
-                f_mobile: '',
-                f_emid: '',
-                f_nickname: '',
-                f_sex: '',
-                f_birthday: '',
-                f_attribute: '',
-                f_img: '',
-            },
-            ruleValidate: {
-                f_username: [{
-                    required: true,
-                    message: '账号不能为空',
-                    trigger: 'blur'
-                }],
-                f_name: [{
-                    required: true,
-                    message: '用户名不能为空',
-                    trigger: 'blur'
-                }],
-                f_mobile: [{
-                        required: true,
-                        message: '手机号不能为空',
-                        trigger: 'blur'
-                    },
-                    {
-                        pattern: /^1[3456789]\d{9}$/,
-                        message: "手机号码格式不正确",
-                        trigger: "blur"
-                    }
-                ],
-                f_emid: [{
-                    required: true,
-                    message: '员工号不能为空',
-                    trigger: 'blur'
-                }],
-                f_nickname: [{
-                    required: true,
-                    message: '昵称不能为空',
-                    trigger: 'blur'
-                }],
-                f_sex: [{
-                    required: true,
-                    message: '请选择性别',
-                    trigger: 'change'
-                }],
-                f_birthday: [{
-                    required: true,
-                    type: 'date',
-                    message: '请选择出生日期',
-                    trigger: 'change'
-                }],
-                f_attribute: [{
-                    required: true,
-                    message: '请选择用户属性',
-                    trigger: 'change'
-                }],
-                f_img: [{
-                    required: true,
-                    message: '请上传图片'
-                }]
-
-            },
-            hideRequiredMark: true,
-            frontImg: '',
-
+  data () {
+    return {
+      formValidate: {
+        f_username: '',
+        f_name: '',
+        f_mobile: '',
+        f_emid: '',
+        f_nickname: '',
+        f_sex: '',
+        f_birthday: '',
+        f_attribute: '',
+        f_img: ''
+      },
+      ruleValidate: {
+        f_username: [{
+          required: true,
+          message: '账号不能为空',
+          trigger: 'blur'
+        }],
+        f_name: [{
+          required: true,
+          message: '用户名不能为空',
+          trigger: 'blur'
+        }],
+        f_mobile: [{
+          required: true,
+          message: '手机号不能为空',
+          trigger: 'blur'
+        },
+        {
+          pattern: /^1[3456789]\d{9}$/,
+          message: '手机号码格式不正确',
+          trigger: 'blur'
         }
-    },
-    methods: {
-        async upFront(file) {
-            // console.log(file)
-            this.frontImg = file.content // 設置預覽头像
-            // let res = await $ajax('uploadercollec', {
-            //     'file': file.file
-            // })
+        ],
+        f_emid: [{
+          required: true,
+          message: '员工号不能为空',
+          trigger: 'blur'
+        }],
+        f_nickname: [{
+          required: true,
+          message: '昵称不能为空',
+          trigger: 'blur'
+        }],
+        f_sex: [{
+          required: true,
+          message: '请选择性别',
+          trigger: 'change'
+        }],
+        f_birthday: [{
+          required: true,
+          type: 'date',
+          message: '请选择出生日期',
+          trigger: 'change'
+        }],
+        f_attribute: [{
+          required: true,
+          message: '请选择用户属性',
+          trigger: 'change'
+        }],
+        f_img: [{
+          required: true,
+          message: '请上传图片'
+        }]
 
-            // if (!res) return
-            // console.log(res)
-            this.formValidate.f_img = 'res'
-        },
-        upFrontBefore(file) {
-            if (file.size > 5242880) {
-                Toast('上传图片大小, 不得大于5M')
-                return false
-            }
-            return true
-        },
-        handleSubmit(username) {
-            //整个表单进行校验
-            this.$refs[username].validate((valid) => {
+      },
+      hideRequiredMark: true,
+      frontImg: ''
 
-                if (valid) {
-                    console.log(this.formValidate)
-                    // this.$Message.success('Success!');
-                    this.$emit('on-handle-save', this.formValidate)
-
-                } else {
-                    this.$Message.error('Fail!');
-                }
-            })
-        },
-        handleReset(username) {
-            this.$refs[username].resetFields();
-        },
-        onHandleClose() {
-            this.$emit('on-handle-close', '关闭')
-        }
     }
+  },
+  methods: {
+    async upFront (file) {
+      // console.log(file)
+      this.frontImg = file.content // 設置預覽头像
+      // let res = await $ajax('uploadercollec', {
+      //     'file': file.file
+      // })
+
+      // if (!res) return
+      // console.log(res)
+      this.formValidate.f_img = 'res'
+    },
+    upFrontBefore (file) {
+      if (file.size > 5242880) {
+        Toast('上传图片大小, 不得大于5M')
+        return false
+      }
+      return true
+    },
+    handleSubmit (username) {
+      // 整个表单进行校验
+      this.$refs[username].validate((valid) => {
+        if (valid) {
+          console.log(this.formValidate)
+          // this.$Message.success('Success!');
+          this.$emit('on-handle-save', this.formValidate)
+        } else {
+          this.$Message.error('Fail!')
+        }
+      })
+    },
+    handleReset (username) {
+      this.$refs[username].resetFields()
+    },
+    onHandleClose () {
+      this.$emit('on-handle-close', '关闭')
+    }
+  }
 }
 </script>
 

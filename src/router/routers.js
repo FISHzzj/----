@@ -24,32 +24,32 @@ export default [
     meta: {
       title: 'Login - 登录',
       hideInMenu: true,
-      mustLogin:false,
+      mustLogin: false
     },
     component: () => import('@/view/login/login.vue')
   },
   {
-    path: '/', 
+    path: '/',
     name: '_home',
     redirect: '/home',
     component: Main,
-    meta: { 
+    meta: {
       hideInMenu: true,
       notCache: true,
-      mustLogin:true,
+      mustLogin: true
     },
     children: [
-      { 
+      {
         path: '/home',
         name: 'home',
-        meta: { 
+        meta: {
           hideInMenu: true,
           title: '首页',
           notCache: true,
           icon: 'md-home',
-          mustLogin:true,
+          mustLogin: true
         },
-        component: () => import('@/view/single-page/home') 
+        component: () => import('@/view/single-page/home')
       }
     ]
   },
@@ -75,14 +75,14 @@ export default [
   //       component: () => import('@/view/single-page/home')
   //     }
   //   ]
-  // }, 
+  // },
   {
     path: '/system',
     name: 'system',
     meta: {
       title: '系统管理',
       icon: 'ios-book',
-      mustLogin:true,
+      mustLogin: true
     },
     component: Main,
     children: [
@@ -92,10 +92,10 @@ export default [
         meta: {
           icon: '_qq',
           title: '系统参数',
-          mustLogin:true,
+          mustLogin: true
         },
         component: () => import('@/view/system/system-param.vue')
-        
+
       },
       {
         path: 'system_type',
@@ -103,10 +103,10 @@ export default [
         meta: {
           icon: '_qq',
           title: '组织类型',
-          mustLogin:true,
+          mustLogin: true
         },
         component: () => import('@/view/system/system-type.vue')
-        
+
       },
       {
         path: 'organization',
@@ -114,20 +114,20 @@ export default [
         meta: {
           icon: '_qq',
           title: '组织架构',
-          mustLogin:true,
+          mustLogin: true
         },
         component: () => import('@/view/system/organization.vue')
-        
+
       }
     ]
   },
   {
-    path: '/', 
+    path: '/',
     name: 'user',
-    meta: { 
+    meta: {
       icon: '_qq',
       title: '用户管理',
-      mustLogin:true,
+      mustLogin: true
     },
     component: Main,
     children: [
@@ -137,7 +137,7 @@ export default [
         meta: {
           icon: '_qq',
           title: '用户信息维护',
-          mustLogin:true,
+          mustLogin: true
         },
         component: () => import('@/view/user/user-information.vue')
       },
@@ -147,7 +147,7 @@ export default [
         meta: {
           icon: '_qq',
           title: '权限分组',
-          mustLogin:true,
+          mustLogin: true
         },
         component: () => import('@/view/user/user-permission.vue')
       },
@@ -157,7 +157,7 @@ export default [
         meta: {
           icon: '_qq',
           title: '用户与组织的关系',
-          mustLogin:true,
+          mustLogin: true
         },
         component: () => import('@/view/user/user-organization.vue')
       },
@@ -167,21 +167,21 @@ export default [
         meta: {
           icon: '_qq',
           title: '用户与权限分组的关系',
-          mustLogin:true,
+          mustLogin: true
         },
         component: () => import('@/view/user/user-permission-group.vue')
       }
     ]
   },
   {
-    path:'/systemlog',
-    name:'systemlog',
+    path: '/systemlog',
+    name: 'systemlog',
     meta: {
       icon: '_qq',
       title: '系统日志',
-      mustLogin:true,
+      mustLogin: true
     },
-    component:Main,
+    component: Main,
     children: [
       {
         path: 'system_event',
@@ -189,7 +189,7 @@ export default [
         meta: {
           icon: '_qq',
           title: '系统事件',
-          mustLogin:true,
+          mustLogin: true
         },
         component: () => import('@/view/systemlog/system-event.vue')
       },
@@ -199,7 +199,7 @@ export default [
         meta: {
           icon: '_qq',
           title: '网络请求',
-          mustLogin:true,
+          mustLogin: true
         },
         component: () => import('@/view/systemlog/netword-request.vue')
       },
@@ -209,7 +209,7 @@ export default [
         meta: {
           icon: '_qq',
           title: '登录日志',
-          mustLogin:true,
+          mustLogin: true
         },
         component: () => import('@/view/systemlog/login-log.vue')
       },
@@ -219,7 +219,7 @@ export default [
         meta: {
           icon: '_qq',
           title: '操作日志',
-          mustLogin:true,
+          mustLogin: true
         },
         component: () => import('@/view/systemlog/operation-log.vue')
       }
@@ -240,7 +240,7 @@ export default [
     component: Main,
     meta: {
       hideInBread: true,
-      mustLogin:true,
+      mustLogin: true
     },
     children: [
       {
@@ -249,7 +249,7 @@ export default [
         meta: {
           icon: '_qq',
           title: 'QQ群',
-          mustLogin:true,
+          mustLogin: true
         },
         component: () => import('@/view/join-page.vue')
       }
@@ -262,7 +262,7 @@ export default [
     meta: {
       hideInBread: true,
       hideInMenu: true,
-      mustLogin:true,
+      mustLogin: true
     },
     children: [
       {
@@ -271,7 +271,7 @@ export default [
         meta: {
           icon: 'md-notifications',
           title: '消息中心',
-          mustLogin:true,
+          mustLogin: true
         },
         component: () => import('@/view/single-page/message/index.vue')
       }
@@ -402,7 +402,7 @@ export default [
     meta: {
       icon: 'md-cloud-upload',
       title: '数据上传',
-      mustLogin:true,
+      mustLogin: true
     },
     component: Main,
     children: [
@@ -412,7 +412,7 @@ export default [
         meta: {
           icon: 'ios-document',
           title: '上传Csv',
-          mustLogin:true,
+          mustLogin: true
         },
         component: () => import('@/view/update/update-table.vue')
       },
@@ -422,7 +422,7 @@ export default [
         meta: {
           icon: 'md-clipboard',
           title: '粘贴表格数据',
-          mustLogin:true,
+          mustLogin: true
         },
         component: () => import('@/view/update/update-paste.vue')
       }
@@ -560,7 +560,7 @@ export default [
     meta: {
       icon: 'md-menu',
       title: '多级菜单',
-      mustLogin:true,
+      mustLogin: true
     },
     component: Main,
     children: [
@@ -570,7 +570,7 @@ export default [
         meta: {
           icon: 'md-funnel',
           title: '二级-1',
-          mustLogin:true,
+          mustLogin: true
         },
         component: () => import('@/view/multilevel/level-2-1.vue')
       },
@@ -582,7 +582,7 @@ export default [
           icon: 'md-funnel',
           showAlways: true,
           title: '二级-2',
-          mustLogin:true,
+          mustLogin: true
         },
         component: parentView,
         children: [
@@ -592,7 +592,7 @@ export default [
             meta: {
               icon: 'md-funnel',
               title: '三级',
-              mustLogin:true,
+              mustLogin: true
             },
             component: () => import('@/view/multilevel/level-2-2/level-2-2-1.vue')
           },
@@ -602,7 +602,7 @@ export default [
             meta: {
               icon: 'md-funnel',
               title: '三级',
-              mustLogin:true,
+              mustLogin: true
             },
             component: () => import('@/view/multilevel/level-2-2/level-2-2-2.vue')
           }
@@ -614,7 +614,7 @@ export default [
         meta: {
           icon: 'md-funnel',
           title: '二级-3',
-          mustLogin:true,
+          mustLogin: true
         },
         component: () => import('@/view/multilevel/level-2-3.vue')
       }
@@ -656,10 +656,10 @@ export default [
     name: 'error_401',
     meta: {
       hideInMenu: true,
-      mustLogin:true,
+      mustLogin: true
     },
     component: () => import('@/view/error-page/401.vue')
-  },
+  }
   // {
   //   path: '/500',
   //   name: 'error_500',

@@ -18,58 +18,56 @@
 
 <script>
 export default {
-    props: ['getEditData'],
-    data() {
-        return {
-            formValidate: {
-                f_name: '',
+  props: ['getEditData'],
+  data () {
+    return {
+      formValidate: {
+        f_name: ''
 
-            },
-            ruleValidate: {
-                f_name: [{
-                    required: true,
-                    message: '组织类型不能为空',
-                    trigger: 'blur'
-                }],
+      },
+      ruleValidate: {
+        f_name: [{
+          required: true,
+          message: '组织类型不能为空',
+          trigger: 'blur'
+        }]
 
-            },
-            hideRequiredMark: true,
-            frontImg: '',
+      },
+      hideRequiredMark: true,
+      frontImg: ''
 
-        }
-    },
-    mounted() {
-        this.$set(this.getEditData)
-    },
-    methods: {
-
-        handleSubmit(username) {
-            //整个表单进行校验
-            this.$refs[username].validate((valid) => {
-
-                if (valid) {
-                    console.log(this.formValidate)
-                    // this.$Message.success('Success!');
-                    this.$emit('on-handle-save', this.formValidate)
-
-                } else {
-                    this.$Message.error('Fail!');
-                }
-            })
-        },
-        handleReset(username) {
-            this.$refs[username].resetFields();
-        },
-        onHandleClose() {
-            this.$emit('on-handle-close', '关闭')
-        }
-    },
-    watch: { // 使用监听的方式，监听数据的变化
-        getEditData(val) {
-            console.log(val)
-            this.formValidate = val;
-        }
     }
+  },
+  mounted () {
+    this.$set(this.getEditData)
+  },
+  methods: {
+
+    handleSubmit (username) {
+      // 整个表单进行校验
+      this.$refs[username].validate((valid) => {
+        if (valid) {
+          console.log(this.formValidate)
+          // this.$Message.success('Success!');
+          this.$emit('on-handle-save', this.formValidate)
+        } else {
+          this.$Message.error('Fail!')
+        }
+      })
+    },
+    handleReset (username) {
+      this.$refs[username].resetFields()
+    },
+    onHandleClose () {
+      this.$emit('on-handle-close', '关闭')
+    }
+  },
+  watch: { // 使用监听的方式，监听数据的变化
+    getEditData (val) {
+      console.log(val)
+      this.formValidate = val
+    }
+  }
 }
 </script>
 

@@ -15,21 +15,19 @@ import '@/assets/icons/iconfont.css'
 import TreeTable from 'tree-table-vue'
 import VOrgTree from 'v-org-tree'
 import 'v-org-tree/dist/v-org-tree.css'
-import ajax from './callServer/ajax'  //引入ajax
+import ajax from './callServer/ajax' // 引入ajax
 import { Button, Table } from 'view-design'
 import 'view-design/dist/styles/iview.css'
-import Vant from 'vant'
+import Vant, { Dialog, Field, Toast, Uploader } from 'vant'
 import 'vant/lib/index.css'
-import { Dialog, Field, Toast, Uploader } from 'vant';
+
 import md5 from 'blueimp-md5'
 import qs from 'qs'
 import $ from 'jquery'
 import OrgTree from 'v-org-tree'
-import 'v-org-tree/dist/v-org-tree.css'
 
-
-Vue.component('Button', Button);
-Vue.component('Table', Table);
+Vue.component('Button', Button)
+Vue.component('Table', Table)
 // 实际打包时应该不引入mock
 /* eslint-disable */
 // if (process.env.NODE_ENV !== 'production') require('@/mock')

@@ -130,7 +130,9 @@ export default function (port, method, data = {}, errCallback) {
                 errCallback && errCallback()
             })
         }else if(method == 'delete'){
-            axios.delete(`${api[port]}?${qsobj}`,{
+            axios.delete(api[port], {
+                data:qsobj
+            }, {
                 headers: {
                     // 'token' : token,  //设置token到请求头
                     'X-CSRFToken': csrftoken,

@@ -26,10 +26,6 @@ const menuList = [
     label: '编辑部门'
   },
   {
-    key: 'detail',
-    label: '查看部门'
-  },
-  {
     key: 'new',
     label: '新增子部门'
   },

@@ -18,48 +18,46 @@
 
 <script>
 export default {
-    data() {
-        return {
-            formValidate: {
-                f_name: '',
+  data () {
+    return {
+      formValidate: {
+        f_name: ''
 
-            },
-            ruleValidate: {
-                f_name: [{
-                    required: true,
-                    message: '组织类型不能为空',
-                    trigger: 'blur'
-                }],
+      },
+      ruleValidate: {
+        f_name: [{
+          required: true,
+          message: '组织类型不能为空',
+          trigger: 'blur'
+        }]
 
-            },
-            hideRequiredMark: true,
-            frontImg: '',
+      },
+      hideRequiredMark: true,
+      frontImg: ''
 
-        }
-    },
-    methods: {
-
-        handleSubmit(username) {
-            //整个表单进行校验
-            this.$refs[username].validate((valid) => {
-
-                if (valid) {
-                    console.log(this.formValidate)
-                    // this.$Message.success('Success!');
-                    this.$emit('on-handle-save', this.formValidate)
-
-                } else {
-                    this.$Message.error('Fail!');
-                }
-            })
-        },
-        handleReset(username) {
-            this.$refs[username].resetFields();
-        },
-        onHandleClose() {
-            this.$emit('on-handle-close', '关闭')
-        }
     }
+  },
+  methods: {
+
+    handleSubmit (username) {
+      // 整个表单进行校验
+      this.$refs[username].validate((valid) => {
+        if (valid) {
+          console.log(this.formValidate)
+          // this.$Message.success('Success!');
+          this.$emit('on-handle-save', this.formValidate)
+        } else {
+          this.$Message.error('Fail!')
+        }
+      })
+    },
+    handleReset (username) {
+      this.$refs[username].resetFields()
+    },
+    onHandleClose () {
+      this.$emit('on-handle-close', '关闭')
+    }
+  }
 }
 </script>
 
