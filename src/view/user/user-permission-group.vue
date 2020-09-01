@@ -30,6 +30,7 @@
           :target-keys="targetKeys1"
           :render-format="render1"
           @on-change="handleChange1"
+          :titles="titles"
         ></Transfer>
       </div>
     </Split>
@@ -78,71 +79,59 @@ export default {
       pageNum: 1,
       pageSize: 10,
       d_permsGroup_all: [], // 权限分组
-      data2: this.getMockData(),
-      targetKeys1: [],
-      f_id: "",
+      data2: [], //源数据
+      targetKeys1: [],  // 目的数据
+      titles: ["源权限分组", "已选权限分组"],
+      f_id: "",  //用户id
+      f_id_arr: [], //用户与分组绑定的f_id 集合
     };
   },
   methods: {
-    getMockData() {
-      let mockData = [];
-      let d_permsGroup_all = JSON.parse(
-        localStorage.getItem("d_permsGroup_all")
-      );
-      console.log("d_permsGroup_all", d_permsGroup_all);
-      d_permsGroup_all.forEach((item, index) => {
-        mockData.push({
-          key: item.f_id,
-          label: item.f_name,
-        });
-      });
-      return mockData;
-    },
     render1(item) {
       return item.label;
     },
     async handleChange1(newTargetKeys, direction, moveKeys) {
-      console.log(newTargetKeys);
-      console.log(direction);
-      console.log(moveKeys);
+      // console.log(newTargetKeys);
+      // console.log(direction);
+      // console.log(moveKeys);
       this.targetKeys1 = newTargetKeys;
       let str = JSON.stringify(newTargetKeys);
       if (!this.f_id) return Toast("请先双击用户，否则无效");
       if (direction == "right") {
         let res = await $ajax("togroupPost", "post", {
-          f_id: this.f_id,
-          f_groupid: 7,
+          f_userid: this.f_id,
+          f_groupid: newTargetKeys[0],
         });
+        if (!res) return false;
+        // console.log(res);
+        Toast('添加成功！')
       } else {
-        let res = await $ajax("togroupPost", "delete", {
-          f_id: this.f_id,
-          f_groupid: str,
-        });
+        this.f_id_arr.forEach(async (item, index) => {
+          if(item.f_groupid == moveKeys[0]){
+            let res = await $ajax("togroupPost", "delete", {
+              f_id: item.f_id,
+            });
+            if (!res) return false;
+            // console.log(res);
+            Toast('删除成功！')
+          }
+        })
+        
       }
-      if (!res) return false;
-      console.log(res);
     },
     // 双击行
     onRowDblclick(row, index) {
       console.log(row, index);
+      this.data2=[]
+      this.targetKeys1=[]
       let data = {};
-      data["f_id"] = row.id;
-      this.f_id = row.id;
+      data["f_userid"] = row.f_id;
+      this.f_id = row.f_id;
       this.getdatagroup(data);
     },
-
-    // async handleDelete (params) {
-    //   console.log(params)
-    //   //删除 row
-    //   let res = await $ajax('permsGroupDelete','delete',{
-    //     f_id: params.row.id,
-    //   })
-    //   if(!res) return false
-    //   Toast('删除成功')
-    // },
     // 获取页码
     onPageChage(pageNum) {
-      console.log(pageNum);
+      // console.log(pageNum);
       let data = {};
       data["f_page"] = pageNum;
       this.pageNum = pageNum;
@@ -150,7 +139,7 @@ export default {
     },
     // 获取页数
     onPageSizeChage(pageSize) {
-      console.log(pageSize);
+      // console.log(pageSize);
       let data = {};
       data["f_limit"] = pageSize;
       this.pageSize = pageSize;
@@ -166,7 +155,7 @@ export default {
       this.getSearchData(data);
     },
     async getdata(data) {
-      let res = await $ajax("togroupGet", "get", data);
+      let res = await $ajax("userdataget", "get", data);
       if (!res) return false;
       console.log(res);
       this.pageTotal = res.f_data_json.f_count;
@@ -175,7 +164,7 @@ export default {
       let tableJson = [];
       res.f_data_json.f_values.forEach((item, index) => {
         tableJson.push({
-          id: item.id,
+          f_id: item.f_id,
           name: item.f_name,
           mobile: item.f_mobile,
         });
@@ -187,8 +176,25 @@ export default {
       let res = await $ajax("togroupGet", "get", data);
       if (!res) return false;
       console.log(res);
-      let f_perms_groups = res.f_data_json.f_values[0].f_perms_groups;
-      this.targetKeys1 = f_perms_groups;
+   
+      if (res.f_data_json.f_values.length == 0) return false;
+      let f_perms_groups = res.f_data_json.f_values;
+      let targetkeyarr = [];
+      f_perms_groups.forEach((item, index) => {
+        targetkeyarr.push(item.f_groupid);
+      });
+      //用户与权限分组 f_id 的集合
+      let f_id_arr = [] 
+      f_perms_groups.forEach((item, index) => {
+        f_id_arr.push({
+          f_id: item.f_id,
+          f_groupid: item.f_groupid,
+          f_groupname: item.f_groupname
+        })
+      })
+      this.targetKeys1 = targetkeyarr;
+      this.f_id_arr = f_id_arr
+      this.getpermsgroup();
     },
     // 搜索
     async getSearchData(data) {
@@ -214,19 +220,19 @@ export default {
       if (!res) return false;
       console.log(res);
       this.d_permsGroup_all = res.f_data_json.f_values;
-      localStorage.setItem(
-        "d_permsGroup_all",
-        JSON.stringify(this.d_permsGroup_all)
-      );
+      let data1 = [];
+      this.d_permsGroup_all.forEach((item, index) => {
+        data1.push({
+          key: item.f_id+ '',
+          label: item.f_name,
+        });
+      });
+      this.data2 = data1;
+      console.log(data1)
     },
   },
   mounted() {
-    // getTableData().then(res => {
-    //   console.log(res)
-    //   this.tableData = this.tableJson
-    // })
     this.getdata();
-    this.getpermsgroup();
   },
 };
 </script>

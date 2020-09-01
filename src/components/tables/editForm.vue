@@ -129,8 +129,8 @@ export default {
         }]
 
       },
-      hideRequiredMark: true
-      // frontImg: '',
+      hideRequiredMark: true,
+      frontImg: '',
 
     }
   },
@@ -139,16 +139,16 @@ export default {
   },
   methods: {
     async upFront (file) {
-      console.log(file)
-      this.formValidate.f_img = file.content // 設置預覽头像
-      console.log(file.file)
+      this.frontImg = file.content // 設置預覽头像
       let res = await $ajax('uploader', 'post', {
-        'FILES["img"]': file.file
+          'img': file.file
       })
 
-      if (!res) return false
+      if (!res) return
       console.log(res)
-      // this.formValidate.f_img = 'res'
+  
+      let f_file_path = res.f_data_json.f_values[0].f_file_path
+      this.formValidate.f_img = `http://192.168.34.113:7083/ktacs${f_file_path}`
     },
     upFrontBefore (file) {
       if (file.size > 5242880) {

@@ -26,7 +26,7 @@
       </div>
       <div slot="right" class="demo-split-pane">
         <Button type="primary" @click="addorg" v-if="addorgshow">添加组织名称</Button>
-        <Modal v-model="modal1" title="添加组织名称" @on-ok="ok" @on-cancel="cancel">
+        <Modal v-model="modal1" :title="modelTitle" @on-ok="ok" @on-cancel="cancel">
           <div>
             <Input v-model="value11">
               <span slot="prepend">组织名称</span>
@@ -150,7 +150,8 @@ export default {
       f_Organization_id: "", // 父级id
       edit1: "",
       f_id: "", //用于编辑的f_id
-      timer:null, //d定时器
+      timer: null, //d定时器
+      modelTitle: "添加组织名称",
     };
   },
   computed: {
@@ -195,7 +196,14 @@ export default {
     },
     // 添加组织架构顶级
     addorg(data) {
+      
       this.edit1 = data;
+      if (data == "edit") {
+        this.modelTitle = "编辑组织名称";
+      } else {
+        this.modelTitle = "添加组织名称";
+      }
+
       this.modal1 = true;
     },
     setDepartmentData(data) {
@@ -226,8 +234,8 @@ export default {
     onRowDblclick(row, index) {
       console.log(row, index);
       let data = {};
-      data["f_id"] = row.f_id;
-      this.f_id = row.f_id;
+      data["f_OrgType_id"] = row.f_id;
+      this.f_OrgType_id = row.f_id;
       this.getorganization(data);
     },
     // 获取页码
@@ -278,24 +286,21 @@ export default {
       if (!res) return false;
       console.log(res);
       if (res.f_data_json.f_values.length > 0) {
-        let f_org = res.f_data_json.f_values.reverse(); //倒序
-        let f_org_sort = f_org.sort(this.compare("f_Organization_id", false));
-        console.log(f_org_sort);
-
-        let objdata = {};
+        this.addorgshow = false; //隐藏btn
+        let f_org = res.f_data_json.f_values;
         let attr = {
           id: "f_id",
           parendId: "f_Organization_id",
           name: "f_name",
           rootId: null,
         };
-        this.timer = setTimeout(() => {
-          let tree = toTreeData(f_org_sort, attr);
-          console.log(tree);
-          this.data = tree[0];
-        }, 1000);
+
+        let tree = toTreeData(f_org, attr);
+        console.log("tree", tree);
+        this.data = tree[0];
       } else {
         this.addorgshow = true;
+        this.data = null;
       }
     },
     // 搜索
@@ -355,8 +360,8 @@ export default {
     // this.delete()
   },
   destroyed() {
-      clearTimeout(this.timer)
-  }
+    clearTimeout(this.timer);
+  },
 };
 </script>
 

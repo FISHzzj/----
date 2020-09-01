@@ -23,6 +23,7 @@ export default {
   togroupPost: `${common}/ktacs/sys/users/togroup/`, // 用户与权限分组名 的关系 post create
   togroupDelete: `${common}/ktacs/sys/users/togroup/`, // 用户与权限分组名 的关系 delete
   systemtypeget: `${common}/ktacs/sys/org/orgtype/`, // 系统 组织类型 get Read  //put  //delete //post
-  organization: `${common}/ktacs/sys/org/`, // 系统  组织架构 get Read //
-  userOrg: `${common}/ktacs/sys/users/toorg/`, // 用户与组织架构的关系 get Read //
-}
+  organization: `${common}/ktacs/sys/org/`, // 系统  组织架构 get Read // post // 
+  userOrg: `${common}/ktacs/sys/users/toorg/`, // 用户与组织架构的关系 get Read //post 
+  loginlog: `${common}/ktacs/sys/logs/query/login/`, //系统登陆查询 get Read 
+} 

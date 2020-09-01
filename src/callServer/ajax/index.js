@@ -25,7 +25,10 @@ export default function (port, method, data = {}, errCallback) {
     //判断  f_ttype 终端类型, 1-WEB 2-微信小程序 //f_ltype 登录方式, 1-账号 2-微信 3-手机 4-安全秘钥
     data['f_ttype'] = 1
     data['f_ltype'] = 1
+    //截取上传图片的字符
 
+    
+  
 
     let csrftoken = getToken('csrftoken')
     let sessionid = getToken('sessionid')
@@ -40,12 +43,18 @@ export default function (port, method, data = {}, errCallback) {
     let hash = md5(str_data, key) // "01433efd5f16327ea4b31144572c67f6"
     let upperHash = hash.toUpperCase()
 
+    // console.log(csrftoken)
     // console.log(upperHash)
     let obj = {
         f_ver: 'V2.0',
         f_type: 'json',
         f_data: str_data,
         f_mac: upperHash
+    }
+    if(port == 'uploader'){
+        console.log(data)
+        obj['img']  = data.img
+        console.log(obj)
     }
     //将 数据 转换 为 后端 可 处理的 URL格式
     let qsobj = qs.stringify(obj)
@@ -80,30 +89,63 @@ export default function (port, method, data = {}, errCallback) {
                 errCallback && errCallback()
             })
         }else if(method == 'post'){
-            axios.post(api[port], qsobj, {
-                headers: {
-                    // 'token' : token,  //设置token到请求头
-                    'X-CSRFToken': csrftoken,
-                },
-                cookies: {
-                    'sessionid':  sessionid,
-                    'csrftoken': csrftoken
-                } 
-            })
-            .then(res => {
-                resolve(dataHandle[port](res.data))
-            })
-            .catch( err => {
-                console.warn(err)
-                // 對 請求錯誤, 進行統一處理
-                Dialog.alert({
-                    title: '服务器错误',
-                    message: err
+            if(port == 'uploader'){
+                // 將 數據 轉換 爲 後端 可 處理的 表單格式
+                let formData = new FormData()
+                Object.keys(obj).forEach( key => {
+                    formData.append(key, obj[key])
                 })
-            })
-            .finally ( () => {
-                errCallback && errCallback()
-            })
+                axios.post(api[port], formData, {
+                    headers: {
+                        // 'token' : token,  //设置token到请求头
+                        'X-CSRFToken': csrftoken,
+                    },
+                    cookies: {
+                        'sessionid':  sessionid,
+                        'csrftoken': csrftoken
+                    } 
+                })
+                .then(res => {
+                    resolve(dataHandle[port](res.data))
+                })
+                .catch( err => {
+                    console.warn(err)
+                    // 對 請求錯誤, 進行統一處理
+                    Dialog.alert({
+                        title: '服务器错误',
+                        message: err
+                    })
+                })
+                .finally ( () => {
+                    errCallback && errCallback()
+                })
+            }else{
+                axios.post(api[port], qsobj, {
+                    headers: {
+                        // 'token' : token,  //设置token到请求头
+                        'X-CSRFToken': csrftoken,
+                    },
+                    cookies: {
+                        'sessionid':  sessionid,
+                        'csrftoken': csrftoken
+                    } 
+                })
+                .then(res => {
+                    resolve(dataHandle[port](res.data))
+                })
+                .catch( err => {
+                    console.warn(err)
+                    // 對 請求錯誤, 進行統一處理
+                    Dialog.alert({
+                        title: '服务器错误',
+                        message: err
+                    })
+                })
+                .finally ( () => {
+                    errCallback && errCallback()
+                })
+            }
+            
         }else if(method == 'put'){
             axios.put(api[port], qsobj, {
                 headers: {

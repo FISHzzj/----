@@ -52,7 +52,7 @@ function formatTreeDataEx(databasic, dataapp, dataweb, d_perms_all){
       };
     var perms_all = formatTree(d_perms_all);
     formatTreeData = perms_all.slice()
-    // console.log(perms_all)
+    console.log(perms_all)
     var formt_perms_all = toTreeData(perms_all, attr);
     console.log('formt_perms_all', formt_perms_all)
 
@@ -86,6 +86,7 @@ function formatTree(d_perms_all){
             item1.parent = item1.f_name.substring(0,item1.f_name.lastIndexOf("."))
         }
         perms_all.push(item1);
+        console.log(item1)
     });
     // console.log('formatTree',perms_all)
     return perms_all;

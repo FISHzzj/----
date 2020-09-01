@@ -24,12 +24,18 @@
         </Card>
       </div>
       <div slot="right" class="demo-split-pane">
+        <span>组织类型：</span>
+        <Select v-model="model1" style="width:200px;margin-bottom:10px" @on-change="onhandlechange">
+          <Option v-for="item in orgtypeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+        </Select>
         <Transfer
           :data="data2"
           :target-keys="targetKeys1"
           :render-format="render1"
+          :titles="titles"
           @on-change="handleChange1"
         ></Transfer>
+        <Button type="error" @click="savebtn">保存</Button>
       </div>
     </Split>
   </div>
@@ -69,11 +75,20 @@ export default {
       pageNum: 1,
       pageSize: 10,
       f_id: "",
-      data2: this.getMockData(),
-      targetKeys1: this.getTargetKeys(),
+      data2: [], //源数据
+      targetKeys1: [], //目的数据
+      titles: ["源组织名称", "已选组织名称"],
+      model1: "",
+      orgtypeList: [],
     };
   },
   methods: {
+    //选择组织类型 -》 获取组织信息
+    onhandlechange() {
+      let data_f_OrgType_id = {};
+      data_f_OrgType_id["f_OrgType_id"] = this.model1;
+      this.getorganization(data_f_OrgType_id);
+    },
     // 获取页码
     onPageChage(pageNum) {
       console.log(pageNum);
@@ -98,7 +113,12 @@ export default {
       this.getdata(data);
     },
     //双击
-    onRowDblclick() {},
+    onRowDblclick(row, index) {
+      console.log(row, index);
+      let data = {};
+      data["f_userid"] = row.f_id;
+      this.getuserorg(data);
+    },
     //获取 用户信息
     async getdata(data) {
       let res = await $ajax("userdataget", "get", data);
@@ -111,34 +131,86 @@ export default {
       let tableJson = [];
       res.f_data_json.f_values.forEach((item, index) => {
         tableJson.push({
-          f_id: item.id,
+          f_id: item.f_id,
           f_name: item.f_name,
           f_mobile: item.f_mobile,
           initRowIndex: index,
         });
       });
       this.tableData = tableJson;
-      data_f_id["f_id"] = this.f_id;
+      data_f_id["f_userid"] = this.f_id;
+      console.log(data_f_id);
+      this.getuserorg(data_f_id);
+    },
+    //获取 用户与组织架构的关系
+    async getuserorg(data) {
+      let res = await $ajax("userOrg", "get", data);
+      if (!res) return false;
+      console.log(res);
+      this.pageTotal = res.f_data_json.f_count;
+      this.pageNum = res.f_data_json.f_page;
+      let valuesarr = res.f_data_json.f_values;
+      if (valuesarr.length > 0) {
+        this.f_id = res.f_data_json.f_values[0].f_id;
+        let f_OrgType = res.f_data_json.f_values[0].f_OrgType;
+        let tableJson = [];
+        res.f_data_json.f_values.forEach((item, index) => {
+          tableJson.push(item.f_orgid);
+        });
+        console.log(tableJson);
+        this.targetKeys1 = tableJson;
+        this.model1 = f_OrgType;
+
+        let data_f_OrgType_id = {};
+        data_f_OrgType_id["f_OrgType_name"] = this.model1;
+        this.getorganization(data_f_OrgType_id);
+      } else {
+        this.targetKeys1 = [];
+        this.model1 = "";
+      }
+    },
+    // 获取组织类型
+    async getorgtype(data) {
+      let res = await $ajax("systemtypeget", "get", data);
+      if (!res) return false;
+      console.log(res);
+      this.pageTotal = res.f_data_json.f_count;
+      this.pageNum = res.f_data_json.f_page;
+      //   this.f_OrgType_id = res.f_data_json.f_values[0].f_id; //组织类型id
+      //   let data_f_OrgType_id = {};
+      let tableJson = [];
+      res.f_data_json.f_values.forEach((item, index) => {
+        tableJson.push({
+          value: item.f_id,
+          label: item.f_name,
+        });
+      });
+      this.orgtypeList = tableJson;
+      //   data_f_OrgType_id["f_OrgType_id"] = this.f_OrgType_id;
+      //   this.getorganization(data_f_OrgType_id);
+    },
+    // 获取组织类型=》组织架构的关系
+    async getorganization(data) {
+      let res = await $ajax("organization", "get", data);
+      if (!res) return false;
+      console.log(res);
+      if (res.f_data_json.f_values.length > 0) {
+        let f_org = res.f_data_json.f_values;
+        // let sortarr = this.sortArr(f_org);
+        // console.log(sortarr);
+        console.log(f_org);
+        let data1 = [];
+        f_org.forEach((item, index) => {
+          data1.push({
+            key: item.f_id,
+            label: item.f_name,
+          });
+        });
+        this.data2 = data1;
+      }
     },
     onSelectChange(domNode, index) {
       console.log(domNode, index);
-    },
-    getMockData() {
-      let mockData = [];
-      for (let i = 1; i <= 20; i++) {
-        mockData.push({
-          key: i.toString(),
-          label: "Content " + i,
-          description: "The desc of content  " + i,
-          disabled: Math.random() * 3 < 1,
-        });
-      }
-      return mockData;
-    },
-    getTargetKeys() {
-      return this.getMockData()
-        .filter(() => Math.random() * 2 > 1)
-        .map((item) => item.key);
     },
     render1(item) {
       return item.label;
@@ -147,11 +219,41 @@ export default {
       console.log(newTargetKeys);
       console.log(direction);
       console.log(moveKeys);
-      this.targetKeys1 = newTargetKeys;
+
+      if (newTargetKeys.length == 1 && direction == "right") {
+        this.targetKeys1 = newTargetKeys;
+      } else if (direction == "right") {
+        Toast("只能选择一个组织名称！");
+      } else if (direction == "left") {
+        // this.targetKeys1 = moveKeys;
+        let data = { f_id: this.f_id };
+        console.log(data);
+        this.delete(data);
+      }
+    },
+    //删除用户与组织的关系
+    async delete(data) {
+      let res = await $ajax("userOrg", "delete", data);
+      if (!res) return false;
+      console.log(res);
+      Toast("删除成功");
+      this.getdata();
+    },
+    async savebtn() {
+      if (this.targetKeys1.length > 0) {
+        let data = {};
+        data["f_userid"] = this.f_id;
+        data["f_orgid"] = this.targetKeys1[0];
+        let res = await $ajax("userOrg", "post", data);
+        if (!res) return false;
+        console.log(res);
+        Toast("保存成功");
+      }
     },
   },
   mounted() {
     this.getdata();
+    this.getorgtype();
   },
 };
 </script>
