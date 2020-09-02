@@ -180,7 +180,8 @@ export default [
     meta: {
       icon: '_qq',
       title: '系统日志',
-      mustLogin: true
+      mustLogin: true,
+      access: ['super_admin'],
     },
     component: Main,
     children: [
@@ -619,6 +620,79 @@ export default [
         },
         component: () => import('@/view/multilevel/level-2-3.vue')
       }
+    ]
+  },
+  {
+    path: '/dev_manage',
+    name: 'dev_manage',
+    meta: {
+      icon: 'md-menu',
+      title: '设备管理',
+      mustLogin: true
+    },
+    component: Main,
+    children: [
+      {
+        path: '/dev_agent',
+        name: 'dev_agent',
+        meta: {
+          icon: 'md-funnel',
+          title: '设备代理',
+          mustLogin: true
+        },
+        component: () => import('@/view/dev-manage/dev-agent.vue')
+      },
+      {
+        path: '/ic_card_manage',
+        name: 'ic_card_manage',
+        meta: {
+          icon: 'md-funnel',
+          title: 'IC卡管理',
+          mustLogin: true
+        },
+        component: () => import('@/view/dev-manage/ic-card-manage.vue')
+      },
+      {
+        path: '/face_dev',
+        name: 'face_dev',
+        meta: {
+          icon: 'md-funnel',
+          title: '人脸设备',
+          mustLogin: true
+        },
+        component: () => import('@/view/dev-manage/face-dev.vue')
+      },
+      {
+        path: '/door_manage',
+        name: 'door_manage',
+        meta: {
+          icon: 'md-funnel',
+          title: '门磁设备',
+          mustLogin: true
+        },
+        component: () => import('@/view/dev-manage/door-manage.vue')
+      },
+      {
+        path: '/gate',
+        name: 'gate',
+        meta: {
+          icon: 'md-funnel',
+          title: '闸机',
+          mustLogin: true
+        },
+        component: () => import('@/view/dev-manage/gate.vue')
+      },
+      {
+        path: '/dev_region',
+        name: 'dev_region',
+        meta: {
+          icon: 'md-funnel',
+          title: '设备与区域的关系',
+          mustLogin: true
+        },
+        component: () => import('@/view/dev-manage/dev-region.vue')
+      },
+
     ]
   },
   // {

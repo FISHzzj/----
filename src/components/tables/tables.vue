@@ -10,15 +10,10 @@
         <Input placeholder="输入关键字搜索" class="search-input" v-model="item.val" />
       </div>
       <Button @click="handleSearch" class="search-btn" type="success" icon="ios-search">搜索</Button>
-      <Button
-        class="search-btn"
-        type="primary"
-        icon="ios-add"
-        @click="addBtn"
-        v-if="addSearchBtn"
-      >新增</Button>
+      <Button class="search-btn" type="primary" icon="ios-add" @click="addBtn" v-if="addSearchBtn">新增</Button>
       <Button class="search-btn" type="primary" icon="ios-add" @click="permBtn" v-if="permaddBtn">新增</Button>
       <Button class="search-btn" type="primary" icon="ios-add" @click="typeBtn" v-if="typeaddBtn">新增</Button>
+      <Button class="search-btn" type="primary" icon="ios-add" @click="devBtn" v-if="devaddBtn">新增</Button>
       <Button
         class="search-btn"
         type="info"
@@ -58,13 +53,6 @@
       <slot name="footer" slot="footer"></slot>
       <slot name="loading" slot="loading"></slot>
     </Table>
-    <!-- <div v-if="searchable && searchPlace === 'bottom'" class="search-con search-con-top">
-      <Select v-model="searchKey" class="search-col">
-        <Option v-for="item in columns" v-if="item.key !== 'handle'" :value="item.key" :key="`search-col-${item.key}`">{{ item.title }}</Option>
-      </Select>
-      <Input placeholder="输入关键字搜索" class="search-input" v-model="searchValue"/>
-      <Button class="search-btn" type="primary"><Icon type="search"/>&nbsp;&nbsp;搜索</Button>
-    </div>-->
     <div class="pageshow">
       <Page
         size="small"
@@ -79,16 +67,9 @@
     </div>
     <a id="hrefToExportTable" style="display: none;width: 0px;height: 0px;"></a>
     <Form v-if="fromshow" @on-handle-save="onHandleSave" @on-handle-close="onHandleClose"></Form>
-    <permForm
-      v-if="permfromshow"
-      @on-handle-save="onPermHandleSave"
-      @on-handle-close="onPermHandleClose"
-    ></permForm>
-    <systemTypeForm
-      v-if="systemTypefromshow"
-      @on-handle-save="onTypeHandleSave"
-      @on-handle-close="onTypeHandleClose"
-    ></systemTypeForm>
+    <permForm v-if="permfromshow" @on-handle-save="onPermHandleSave" @on-handle-close="onPermHandleClose"></permForm>
+    <systemTypeForm v-if="systemTypefromshow" @on-handle-save="onTypeHandleSave" @on-handle-close="onTypeHandleClose"></systemTypeForm>
+    <devAgentForm v-if="devAgentfromshow" @on-handle-save="onAgentHandleSave" @on-handle-close="onAgentHandleClose"></devAgentForm>
   </div>
 </template>
 
@@ -99,12 +80,14 @@ import "./index.less";
 import Form from "./form.vue";
 import permForm from "./permForm.vue";
 import systemTypeForm from "./systemTypeForm.vue";
+import devAgentForm from "./devAgentForm.vue"
 export default {
   name: "Tables",
   components: {
     Form,
     permForm,
     systemTypeForm,
+    devAgentForm,
   },
   props: {
     value: {
@@ -221,6 +204,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    devaddBtn: {
+      type: Boolean,
+      default: false,
+    },
     /**
      * @description 是否显示下拉列表框
      */
@@ -270,6 +257,7 @@ export default {
       fromshow: false,
       permfromshow: false,
       systemTypefromshow: false,
+      devAgentfromshow:false,
     };
   },
   methods: {
@@ -428,6 +416,9 @@ export default {
     typeBtn() {
       this.systemTypefromshow = true;
     },
+    devBtn() {
+      this.devAgentfromshow = true
+    },
     // 重置按钮
     Resetbtn() {
       this.$emit("onResetBtn", "重置系统默认权限分组");
@@ -462,6 +453,14 @@ export default {
     },
     onTypeHandleClose() {
       this.systemTypefromshow = false;
+    },
+    onAgentHandleSave(formValidate) {
+      if (!formValidate) return false;
+      this.$emit("on-agent-handle-from", formValidate);
+      this.devAgentfromshow = false;
+    },
+    onAgentHandleClose() {
+       this.devAgentfromshow = false;
     },
   },
   computed: {
@@ -555,6 +554,7 @@ export default {
 
   div {
     margin-right: 2px;
+    margin-bottom: 5px;
   }
 }
 </style>

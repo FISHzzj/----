@@ -26,4 +26,5 @@ export default {
   organization: `${common}/ktacs/sys/org/`, // 系统  组织架构 get Read // post // 
   userOrg: `${common}/ktacs/sys/users/toorg/`, // 用户与组织架构的关系 get Read //post 
   loginlog: `${common}/ktacs/sys/logs/query/login/`, //系统登陆查询 get Read 
+  devmanage: `${common}/ktacs/dev/`, //设备管理 get Read
 } 
