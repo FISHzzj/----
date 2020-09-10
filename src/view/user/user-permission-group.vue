@@ -56,11 +56,11 @@ export default {
       columns: [
         {
           title: "用户名",
-          key: "name",
+          key: "f_name",
         },
         {
           title: "手机号",
-          key: "mobile",
+          key: "f_mobile",
         },
       ],
       arrsearch: [
@@ -128,6 +128,7 @@ export default {
       data["f_userid"] = row.f_id;
       this.f_id = row.f_id;
       this.getdatagroup(data);
+      this.getpermsgroup();
     },
     // 获取页码
     onPageChage(pageNum) {
@@ -146,11 +147,11 @@ export default {
       this.getdata(data);
     },
     // 搜索
-    onHandleSearch({ searchKey, searchValue }) {
-      let shuxin = `f_${searchKey}`;
-      if (!searchValue) return false;
-      let data = {};
-      data[`${shuxin}`] = `${searchValue}`;
+    onHandleSearch(data) {
+      // let shuxin = `f_${searchKey}`;
+      // if (!searchValue) return false;
+      // let data = {};
+      // data[`${shuxin}`] = `${searchValue}`;
       console.log(data);
       this.getSearchData(data);
     },
@@ -165,10 +166,11 @@ export default {
       res.f_data_json.f_values.forEach((item, index) => {
         tableJson.push({
           f_id: item.f_id,
-          name: item.f_name,
-          mobile: item.f_mobile,
+          f_name: item.f_name,
+          f_mobile: item.f_mobile,
         });
       });
+      console.log(tableJson)
       this.tableData = tableJson;
     },
     // 获取用户=》权限分组的关系
@@ -194,7 +196,7 @@ export default {
       })
       this.targetKeys1 = targetkeyarr;
       this.f_id_arr = f_id_arr
-      this.getpermsgroup();
+      // this.getpermsgroup();
     },
     // 搜索
     async getSearchData(data) {
@@ -206,9 +208,9 @@ export default {
       let tableJson = [];
       res.f_data_json.f_values.forEach((item, index) => {
         tableJson.push({
-          id: item.id,
-          username: item.f_username,
-          mobile: item.f_mobile,
+          f_id: item.id,
+          f_name: item.f_name,
+          f_mobile: item.f_mobile,
         });
       });
       this.tableData = tableJson;
@@ -233,6 +235,7 @@ export default {
   },
   mounted() {
     this.getdata();
+     
   },
 };
 </script>

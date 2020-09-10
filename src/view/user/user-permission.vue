@@ -195,7 +195,7 @@ export default {
       console.log(params);
       // 删除 row
       let res = await $ajax("permsGroupDelete", "delete", {
-        f_id: params.row.id,
+        f_name: params.row.name,
       });
       if (!res) return false;
       Toast("删除成功");
@@ -213,13 +213,12 @@ export default {
       this.getdata();
     },
     // 搜索
-    onHandleSearch({ searchKey, searchValue }) {
-      let shuxin = `f_${searchKey}`;
-      if (!searchValue) return false;
-      let data = {};
-      data[`${shuxin}`] = `${searchValue}`;
-      console.log(data);
-      this.getSearchData(data);
+    onHandleSearch(obj) {
+      console.log(obj);
+      // let shuxin = `f_${searchKey}`;
+      // if (!searchValue) return false;
+
+      this.getSearchData(obj);
     },
     async getdata() {
       let res = await $ajax("permsGroupsget", "get", {
@@ -268,9 +267,14 @@ export default {
       let res = await $ajax("resetPut", "put");
       if (!res) return false;
       console.log(res);
+      this.tableData = res.f_data_json.f_values;
+
     },
     // 修改
     async update() {
+      this.data4 = [];
+      this.data5 = [];
+      this.data6 = [];
       let subdata = this.$refs.tree.getCheckedNodes(); // 获取勾线的节点 checked
       let subdata1 = this.$refs.tree1.getCheckedNodes(); // 获取勾线的节点 checked
       let subdata2 = this.$refs.tree2.getCheckedNodes(); // 获取勾线的节点 checked

@@ -30,8 +30,12 @@
         @on-handle-close="onHandleClose"
         :getEditData="getEditData"
       ></Editfrom>
-      <Modal v-model="modal1" title="设备与组织的关系" @on-ok="ok" @on-cancel="cancel">
-        <Tree :data="data4" multiple @on-select-change="onSelectChange"></Tree>
+      <Modal v-model="modal1" :title="titlemodal" @on-ok="ok" @on-cancel="cancel">
+        <Card title="区域" style="height:450px; overflow-y:scroll;">
+          <RadioGroup v-model="area" vertical size="large">
+            <Radio :label="item.f_name" border v-for="(item, index) in areaArr" :key="item.f_id"></Radio>
+          </RadioGroup>
+        </Card>
       </Modal>
     </Card>
   </div>
@@ -40,13 +44,8 @@
 <script>
 import Tables from "_c/tables";
 import Editfrom from "_c/tables/editdevAgentForm.vue";
-import {
-  formatTreeData,
-  formatTreeDataEx,
-  formatTreePremsToString,
-} from "../../func/dev.js";
 export default {
-  name: "dev_agent",
+  name: "accessauth",
   components: {
     Tables,
     Editfrom,
@@ -59,11 +58,19 @@ export default {
           key: "f_name",
         },
         {
-          title: "IP地址",
+          title: "设备类型",
+          key: "f_type",
+        },
+        {
+          title: "设备出入",
+          key: "f_aad_direction",
+        },
+        {
+          title: "系统地址",
           key: "f_ip_addr",
         },
         {
-          title: "端口",
+          title: "系统端口",
           key: "f_port",
         },
         {
@@ -71,7 +78,7 @@ export default {
           key: "f_installnation_addr",
         },
         {
-          title: "编码",
+          title: "设备编码",
           key: "f_code",
         },
         {
@@ -87,10 +94,10 @@ export default {
           key: "f_extense_info",
         },
         {
-          title: "设备与组织关系",
-          key: "relationship",
+          title: "设备与区域关系",
+          key: "authregion",
           align: "center",
-          width: 150,
+          width: 135,
           render: (h, params) => {
             return h(
               "Button",
@@ -102,7 +109,7 @@ export default {
                 },
                 on: {
                   click: () => {
-                    this.relationship(params);
+                    this.authregion(params);
                   },
                 },
               },
@@ -111,7 +118,31 @@ export default {
           },
         },
         {
-          title: "操作",
+          title: "设备与代理服务器关系",
+          key: "authserver",
+          align: "center",
+          width: 135,
+          render: (h, params) => {
+            return h(
+              "Button",
+              {
+                props: {
+                  type: "info",
+                  size: "small",
+                  icon: "ios-build",
+                },
+                on: {
+                  click: () => {
+                    this.authserver(params);
+                  },
+                },
+              },
+              "绑定关系"
+            );
+          },
+        },
+        {
+          title: "删除",
           key: "handle",
           options: ["delete", "edit"],
           button: [
@@ -173,6 +204,7 @@ export default {
               );
             },
           ],
+          editable: true,
         },
       ],
       tableData: [],
@@ -190,12 +222,22 @@ export default {
           valuetext: "",
         },
         {
-          nametitle: "IP地址",
+          nametitle: "设备出入",
+          key: "f_aad_direction",
+          valuetext: "",
+        },
+        {
+          nametitle: "设备类型",
+          key: "f_type",
+          valuetext: "",
+        },
+        {
+          nametitle: "系统地址",
           key: "f_ip_addr",
           valuetext: "",
         },
         {
-          nametitle: "端口",
+          nametitle: "系统端口",
           key: "f_port",
           valuetext: "",
         },
@@ -205,7 +247,7 @@ export default {
           valuetext: "",
         },
         {
-          nametitle: "编码",
+          nametitle: "设备编码",
           key: "f_code",
           valuetext: "",
         },
@@ -232,12 +274,50 @@ export default {
           name: "f_name",
         },
         {
-          title: "IP地址",
+          title: "设备类型",
+          val: "",
+          name: "f_type",
+          arrtype: [
+            {
+              id: 1,
+              title: "人脸",
+            },
+            {
+              id: 2,
+              title: "IC卡",
+            },
+            {
+              id: 3,
+              title: "二维码",
+            },
+            {
+              id: 4,
+              title: "身份证",
+            },
+          ],
+        },
+        {
+          title: "设备出入",
+          val: "",
+          name: "f_aad_direction",
+          arrtype: [
+            {
+              id: 1,
+              title: "出口",
+            },
+            {
+              id: 2,
+              title: "入口",
+            },
+          ],
+        },
+        {
+          title: "系统地址",
           val: "",
           name: "f_ip_addr",
         },
         {
-          title: "端口",
+          title: "系统端口",
           val: "",
           name: "f_port",
         },
@@ -247,7 +327,7 @@ export default {
           name: "f_installnation_addr",
         },
         {
-          title: "编码",
+          title: "设备编码",
           val: "",
           name: "f_code",
         },
@@ -260,51 +340,72 @@ export default {
       height: 450,
       editfromshow: false,
       getEditData: {},
+      titlemodal: "设备与区域的关系",
       modal1: false,
-      data4: [
-        {
-          title: "parent 1",
-          expand: true,
-          selected: true,
-          children: [
-            {
-              title: "parent 1-1",
-              expand: true,
-              children: [
-                {
-                  title: "leaf 1-1-1",
-                  disabled: true,
-                },
-                {
-                  title: "leaf 1-1-2",
-                },
-              ],
-            },
-            {
-              title: "parent 1-2",
-              expand: true,
-              children: [
-                {
-                  title: "leaf 1-2-1",
-                  checked: true,
-                },
-                {
-                  title: "leaf 1-2-1",
-                },
-              ],
-            },
-          ],
-        },
-      ],
-      f_ProxyServerInfo_id: "", //代理设备id
-      f_Organization_id: "", //组织id
+      area: "",
+      areaArr: [],
+      f_id: "", //认证设备与组织的关系id
     };
   },
   methods: {
+    //获取组织类型下“区域”的 组织架构
+    async getorgtype() {
+      let res = await $ajax("organization", "get", {
+        f_OrgType_name: "区域",
+      });
+      if (!res) return false;
+      console.log(res);
+      let f_values = res.f_data_json.f_values;
+      let areaArr = [];
+      f_values.forEach((item, index) => {
+        areaArr.push({
+          f_id: item.f_id,
+          f_name: item.f_name,
+        });
+      });
+
+      this.areaArr = areaArr;
+    },
+    // 获取  认证设备与区域型组织关系管理
+    async authregion(params) {
+      console.log(params);
+      this.f_AccessAuthDev_id = params.row.f_id; //认证设备id
+      this.modal1 = true;
+      let dataaccessauthdev = {};
+      dataaccessauthdev["f_AccessAuthDev_id"] = params.row.f_id;
+      let res = await $ajax("aadtoorg", "get", dataaccessauthdev);
+      if (!res) return false;
+      console.log(res);
+      let f_values = res.f_data_json.f_values;
+      if (f_values == null) return false;
+      this.f_id = res.f_data_json.f_values.f_id; //认证设备与组织的关系id
+      let f_Organization_id = res.f_data_json.f_values.f_Organization_id;
+      this.area = f_Organization_id;
+    },
+    async ok() {
+      if (this.f_id) {
+        let data = {};
+        data["f_id"] = this.f_id;
+        data["f_Organization_id"] = this.area;
+        let res = await $ajax("aadtoorg", "put", data);
+        if (!res) return false;
+        console.log(res);
+        Toast("修改成功！");
+      } else {
+        let data = {};
+        data["f_AccessAuthDev_id"] = this.f_AccessAuthDev_id; //认证设备id
+        data["f_Organization_id"] = this.area;
+        let res = await $ajax("aadtoorg", "post", data);
+        if (!res) return false;
+        console.log(res);
+        Toast("保存成功！");
+      }
+    },
+    cancel() {},
     // 新增 表单 确认btn
     async onAgentHandleFrom(arrData) {
       console.log(arrData);
-      let res = await $ajax("proxyservermanage", "post", arrData);
+      let res = await $ajax("accessauth", "post", arrData);
       if (!res) return;
       console.log(res);
       this.getdata();
@@ -312,7 +413,7 @@ export default {
     async handleDelete(params) {
       console.log(params);
       // 删除 row
-      let res = await $ajax("proxyservermanage", "delete", {
+      let res = await $ajax("accessauth", "delete", {
         f_id: params.row.f_id,
       });
       if (!res) return false;
@@ -342,7 +443,7 @@ export default {
       this.getSearchData(data);
     },
     async getdata() {
-      let res = await $ajax("proxyservermanage", "get", {
+      let res = await $ajax("accessauth", "get", {
         f_page: this.pageNum,
         f_limit: this.pageSize,
       });
@@ -355,6 +456,8 @@ export default {
         tableJson.push({
           f_id: item.f_id,
           f_name: item.f_name,
+          f_type: item.f_type,
+          f_aad_direction: item.f_aad_direction,
           f_ip_addr: item.f_ip_addr,
           f_port: item.f_port,
           f_installnation_addr: item.f_installnation_addr,
@@ -368,7 +471,7 @@ export default {
     },
     // 搜索
     async getSearchData(data) {
-      let res = await $ajax("proxyservermanage", "get", data);
+      let res = await $ajax("accessauth", "get", data);
       if (!res) return false;
       this.pageTotal = res.f_data_json.f_count;
       this.pageNum = res.f_data_json.f_page;
@@ -376,6 +479,8 @@ export default {
       res.f_data_json.f_values.forEach((item, index) => {
         tableJson.push({
           f_name: item.f_name,
+          f_type: item.f_type,
+          f_aad_direction: item.f_aad_direction,
           f_ip_addr: item.f_ip_addr,
           f_port: item.f_port,
           f_installnation_addr: item.f_installnation_addr,
@@ -389,7 +494,7 @@ export default {
     },
     // 编辑获取单条数据
     async getEditHandle(data) {
-      let res = await $ajax("proxyservermanage", "get", data);
+      let res = await $ajax("accessauth", "get", data);
       if (!res) return false;
       this.pageTotal = res.f_data_json.f_count;
       this.pageNum = res.f_data_json.f_page;
@@ -398,6 +503,8 @@ export default {
         formdata.push({
           f_id: item.f_id,
           f_name: item.f_name,
+          f_type: item.f_type,
+          f_aad_direction: item.f_aad_direction,
           f_ip_addr: item.f_ip_addr,
           f_port: item.f_port,
           f_installnation_addr: item.f_installnation_addr,
@@ -424,7 +531,7 @@ export default {
     // 编辑保存
     async onHandleSave(data) {
       console.log(data);
-      let res = await $ajax("proxyservermanage", "put", data);
+      let res = await $ajax("accessauth", "put", data);
       if (!res) return false;
       Toast("更新成功");
       this.editfromshow = false;
@@ -434,101 +541,10 @@ export default {
     onHandleClose() {
       this.editfromshow = false;
     },
-    //关系btn
-    async relationship(params) {
-      console.log(params);
-      this.f_ProxyServerInfo_id = params.row.f_id; //代理设备id
-      this.modal1 = true;
-      // 获取已经绑定代理设备的组织id
-      let dataproxytoorg = {};
-      dataproxytoorg["f_ProxyServerInfo_id"] = params.row.f_id;
-      let resproxytoorg = await $ajax("proxytoorg", "get", dataproxytoorg);
-      if (!resproxytoorg) return false;
-      console.log(resproxytoorg);
-      let proxytoorgvalues = resproxytoorg.f_data_json.f_values;
-      let proxytoorgarr = [];
-      proxytoorgvalues.forEach((item, index) => {
-        proxytoorgarr.push(item.f_Organization_id);
-      });
-      console.log(proxytoorgarr);
-      //获取所有类型及类型下的所有组织
-      let data = {
-        f_orgs_info: "1",
-      };
-      let res = await $ajax("systemtypeget", "get", data);
-      if (!res) return false;
-      console.log(res);
-
-      let resall = Promise.all([resproxytoorg, res]);
-      if (!resall) return false;
-
-      let d_perms_all = res.f_data_json.f_values;
-      // console.log(d_perms_all);
-      let data4 = [];
-      let promise = new Promise((resolve, reject) => {
-        Object.keys(d_perms_all).forEach((key) => {
-          // console.log(key);
-          data4.push({
-            title: key,
-            expand: true,
-            children: [],
-          });
-        });
-        resolve(data4);
-      });
-      promise.then((data4) => {
-        Object.keys(d_perms_all).forEach((key, num) => {
-          d_perms_all[key].forEach((item, index) => {
-            data4[num].children.push({
-              id: item.id,
-              title: item.f_name,
-              expand: true,
-            });
-          });
-        });
-
-        return data4;
-      });
-      // promise.then((data4) => {
-      
-      //     Object.keys(d_perms_all).forEach((key, num) => {
-      //       d_perms_all[key].forEach((item, index) => {
-      //           proxytoorgarr.forEach((proxy, i) => {
-      //         console.log(proxy)
-
-      //         // data4[num].children.push({
-      //         //   id: item.id,
-      //         //   title: item.f_name,
-      //         //   expand: true,
-      //         // });
-      //       });
-      //     });
-      //   });
-      // });
-
-      console.log(data4);
-      this.data4 = data4;
-    },
-    onSelectChange(params, index) {
-      console.log(params, index);
-      this.f_Organization_id = index.id;
-    },
-    async ok() {
-      // this.$Message.info("Clicked ok");
-      let data = {};
-      data["f_Organization_id"] = this.f_Organization_id;
-      data["f_ProxyServerInfo_id"] = this.f_ProxyServerInfo_id;
-      let res = await $ajax("proxytoorg", "post", data);
-      if (!res) return false;
-      console.log(res);
-      Toast("绑定成功！");
-    },
-    cancel() {
-      this.$Message.info("Clicked cancel");
-    },
   },
   mounted() {
     this.getdata();
+    this.getorgtype();
   },
 };
 </script>

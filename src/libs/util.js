@@ -39,7 +39,9 @@ export const hasChild = (item) => {
 }
 
 const showThisMenuEle = (item, access) => {
+ 
   if (item.meta && item.meta.access && item.meta.access.length) {
+    console.log(hasOneOf(item.meta.access, access))
     if (hasOneOf(item.meta.access, access)) return true
     else return false
   } else return true
@@ -49,7 +51,7 @@ const showThisMenuEle = (item, access) => {
  * @returns {Array}
  */
 export const getMenuByRouter = (list, access) => {
-  console.log(list, access)
+  // console.log(list, access)
   let res = []
   forEach(list, item => {
     if (!item.meta || (item.meta && !item.meta.hideInMenu)) {
@@ -60,12 +62,13 @@ export const getMenuByRouter = (list, access) => {
       }
       if ((hasChild(item) || (item.meta && item.meta.showAlways)) && showThisMenuEle(item, access)) {
         obj.children = getMenuByRouter(item.children, access)
-        console.log(obj.children)
+        // console.log(obj.children)
       }
       if (item.meta && item.meta.href) obj.href = item.meta.href
       if (showThisMenuEle(item, access)) res.push(obj)
     }
   })
+  console.log(res)
   return res
 }
 

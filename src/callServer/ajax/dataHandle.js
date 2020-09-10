@@ -1,5 +1,5 @@
 // status 0 等于 0 時, 統一進行處理
-function mistake (data) {
+function mistake(data) {
   // 如果返回的数据, 不是 json
   if (typeof data !== 'object') {
     Dialog.alert({
@@ -19,10 +19,15 @@ function mistake (data) {
 }
 
 export default {
-  uploader (data) {
+  uploader(data) {
     console.log(data)
     if (mistake(data)) return false
-    let { f_ver, f_type, f_mac, f_data } = data
+    let {
+      f_ver,
+      f_type,
+      f_mac,
+      f_data
+    } = data
     let f_data_json = JSON.parse(f_data)
     return {
       f_ver,
@@ -31,11 +36,16 @@ export default {
       f_data_json
     }
   },
-  login (data) {
+  login(data) {
     console.log(data)
     if (mistake(data)) return false
 
-    let { f_ver, f_type, f_mac, f_data } = data
+    let {
+      f_ver,
+      f_type,
+      f_mac,
+      f_data
+    } = data
     let f_data_json = JSON.parse(f_data)
     return {
       f_ver,
@@ -44,10 +54,15 @@ export default {
       f_data_json
     }
   },
-  userdataget (data) {
+  userdataget(data) {
     console.log(data)
     if (mistake(data)) return false
-    let { f_ver, f_type, f_mac, f_data } = data
+    let {
+      f_ver,
+      f_type,
+      f_mac,
+      f_data
+    } = data
     let f_data_json = JSON.parse(f_data)
     return {
       f_ver,
@@ -56,10 +71,15 @@ export default {
       f_data_json
     }
   },
-  userDataUpdate (data) {
+  userDataUpdate(data) {
     console.log(data)
     if (mistake(data)) return false
-    let { f_ver, f_type, f_mac, f_data } = data
+    let {
+      f_ver,
+      f_type,
+      f_mac,
+      f_data
+    } = data
     let f_data_json = JSON.parse(f_data)
     return {
       f_ver,
@@ -68,10 +88,15 @@ export default {
       f_data_json
     }
   },
-  userDataAdd (data) {
+  userDataAdd(data) {
     console.log(data)
     if (mistake(data)) return false
-    let { f_ver, f_type, f_mac, f_data } = data
+    let {
+      f_ver,
+      f_type,
+      f_mac,
+      f_data
+    } = data
     let f_data_json = JSON.parse(f_data)
     return {
       f_ver,
@@ -80,10 +105,15 @@ export default {
       f_data_json
     }
   },
-  userDataDelete (data) {
+  userDataDelete(data) {
     console.log(data)
     if (mistake(data)) return false
-    let { f_ver, f_type, f_mac, f_data } = data
+    let {
+      f_ver,
+      f_type,
+      f_mac,
+      f_data
+    } = data
     let f_data_json = JSON.parse(f_data)
     return {
       f_ver,
@@ -92,10 +122,15 @@ export default {
       f_data_json
     }
   },
-  permsGroupsget (data) {
+  permsGroupsget(data) {
     console.log(data)
     if (mistake(data)) return false
-    let { f_ver, f_type, f_mac, f_data } = data
+    let {
+      f_ver,
+      f_type,
+      f_mac,
+      f_data
+    } = data
     let f_data_json = JSON.parse(f_data)
     return {
       f_ver,
@@ -104,10 +139,15 @@ export default {
       f_data_json
     }
   },
-  permsGroupsAdd (data) {
+  permsGroupsAdd(data) {
     console.log(data)
     if (mistake(data)) return false
-    let { f_ver, f_type, f_mac, f_data } = data
+    let {
+      f_ver,
+      f_type,
+      f_mac,
+      f_data
+    } = data
     let f_data_json = JSON.parse(f_data)
     return {
       f_ver,
@@ -116,10 +156,15 @@ export default {
       f_data_json
     }
   },
-  permsGroupDelete (data) {
+  permsGroupDelete(data) {
     console.log(data)
     if (mistake(data)) return false
-    let { f_ver, f_type, f_mac, f_data } = data
+    let {
+      f_ver,
+      f_type,
+      f_mac,
+      f_data
+    } = data
     let f_data_json = JSON.parse(f_data)
     return {
       f_ver,
@@ -128,10 +173,15 @@ export default {
       f_data_json
     }
   },
-  permsGroupToget (data) {
+  permsGroupToget(data) {
     console.log(data)
     if (mistake(data)) return false
-    let { f_ver, f_type, f_mac, f_data } = data
+    let {
+      f_ver,
+      f_type,
+      f_mac,
+      f_data
+    } = data
     let f_data_json = JSON.parse(f_data)
     return {
       f_ver,
@@ -140,10 +190,15 @@ export default {
       f_data_json
     }
   },
-  permsGroupTogetPut (data) {
+  permsGroupTogetPut(data) {
     console.log(data)
     if (mistake(data)) return false
-    let { f_ver, f_type, f_mac, f_data } = data
+    let {
+      f_ver,
+      f_type,
+      f_mac,
+      f_data
+    } = data
     let f_data_json = JSON.parse(f_data)
     return {
       f_ver,
@@ -152,10 +207,15 @@ export default {
       f_data_json
     }
   },
-  permsget (data) {
+  permsget(data) {
     console.log(data)
     if (mistake(data)) return false
-    let { f_ver, f_type, f_mac, f_data } = data
+    let {
+      f_ver,
+      f_type,
+      f_mac,
+      f_data
+    } = data
     let f_data_json = JSON.parse(f_data)
     return {
       f_ver,
@@ -164,10 +224,15 @@ export default {
       f_data_json
     }
   },
-  resetPut (data) {
+  resetPut(data) {
     console.log(data)
     if (mistake(data)) return false
-    let { f_ver, f_type, f_mac, f_data } = data
+    let {
+      f_ver,
+      f_type,
+      f_mac,
+      f_data
+    } = data
     let f_data_json = JSON.parse(f_data)
     return {
       f_ver,
@@ -176,10 +241,15 @@ export default {
       f_data_json
     }
   },
-  togroupGet (data) {
+  togroupGet(data) {
     console.log(data)
     if (mistake(data)) return false
-    let { f_ver, f_type, f_mac, f_data } = data
+    let {
+      f_ver,
+      f_type,
+      f_mac,
+      f_data
+    } = data
     let f_data_json = JSON.parse(f_data)
     return {
       f_ver,
@@ -188,10 +258,15 @@ export default {
       f_data_json
     }
   },
-  togroupPost (data) {
+  togroupPost(data) {
     console.log(data)
     if (mistake(data)) return false
-    let { f_ver, f_type, f_mac, f_data } = data
+    let {
+      f_ver,
+      f_type,
+      f_mac,
+      f_data
+    } = data
     let f_data_json = JSON.parse(f_data)
     return {
       f_ver,
@@ -200,10 +275,15 @@ export default {
       f_data_json
     }
   },
-  togroupDelete () {
+  togroupDelete() {
     console.log(data)
     if (mistake(data)) return false
-    let { f_ver, f_type, f_mac, f_data } = data
+    let {
+      f_ver,
+      f_type,
+      f_mac,
+      f_data
+    } = data
     let f_data_json = JSON.parse(f_data)
     return {
       f_ver,
@@ -212,10 +292,15 @@ export default {
       f_data_json
     }
   },
-  orgGet (data) {
+  orgGet(data) {
     console.log(data)
     if (mistake(data)) return false
-    let { f_ver, f_type, f_mac, f_data } = data
+    let {
+      f_ver,
+      f_type,
+      f_mac,
+      f_data
+    } = data
     let f_data_json = JSON.parse(f_data)
     return {
       f_ver,
@@ -224,10 +309,15 @@ export default {
       f_data_json
     }
   },
-  systemtypeget (data) {
+  systemtypeget(data) {
     console.log(data)
     if (mistake(data)) return false
-    let { f_ver, f_type, f_mac, f_data } = data
+    let {
+      f_ver,
+      f_type,
+      f_mac,
+      f_data
+    } = data
     let f_data_json = JSON.parse(f_data)
     return {
       f_ver,
@@ -236,10 +326,15 @@ export default {
       f_data_json
     }
   },
-  organization (data) {
+  organization(data) {
     console.log(data)
     if (mistake(data)) return false
-    let { f_ver, f_type, f_mac, f_data } = data
+    let {
+      f_ver,
+      f_type,
+      f_mac,
+      f_data
+    } = data
     console.log(f_data)
     let f_data_json = JSON.parse(f_data)
     console.log('f_data_json', f_data_json)
@@ -250,10 +345,15 @@ export default {
       f_data_json
     }
   },
-  userOrg (data) {
+  userOrg(data) {
     console.log(data)
     if (mistake(data)) return false
-    let { f_ver, f_type, f_mac, f_data } = data
+    let {
+      f_ver,
+      f_type,
+      f_mac,
+      f_data
+    } = data
     let f_data_json = JSON.parse(f_data)
     return {
       f_ver,
@@ -262,10 +362,15 @@ export default {
       f_data_json
     }
   },
-  loginlog (data) {
+  loginlog(data) {
     console.log(data)
     if (mistake(data)) return false
-    let { f_ver, f_type, f_mac, f_data } = data
+    let {
+      f_ver,
+      f_type,
+      f_mac,
+      f_data
+    } = data
     let f_data_json = JSON.parse(f_data)
     return {
       f_ver,
@@ -274,10 +379,151 @@ export default {
       f_data_json
     }
   },
-  devmanage (data) {
+  proxyservermanage(data) {
     console.log(data)
     if (mistake(data)) return false
-    let { f_ver, f_type, f_mac, f_data } = data
+    let {
+      f_ver,
+      f_type,
+      f_mac,
+      f_data
+    } = data
+    let f_data_json = JSON.parse(f_data)
+    return {
+      f_ver,
+      f_type,
+      f_mac,
+      f_data_json
+    }
+  },
+  accessauth(data) {
+    console.log(data)
+    if (mistake(data)) return false
+    let {
+      f_ver,
+      f_type,
+      f_mac,
+      f_data
+    } = data
+    let f_data_json = JSON.parse(f_data)
+    return {
+      f_ver,
+      f_type,
+      f_mac,
+      f_data_json
+    }
+  },
+  accessctrl(data) {
+    console.log(data)
+    if (mistake(data)) return false
+    let {
+      f_ver,
+      f_type,
+      f_mac,
+      f_data
+    } = data
+    let f_data_json = JSON.parse(f_data)
+    return {
+      f_ver,
+      f_type,
+      f_mac,
+      f_data_json
+    }
+  },
+  aadtoacd(data) {
+    console.log(data)
+    if (mistake(data)) return false
+    let {
+      f_ver,
+      f_type,
+      f_mac,
+      f_data
+    } = data
+    let f_data_json = JSON.parse(f_data)
+    return {
+      f_ver,
+      f_type,
+      f_mac,
+      f_data_json
+    }
+  },
+  proxytoorg(data) {
+    console.log(data)
+    if (mistake(data)) return false
+    let {
+      f_ver,
+      f_type,
+      f_mac,
+      f_data
+    } = data
+    let f_data_json = JSON.parse(f_data)
+    return {
+      f_ver,
+      f_type,
+      f_mac,
+      f_data_json
+    }
+  },
+  event(data) {
+    console.log(data)
+    if (mistake(data)) return false
+    let {
+      f_ver,
+      f_type,
+      f_mac,
+      f_data
+    } = data
+    let f_data_json = JSON.parse(f_data)
+    return {
+      f_ver,
+      f_type,
+      f_mac,
+      f_data_json
+    }
+  },
+  request(data) {
+    console.log(data)
+    if (mistake(data)) return false
+    let {
+      f_ver,
+      f_type,
+      f_mac,
+      f_data
+    } = data
+    let f_data_json = JSON.parse(f_data)
+    return {
+      f_ver,
+      f_type,
+      f_mac,
+      f_data_json
+    }
+  },
+  operation(data) {
+    console.log(data)
+    if (mistake(data)) return false
+    let {
+      f_ver,
+      f_type,
+      f_mac,
+      f_data
+    } = data
+    let f_data_json = JSON.parse(f_data)
+    return {
+      f_ver,
+      f_type,
+      f_mac,
+      f_data_json
+    }
+  },
+  aadtoorg(data) {
+    console.log(data)
+    if (mistake(data)) return false
+    let {
+      f_ver,
+      f_type,
+      f_mac,
+      f_data
+    } = data
     let f_data_json = JSON.parse(f_data)
     return {
       f_ver,
@@ -289,37 +535,45 @@ export default {
 
 
 
-  sendVerifycode (data) {
+  sendVerifycode(data) {
     console.log(data)
     if (mistake(data)) return false
     return {
       msg: data.msg
     }
   },
-  forgetVerifycode (data) {
+  forgetVerifycode(data) {
     if (mistake(data)) return false
     return {
       msg: data.msg
     }
   },
-  register (data) {
+  register(data) {
     console.log(data)
     if (mistake(data)) return false
     return {
       msg: data.msg
     }
   },
-  forget (data) {
+  forget(data) {
     // console.log(data)
     if (mistake(data)) return false
     return {
       msg: data.msg
     }
   },
-  center (data) {
+  center(data) {
     // console.log(data)
     if (mistake(data)) return false
-    let { id, status, nickName, tel, headpic, bcType, agentid } = data.data
+    let {
+      id,
+      status,
+      nickName,
+      tel,
+      headpic,
+      bcType,
+      agentid
+    } = data.data
     return {
       id,
       status,
@@ -331,10 +585,14 @@ export default {
 
     }
   },
-  recharge (data) {
+  recharge(data) {
     // console.log(data)
     if (mistake(data)) return false
-    let { name, bankName, accountNumber } = data.data
+    let {
+      name,
+      bankName,
+      accountNumber
+    } = data.data
     return {
       // address: ztpayaddress, //充幣地址
       // QRImg: url, // 二維碼地址
@@ -344,19 +602,24 @@ export default {
       realname: name // 平台收款银行卡姓名
     }
   },
-  applyFeedback (data) {
+  applyFeedback(data) {
     console.log(data)
     if (mistake(data)) return false
     return {
       msg: data.msg
     }
   },
-  rechargeList (data) {
+  rechargeList(data) {
     // console.log(data)
     if (mistake(data)) return false
     let arr = []
     data.data.forEach(item => {
-      let { createTime, amount, auditState, memberId } = item
+      let {
+        createTime,
+        amount,
+        auditState,
+        memberId
+      } = item
       arr.push({
         money: amount > 0 ? `+${amount}` : amount,
         address: memberId,
@@ -366,10 +629,15 @@ export default {
     })
     return arr
   },
-  rechargeDetail (data) {
+  rechargeDetail(data) {
     // console.log(data)
     if (mistake(data)) return false
-    let { create_time, money, referenceaddress, txid } = data.result.ztpaynotice
+    let {
+      create_time,
+      money,
+      referenceaddress,
+      txid
+    } = data.result.ztpaynotice
     return {
       time: create_time,
       amount: money,
@@ -379,11 +647,18 @@ export default {
       status: 1
     }
   },
-  withdrawals (data) {
+  withdrawals(data) {
     // console.log(data)
     if (mistake(data)) return false
     if (data.data.withdrawalAddress) {
-      var { id, memberId, bankName, name, cardNo, isSelect } = data.data.withdrawalAddress
+      var {
+        id,
+        memberId,
+        bankName,
+        name,
+        cardNo,
+        isSelect
+      } = data.data.withdrawalAddress
     }
 
     let option = data.data.option
@@ -397,21 +672,31 @@ export default {
       option
     }
   },
-  deductCommission (data) {
+  deductCommission(data) {
     if (mistake(data)) return false
-    let { amount, commission } = data.data
+    let {
+      amount,
+      commission
+    } = data.data
     return {
       amount,
       commission
     }
   },
-  cashAddress (data) {
+  cashAddress(data) {
     // console.log(data)
     if (mistake(data)) return false
     let address = data.data
     let arr = []
     address.forEach(item => {
-      let { memberId, name, bankName, cardNo, id, isSelect } = item
+      let {
+        memberId,
+        name,
+        bankName,
+        cardNo,
+        id,
+        isSelect
+      } = item
       arr.push({
         id: id,
         memberId,
@@ -423,43 +708,58 @@ export default {
     })
     return arr
   },
-  getAddressAtChange (data) {
+  getAddressAtChange(data) {
     console.log(data)
     if (mistake(data)) return false
-    let { bankName, name, cardNo } = data.data
+    let {
+      bankName,
+      name,
+      cardNo
+    } = data.data
     return {
       bankName,
       name,
       cardNo
     }
   },
-  changeAddress (data) {
+  changeAddress(data) {
     // console.log(data)
     if (mistake(data)) return false
     return {
       msg: data.msg
     }
   },
-  updateAddress (data) {
+  updateAddress(data) {
     if (mistake(data)) return false
     return {
       msg: data.msg
     }
   },
-  toWithdrawals (data) {
+  toWithdrawals(data) {
     // console.log(data)
     if (mistake(data)) return false
     return {
       msg: data.msg
     }
   },
-  withdrawalsList (data) {
+  withdrawalsList(data) {
     // console.log(data)
     if (mistake(data)) return false
     let list = data.data
     let arr = []
     list.forEach(item => {
-      let { id, memberId, wType, bcType, amount, wStatus, createTime, completeTime, mobilePhone, accountNumber } = item
+      let {
+        id,
+        memberId,
+        wType,
+        bcType,
+        amount,
+        wStatus,
+        createTime,
+        completeTime,
+        mobilePhone,
+        accountNumber
+      } = item
       arr.push({
         address: accountNumber,
         id,
@@ -470,17 +770,27 @@ export default {
     })
     return arr
   },
-  delAddress (data) {
+  delAddress(data) {
     // console.log(data)
     if (mistake(data)) return false
     return {
       msg: data.msg
     }
   },
-  withdrawalsDetail (data) {
+  withdrawalsDetail(data) {
     // console.log(data)
     if (mistake(data)) return false
-    let { address, ordersn, gold, actual_gold, addtime, status, banknum, service, reason } = data.result.withdrawals
+    let {
+      address,
+      ordersn,
+      gold,
+      actual_gold,
+      addtime,
+      status,
+      banknum,
+      service,
+      reason
+    } = data.result.withdrawals
     return {
       address,
       ordersn,
@@ -493,10 +803,14 @@ export default {
       reason
     }
   },
-  transferPage (data) {
+  transferPage(data) {
     // console.log(data)
     if (mistake(data)) return false
-    let { min, service, content } = data.result.transfer_set
+    let {
+      min,
+      service,
+      content
+    } = data.result.transfer_set
     // console.log(service)
     return {
       // tips: content
@@ -504,20 +818,27 @@ export default {
       service: `${parseFloat(service).toFixed(2)}`
     }
   },
-  toTransfer (data) {
+  toTransfer(data) {
     // console.log(data)
     if (mistake(data)) return false
     return {
       msg: data.result.message
     }
   },
-  transferOut (data) {
+  transferOut(data) {
     // console.log(data)
     if (mistake(data)) return false
-    let { transfer } = data.result
+    let {
+      transfer
+    } = data.result
     let arr = []
     transfer.forEach(item => {
-      let { addtime, ruid, gold, transferno } = item
+      let {
+        addtime,
+        ruid,
+        gold,
+        transferno
+      } = item
       // 將後端時間, 切割成兩塊, 並拼接爲 html 模板
       let timeCut = addtime.split(' ')
       let timeEle = ''
@@ -535,13 +856,20 @@ export default {
     })
     return arr
   },
-  transferIn (data) {
+  transferIn(data) {
     // console.log(data)
     if (mistake(data)) return false
-    let { transfer } = data.result
+    let {
+      transfer
+    } = data.result
     let arr = []
     transfer.forEach(item => {
-      let { addtime, gold, transferno, uid } = item
+      let {
+        addtime,
+        gold,
+        transferno,
+        uid
+      } = item
       // 將後端時間, 切割成兩塊, 並拼接爲 html 模板
       let timeCut = addtime.split(' ')
       let timeEle = ''
@@ -559,13 +887,24 @@ export default {
     })
     return arr
   },
-  getOrders (data) {
+  getOrders(data) {
     // console.log(data)
     if (mistake(data)) return false
-    let { gold, usd, ordersn, receipt_fine, grab_sheet } = data.result
+    let {
+      gold,
+      usd,
+      ordersn,
+      receipt_fine,
+      grab_sheet
+    } = data.result
     let orders = []
     receipt_fine.forEach(item => {
-      let { original_gold, commission, still_gold, addtime } = item
+      let {
+        original_gold,
+        commission,
+        still_gold,
+        addtime
+      } = item
       orders.push({
         time: addtime,
         startMoney: original_gold,
@@ -582,10 +921,15 @@ export default {
       grab_sheet
     }
   },
-  exchangeNow (data) {
+  exchangeNow(data) {
     // console.log(data)
     if (mistake(data)) return false
-    let { gold, min, max, content } = data.result
+    let {
+      gold,
+      min,
+      max,
+      content
+    } = data.result
     return {
       money: gold,
       min,
@@ -593,26 +937,39 @@ export default {
       content
     }
   },
-  exchangeSubmit (data) {
+  exchangeSubmit(data) {
     // console.log(data)
     if (mistake(data)) return false
     return {
       msg: data.result.message
     }
   },
-  startGetOrders (data) {
+  startGetOrders(data) {
     if (mistake(data)) return false
     return {
       msg: data.result.message
     }
   },
-  getOrdersList (data) {
+  getOrdersList(data) {
     // console.log(data)
     if (mistake(data)) return false
     let receipt = data.data
     let list = []
     receipt.forEach(item => {
-      let { id, orderNo, orderMoney, payMoney, memberId, posId, createTime, completeTime, payType, payStatus, notifyUrl, commission } = item
+      let {
+        id,
+        orderNo,
+        orderMoney,
+        payMoney,
+        memberId,
+        posId,
+        createTime,
+        completeTime,
+        payType,
+        payStatus,
+        notifyUrl,
+        commission
+      } = item
       list.push({
         id,
         orderNo,
@@ -630,13 +987,30 @@ export default {
     })
     return list
   },
-  collectionList (data) {
+  collectionList(data) {
     // console.log(data)
     if (mistake(data)) return false
     let receipt = data.data
     let list = []
     receipt.forEach(item => {
-      let { id, orderNo, orderMoney, payMoney, memberId, posId, createTime, completeTime, payType, payStatus, notifyUrl, commission, accountNumber, realName, bankName, cardNumber } = item
+      let {
+        id,
+        orderNo,
+        orderMoney,
+        payMoney,
+        memberId,
+        posId,
+        createTime,
+        completeTime,
+        payType,
+        payStatus,
+        notifyUrl,
+        commission,
+        accountNumber,
+        realName,
+        bankName,
+        cardNumber
+      } = item
       list.push({
         id,
         orderNo,
@@ -658,37 +1032,53 @@ export default {
     })
     return list
   },
-  sdRedenvelopes (data) {
+  sdRedenvelopes(data) {
     console.log(data)
     if (mistake(data)) return false
-    let { redlist, total } = data.result
+    let {
+      redlist,
+      total
+    } = data.result
     return {
       redlist,
       total
     }
   },
-  sdRedenvelopesStart (data) {
+  sdRedenvelopesStart(data) {
     console.log(data)
     if (mistake(data)) return false
     return {
       msg: data.result.message
     }
   },
-  sdRedenvelopesList (data) {
+  sdRedenvelopesList(data) {
     if (mistake(data)) return false
-    let { list } = data.result
+    let {
+      list
+    } = data.result
     return {
       list
     }
   },
-  getOrdersDetail (data) {
+  getOrdersDetail(data) {
     // console.log(data)
     if (mistake(data)) return false
-    let { receipt, receipt_fine } = data.result
-    let { addtime, still_gold } = receipt
+    let {
+      receipt,
+      receipt_fine
+    } = data.result
+    let {
+      addtime,
+      still_gold
+    } = receipt
     let list = []
     receipt_fine.forEach(item => {
-      let { addtime, commission, original_gold, still_gold } = item
+      let {
+        addtime,
+        commission,
+        original_gold,
+        still_gold
+      } = item
       list.push({
         time: addtime,
         commission,
@@ -704,13 +1094,20 @@ export default {
       list
     }
   },
-  exchangeList (data) {
+  exchangeList(data) {
     // console.log(data)
     if (mistake(data)) return false
-    let { gold_total, exchange_list } = data.result
+    let {
+      gold_total,
+      exchange_list
+    } = data.result
     let list = []
     exchange_list.forEach(item => {
-      let { ordersn, addtime, gold } = item
+      let {
+        ordersn,
+        addtime,
+        gold
+      } = item
       list.push({
         orderSn: ordersn,
         time: addtime,
@@ -722,15 +1119,39 @@ export default {
       list
     }
   },
-  capital (data) {
+  capital(data) {
     // console.log(data)
     if (mistake(data)) return false
-    let { freezeDeposit, totalDeposit, rotationChartList2, member, totalCommission, dayCommission, commissionRank, rotationChart1, usableDeposit } = data.data
-    let { id, nickName, tel, headpic, createTime, bcType, total_receivables, agentid } = member
+    let {
+      freezeDeposit,
+      totalDeposit,
+      rotationChartList2,
+      member,
+      totalCommission,
+      dayCommission,
+      commissionRank,
+      rotationChart1,
+      usableDeposit
+    } = data.data
+    let {
+      id,
+      nickName,
+      tel,
+      headpic,
+      createTime,
+      bcType,
+      total_receivables,
+      agentid
+    } = member
     let images = []
     let images1 = []
     rotationChart1.forEach(item => {
-      let { id, pic, level, linkUrl } = item
+      let {
+        id,
+        pic,
+        level,
+        linkUrl
+      } = item
       images.push({
         img: pic,
         level,
@@ -738,7 +1159,12 @@ export default {
       })
     })
     rotationChartList2.map(item => {
-      let { id, pic, level, linkUrl } = item
+      let {
+        id,
+        pic,
+        level,
+        linkUrl
+      } = item
       images1.push({
         img: pic,
         level,
@@ -759,18 +1185,24 @@ export default {
       bcType // 码商类型
     }
   },
-  sdrankingList (data) {
+  sdrankingList(data) {
     // console.log(data)
     if (mistake(data)) return false
-    let { list } = data.result
+    let {
+      list
+    } = data.result
     return list
   },
-  pyList (data) {
+  pyList(data) {
     // console.log(data)
     if (mistake(data)) return false
     let list = []
     data.result.goldrecord.forEach(item => {
-      let { gold, addtime, paytype } = item
+      let {
+        gold,
+        addtime,
+        paytype
+      } = item
       list.push({
         money: Number(gold),
         time: addtime,
@@ -779,13 +1211,25 @@ export default {
     })
     return list
   },
-  incomeList (data) {
+  incomeList(data) {
     // console.log(data)
     if (mistake(data)) return false
     // let {receipt_gold, receipt} = data.data
     let list = []
     data.data.forEach(item => {
-      let { id, orderId, memberId, posId, money, beforeMoney, afterMoney, remake, payType, createTime, flowType } = item
+      let {
+        id,
+        orderId,
+        memberId,
+        posId,
+        money,
+        beforeMoney,
+        afterMoney,
+        remake,
+        payType,
+        createTime,
+        flowType
+      } = item
       list.push({
         orderId,
         createTime,
@@ -797,13 +1241,21 @@ export default {
       list
     }
   },
-  incomeListTeam (data) {
+  incomeListTeam(data) {
     // console.log(data)
     if (mistake(data)) return false
-    let { receipt_gold, receipt } = data.result
+    let {
+      receipt_gold,
+      receipt
+    } = data.result
     let list = []
     receipt.forEach(item => {
-      let { sumgold, addtime, ordersn, ruid } = item
+      let {
+        sumgold,
+        addtime,
+        ordersn,
+        ruid
+      } = item
       list.push({
         orderSn: ordersn,
         time: addtime,
@@ -816,13 +1268,20 @@ export default {
       list
     }
   },
-  streamDetail (data) {
+  streamDetail(data) {
     // console.log(data)
     if (mistake(data)) return false
-    let { gold_total, exchange_list } = data.result
+    let {
+      gold_total,
+      exchange_list
+    } = data.result
     let list = []
     exchange_list.forEach(item => {
-      let { water_gold, addtime, ordersn } = item
+      let {
+        water_gold,
+        addtime,
+        ordersn
+      } = item
       list.push({
         orderSn: ordersn,
         time: addtime,
@@ -834,21 +1293,21 @@ export default {
       list
     }
   },
-  toCertificate (data) {
+  toCertificate(data) {
     console.log(data)
     if (mistake(data)) return false
     return {
       msg: data.msg
     }
   },
-  certification (data) {
+  certification(data) {
     // console.log(data)
     if (mistake(data)) return false
     return {
       msg: data.msg
     }
   },
-  certificationDetail (data) {
+  certificationDetail(data) {
     // console.log(data)
     if (mistake(data)) return false
     let list = data.data
@@ -856,25 +1315,41 @@ export default {
       list
     }
   },
-  invite (data) {
+  invite(data) {
     // console.log(data)
     if (mistake(data)) return false
-    let { url, qrcodeUrl } = data.data
+    let {
+      url,
+      qrcodeUrl
+    } = data.data
     return {
       url,
       qrcodeUrl
     }
   },
-  team (data) {
+  team(data) {
     // console.log(data)
     if (mistake(data)) return false
-    let { num, members } = data.data
+    let {
+      num,
+      members
+    } = data.data
     if (members == null) {
       return '没有数据'
     } else {
       let list = []
       members.forEach(item => {
-        let { id, nickName, tel, headpic, createTime, bcType, address, agentid, idCardNo } = item
+        let {
+          id,
+          nickName,
+          tel,
+          headpic,
+          createTime,
+          bcType,
+          address,
+          agentid,
+          idCardNo
+        } = item
         list.push({
           id,
           nickName,
@@ -894,13 +1369,19 @@ export default {
       }
     }
   },
-  teamDirect (data) {
+  teamDirect(data) {
     // console.log(data)
     if (mistake(data)) return false
-    let { arrdown } = data.result
+    let {
+      arrdown
+    } = data.result
     let list = []
     arrdown.forEach(item => {
-      let { realname, mobile, meet } = item
+      let {
+        realname,
+        mobile,
+        meet
+      } = item
       list.push({
         name: realname || '未實名',
         mobile: `${mobile[0]}${mobile[1]}${mobile[2]}****${mobile[mobile.length - 4]}${mobile[mobile.length - 3]}${mobile[mobile.length - 2]}${mobile[mobile.length - 1]}`,
@@ -910,46 +1391,51 @@ export default {
     })
     return list
   },
-  changePwdOfLogin (data) {
+  changePwdOfLogin(data) {
     // console.log(data)
     if (mistake(data)) return false
     return {
       msg: data.msg
     }
   },
-  changePwdOfPay (data) {
+  changePwdOfPay(data) {
     // console.log(data)
     if (mistake(data)) return false
     return {
       msg: data.msg
     }
   },
-  changePwdverify (data) {
+  changePwdverify(data) {
     // console.log(data)
     if (mistake(data)) return false
     return {
       msg: data.msg
     }
   },
-  announcement (data) {
+  announcement(data) {
     // console.log(data)
     if (mistake(data)) return false
     return data.data
   },
-  announcementDetail (data) {
+  announcementDetail(data) {
     // console.log(data)
     if (mistake(data)) return false
     return {
       content: data.data.noticeTitle
     }
   },
-  feedback (data) {
+  feedback(data) {
     // console.log(data)
     if (mistake(data)) return false
-    let { feedback } = data.result
+    let {
+      feedback
+    } = data.result
     let actions = []
     feedback.forEach(item => {
-      let { id, title } = item
+      let {
+        id,
+        title
+      } = item
       actions.push({
         name: title,
         id
@@ -957,20 +1443,27 @@ export default {
     })
     return actions
   },
-  sendFeedback (data) {
+  sendFeedback(data) {
     // console.log(data)
     if (mistake(data)) return false
     return {
       msg: data.result.message
     }
   },
-  feedbackList (data) {
+  feedbackList(data) {
     // console.log(data)
     if (mistake(data)) return false
-    let { feedback_list } = data.result
+    let {
+      feedback_list
+    } = data.result
     let list = []
     feedback_list.forEach(item => {
-      let { addtime, content, thumb, title } = item
+      let {
+        addtime,
+        content,
+        thumb,
+        title
+      } = item
       let images = thumb ? thumb.split(',') : []
       list.push({
         type: title,
@@ -981,7 +1474,7 @@ export default {
     })
     return list
   },
-  sdOrder (data) {
+  sdOrder(data) {
     if (mistake(data)) return false
     // console.log(data)
     let sdOrder = data.result
@@ -992,15 +1485,20 @@ export default {
       status
     }
   },
-  submission (data) {
+  submission(data) {
     if (mistake(data)) return false
     return {
       msg: data.result.message
     }
   },
-  sdcustomerService (data) {
+  sdcustomerService(data) {
     if (mistake(data)) return false
-    let { wechatQrcode, wechatNumber, qqQrcode, qqNumber } = data.data
+    let {
+      wechatQrcode,
+      wechatNumber,
+      qqQrcode,
+      qqNumber
+    } = data.data
 
     return {
       wechatQrcode,
@@ -1009,22 +1507,26 @@ export default {
       qqNumber
     }
   },
-  payabnormal (data) {
+  payabnormal(data) {
     if (mistake(data)) return false
     let list = data.data
 
     return list
   },
-  collabnormal (data) {
+  collabnormal(data) {
     if (mistake(data)) return false
     let list = data.data
 
     return list
   },
-  checkedCode (data) {
+  checkedCode(data) {
     // console.log(data)
     if (mistake(data)) return false
-    let { bankCard, qrCode, isPerfect } = data.data
+    let {
+      bankCard,
+      qrCode,
+      isPerfect
+    } = data.data
 
     return {
       bankCard,
@@ -1033,7 +1535,7 @@ export default {
     }
   },
   // 代收订单确认来款
-  sureOrdersList (data) {
+  sureOrdersList(data) {
     if (mistake(data)) return false
     return {
       code: data.code,
@@ -1041,38 +1543,42 @@ export default {
     }
   },
   // 代付订单确认打款
-  sureCollectionList (data) {
+  sureCollectionList(data) {
     if (mistake(data)) return false
     return {
       code: data.code,
       msg: data.msg
     }
   },
-  person (data) {
+  person(data) {
     console.log(data)
     if (mistake(data)) return false
     return {
       msg: data.msg
     }
   },
-  getInformation (data) {
+  getInformation(data) {
     console.log(data)
     if (mistake(data)) return false
-    let { idCardNo, name, headPic } = data.data
+    let {
+      idCardNo,
+      name,
+      headPic
+    } = data.data
     return {
       idCardNo,
       name,
       headPic
     }
   },
-  uploadercollec (data) {
+  uploadercollec(data) {
     if (mistake(data)) return false
     // console.log(data)
     let imgurl = data.data
     // console.log(imgurl)
     return imgurl
   },
-  playHelp (data) {
+  playHelp(data) {
     // console.log(data)
     if (mistake(data)) return false
     let list = data.data
@@ -1082,7 +1588,7 @@ export default {
       return list
     }
   },
-  orderPay (data) {
+  orderPay(data) {
     if (mistake(data)) return false
     let list = data.data
     if (list == null) {
@@ -1091,7 +1597,7 @@ export default {
       return list
     }
   },
-  orderCollect (data) {
+  orderCollect(data) {
     if (mistake(data)) return false
     let list = data.data
     if (list == null) {

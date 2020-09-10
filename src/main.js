@@ -74,5 +74,14 @@ new Vue({
   router,
   i18n,
   store,
-  render: h => h(App)
+  render: h => h(App),
+  data() {
+    return {
+      
+    }
+  },
+  mounted() {
+    // 权限菜单过滤相关
+        // this.$store.commit('updateMenulist');
+  },
 })

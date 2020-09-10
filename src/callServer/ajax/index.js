@@ -60,15 +60,25 @@ export default function (port, method, data = {}, errCallback) {
     let qsobj = qs.stringify(obj)
     // console.log(method)
     // console.log(qsobj)
+
+    //拦截器
+    axios.interceptors.request.use(
+        config => {
+            if (csrftoken) { //判断是否存在csrftoken， 如果存在的话，则在每一个http header都加上csrftoken
+                config.headers['X-CSRFToken'] = csrftoken
+            }
+            return config
+        },
+        err => {
+            return Promise.reject(err)
+        }
+    )
+
     // 返回 promise 實例
     return new Promise ( resolve => {
         if(method == 'get'){
             axios.get(`${api[port]}?${qsobj}`,
             {
-                headers: {
-                    // 'token' : token,  //设置token到请求头
-                    'X-CSRFToken': csrftoken,
-                },
                 cookies: {
                     'sessionid':  sessionid,
                     'csrftoken': csrftoken
@@ -96,10 +106,6 @@ export default function (port, method, data = {}, errCallback) {
                     formData.append(key, obj[key])
                 })
                 axios.post(api[port], formData, {
-                    headers: {
-                        // 'token' : token,  //设置token到请求头
-                        'X-CSRFToken': csrftoken,
-                    },
                     cookies: {
                         'sessionid':  sessionid,
                         'csrftoken': csrftoken
@@ -121,10 +127,6 @@ export default function (port, method, data = {}, errCallback) {
                 })
             }else{
                 axios.post(api[port], qsobj, {
-                    headers: {
-                        // 'token' : token,  //设置token到请求头
-                        'X-CSRFToken': csrftoken,
-                    },
                     cookies: {
                         'sessionid':  sessionid,
                         'csrftoken': csrftoken
@@ -148,10 +150,6 @@ export default function (port, method, data = {}, errCallback) {
             
         }else if(method == 'put'){
             axios.put(api[port], qsobj, {
-                headers: {
-                    // 'token' : token,  //设置token到请求头
-                    'X-CSRFToken': csrftoken,
-                },
                 cookies: {
                     'sessionid':  sessionid,
                     'csrftoken': csrftoken
@@ -172,13 +170,7 @@ export default function (port, method, data = {}, errCallback) {
                 errCallback && errCallback()
             })
         }else if(method == 'delete'){
-            axios.delete(api[port], {
-                data:qsobj
-            }, {
-                headers: {
-                    // 'token' : token,  //设置token到请求头
-                    'X-CSRFToken': csrftoken,
-                },
+            axios.delete(api[port], {data:qsobj}, {
                 cookies: {
                     'sessionid':  sessionid,
                     'csrftoken': csrftoken

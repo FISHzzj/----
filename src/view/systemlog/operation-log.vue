@@ -1,71 +1,128 @@
 <template>
   <div>
     <Card>
-      <tables ref="tables" 
-        editable 
-        searchable 
-        search-place="top" 
-        v-model="tableData" 
-        :columns="columns" 
+      <tables
+        ref="tables"
+        editable
+        searchable
+        search-place="top"
+        v-model="tableData"
+        :columns="columns"
         :evevtType="evevtType"
         :searchCol="searchCol"
-        :searchValueIf="searchValueIf"
+        :height="height"
+        :border="border"
+        :pageTotal="pageTotal"
+        :pageNum="pageNum"
+        :getdate="getdate"
         :userName="userName"
         :userMobile="userMobile"
         :getUrl="getUrl"
-        @on-delete="handleDelete"
-    />
+        :label="label"
+        @onPageChage="onPageChage"
+        @onPageSizeChage="onPageSizeChage"
+        @onHandleSearch="onHandleSearch"
+      />
     </Card>
   </div>
 </template>
 
 <script>
-import Tables from '_c/system-log-tables'
+import Tables from "_c/system-log-tables";
 // import { getTableData } from '@/api/data'
 export default {
-  name: 'operation_log',
+  name: "operation_log",
   components: {
     Tables,
   },
-  data () {
+  data() {
     return {
+      border: true,
+      height: 450,
       columns: [
-        { title: '事件类型', key: 'eventType'},
-        { title: '时间', key: 'time' },
-        { title: '简短信息', key: 'shortMessage'},
-        { title: '详细信息', key: 'detailedInformation' },
+        { title: "用户姓名", key: "f_user_cname" },
+        { title: "用户手机", key: "f_user_mobile" },
+        { title: "请求时间", key: "f_time" },
+        { title: "远端地址", key: "f_ipaddr" },
+        { title: "请求方法", key: "f_method " },
+        { title: "请求URL", key: "f_url" },
+        { title: "请求数据", key: "f_req_data" },
+        { title: "描述", key: "f_desc" },
+        { title: "原数据", key: "f_olddata" },
+        { title: "新数据", key: "f_newdata" },
+        { title: "返回结果", key: "f_errcode" },
+        { title: "失败信息", key: "f_errmsg" },
       ],
-      evevtType:[
-        { title: '所有', key: 'all'},
-        { title: 'GET', key: 'get'},
-        { title: 'POST', key: 'post' },
+      evevtType: [
+        { title: "GET", key: "get" },
+        { title: "POST", key: "post" },
       ],
+      label: "请求方法",
       tableData: [],
-      searchValueIf:true,
-      searchCol:true,
-      userName:true,
-      userMobile:true,
-      getUrl:true,
-    }
+      searchCol: true,
+      getdate: true,
+      userName: true,
+      userMobile: true,
+      getUrl: true,
+      pageTotal: 10,
+      pageNum: 1,
+      pageSize: 10,
+    };
   },
   methods: {
-    handleDelete (params) {
-      console.log(params)
+    // 搜索
+    onHandleSearch(data) {
+      console.log(data);
+      this.getdata(data);
     },
-    exportExcel () {
-      this.$refs.tables.exportCsv({
-        filename: `table-${(new Date()).valueOf()}.csv`
-      })
-    }
+    // 获取页码
+    onPageChage(pageNum) {
+      console.log(pageNum);
+      this.pageNum = pageNum;
+      let data = {};
+      data["pageNum"] = this.pageNum;
+      this.getdata(data);
+    },
+    // 获取页数
+    onPageSizeChage(pageSize) {
+      console.log(pageSize);
+      this.pageSize = pageSize;
+      let data = {};
+      data["f_limit"] = this.pageSize;
+      this.getdata(data);
+    },
+    async getdata(data) {
+      let res = await $ajax("operation", "get", data);
+      if (!res) return false;
+      console.log(res);
+      this.pageTotal = res.f_data_json.f_count;
+      this.pageNum = res.f_data_json.f_page;
+      let tableJson = [];
+      res.f_data_json.f_values.forEach((item, index) => {
+        console.log(item.f_user_mobile)
+        tableJson.push({
+          f_user_cname: item.f_user_cname,
+          f_user_mobile: item.f_user_mobile,
+          f_time: item.f_time,
+          f_ipaddr: item.f_ipaddr,
+          f_method: item.f_method,
+          f_url: item.f_url,
+          f_req_data: item.f_req_data,
+          f_desc: item.f_desc,
+          f_olddata: item.f_olddata,
+          f_newdata: item.f_newdata,
+          f_errcode: item.f_errcode,
+          f_errmsg: item.f_errmsg,
+        });
+      });
+      this.tableData = tableJson;
+    },
   },
-  mounted () {
-    // getTableData().then(res => {
-    //   this.tableData = res.data
-    // })
-  }
-}
+  mounted() {
+    this.getdata();
+  },
+};
 </script>
 
 <style>
-
 </style>

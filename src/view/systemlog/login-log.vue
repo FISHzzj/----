@@ -12,14 +12,19 @@
         :columns="columns"
         :pageTotal="pageTotal"
         :pageNum="pageNum"
-        :arrsearch="arrsearch"
+        :getdate="getdate"
+        :userName="userName"
+        :userMobile="userMobile"
+        @onPageChage="onPageChage"
+        @onPageSizeChage="onPageSizeChage"
+        @onHandleSearch="onHandleSearch"
       />
     </Card>
   </div>
 </template>
 
 <script>
-import Tables from "_c/tables";
+import Tables from "_c/system-log-tables";
 // import { getTableData } from '@/api/data'
 export default {
   name: "login_log",
@@ -28,9 +33,11 @@ export default {
   },
   data() {
     return {
+      border: true,
+      height: 450,
       columns: [
-        { title: "用户姓名", key: "f_username" },
-        { title: "用户手机", key: "f_mobile" },
+        { title: "用户姓名", key: "f_user_cname" },
+        { title: "用户手机", key: "f_user_mobile" },
         { title: "登录登出", key: "f_type" },
         { title: "请求时间", key: "f_time" },
         { title: "远端地址", key: "f_ipaddr" },
@@ -41,28 +48,39 @@ export default {
         { title: "登录方式", key: "f_ltype" },
         { title: "错误信息", key: "f_errmsg" },
       ],
-      arrsearch:[ {
-          title: "用户姓名",
-          val: "",
-          name: "f_username",
-        },
-        {
-          title: "用户手机",
-          val: "",
-          name: "f_mobile",
-        }],
       tableData: [],
+      getdate: true,
+      userName: true,
+      userMobile: true,
       pageTotal: 10,
       pageNum: 1,
       pageSize: 10,
     };
   },
   methods: {
-    async getloginlog(data) {
-      let res = await $ajax("loginlog", "get", {
-        f_page: this.pageNum,
-        f_limit: this.pageSize,
-      });
+    // 搜索
+    onHandleSearch(data) {
+      console.log(data);
+      this.getdata(data);
+    },
+    // 获取页码
+    onPageChage(pageNum) {
+      console.log(pageNum);
+      this.pageNum = pageNum;
+      let data = {};
+      data["pageNum"] = this.pageNum;
+      this.getdata(data);
+    },
+    // 获取页数
+    onPageSizeChage(pageSize) {
+      console.log(pageSize);
+      this.pageSize = pageSize;
+      let data = {};
+      data["f_limit"] = this.pageSize;
+      this.getdata(data);
+    },
+    async getdata(data) {
+      let res = await $ajax("loginlog", "get", data);
       if (!res) return false;
       console.log(res);
       this.pageTotal = res.f_data_json.f_count;
@@ -70,8 +88,8 @@ export default {
       let tableJson = [];
       res.f_data_json.f_values.forEach((item, index) => {
         tableJson.push({
-          f_username: item.f_username,
-          f_mobile: item.f_mobile,
+          f_user_cname: item.f_user_cname,
+          f_user_mobile: item.f_user_mobile,
           f_type: item.f_type,
           f_time: item.f_time,
           f_ipaddr: item.f_ipaddr,
@@ -85,26 +103,9 @@ export default {
       });
       this.tableData = tableJson;
     },
-    // 获取页码
-    onPageChage(pageNum) {
-      console.log(pageNum);
-      this.pageNum = pageNum;
-      this.getloginlog();
-    },
-    // 获取页数
-    onPageSizeChage(pageSize) {
-      console.log(pageSize);
-      this.pageSize = pageSize;
-      this.getloginlog();
-    },
-    // 搜索
-    onHandleSearch(...obj) {
-      let data = obj[0];
-      this.getSearchData(data);
-    },
   },
   mounted() {
-    this.getloginlog();
+    this.getdata();
   },
 };
 </script>

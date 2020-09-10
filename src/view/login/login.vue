@@ -50,6 +50,7 @@ export default {
       // 如果返回爲 false ,則中斷函數
       if (!res) return false  
       console.log(res)
+      
       // 保存 openid 以及 ip 到本地
       localStorage.setItem('f_crypt_key',  res.f_data_json.f_values[0].f_crypt_key)
       localStorage.setItem('f_secretkey',  res.f_data_json.f_values[0].f_secretkey)
@@ -58,7 +59,8 @@ export default {
       this.$router.push({
         name: "home"
       })
-    }
+    },
+
   }
 }
 </script>

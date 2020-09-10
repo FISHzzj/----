@@ -18,8 +18,7 @@ import parentView from '@/components/parent-view'
  */
 
 
-export default [
-  {
+export default [{
     path: '/login',
     name: 'login',
     meta: {
@@ -39,20 +38,18 @@ export default [
       notCache: true,
       mustLogin: true
     },
-    children: [
-      {
-        path: '/home',
-        name: 'home',
-        meta: {
-          hideInMenu: true,
-          title: '首页',
-          notCache: true,
-          icon: 'md-home',
-          mustLogin: true
-        },
-        component: () => import('@/view/single-page/home')
-      }
-    ]
+    children: [{
+      path: '/home',
+      name: 'home',
+      meta: {
+        hideInMenu: true,
+        title: '首页',
+        notCache: true,
+        icon: 'md-home',
+        mustLogin: true
+      },
+      component: () => import('@/view/single-page/home')
+    }]
   },
   // {
   //   path: '/',
@@ -86,8 +83,7 @@ export default [
       mustLogin: true
     },
     component: Main,
-    children: [
-      {
+    children: [{
         path: 'system_param',
         name: 'system_param',
         meta: {
@@ -131,8 +127,7 @@ export default [
       mustLogin: true
     },
     component: Main,
-    children: [
-      {
+    children: [{
         path: 'user_information',
         name: 'user_information',
         meta: {
@@ -180,12 +175,10 @@ export default [
     meta: {
       icon: '_qq',
       title: '系统日志',
-      mustLogin: true,
-      access: ['super_admin'],
+      mustLogin: true
     },
     component: Main,
-    children: [
-      {
+    children: [{
         path: 'system_event',
         name: 'system_event',
         meta: {
@@ -244,18 +237,16 @@ export default [
       hideInBread: true,
       mustLogin: true
     },
-    children: [
-      {
-        path: 'join_page',
-        name: 'join_page',
-        meta: {
-          icon: '_qq',
-          title: 'QQ群',
-          mustLogin: true
-        },
-        component: () => import('@/view/join-page.vue')
-      }
-    ]
+    children: [{
+      path: 'join_page',
+      name: 'join_page',
+      meta: {
+        icon: '_qq',
+        title: 'QQ群',
+        mustLogin: true
+      },
+      component: () => import('@/view/join-page.vue')
+    }]
   },
   {
     path: '/message',
@@ -266,18 +257,16 @@ export default [
       hideInMenu: true,
       mustLogin: true
     },
-    children: [
-      {
-        path: 'message_page',
-        name: 'message_page',
-        meta: {
-          icon: 'md-notifications',
-          title: '消息中心',
-          mustLogin: true
-        },
-        component: () => import('@/view/single-page/message/index.vue')
-      }
-    ]
+    children: [{
+      path: 'message_page',
+      name: 'message_page',
+      meta: {
+        icon: 'md-notifications',
+        title: '消息中心',
+        mustLogin: true
+      },
+      component: () => import('@/view/single-page/message/index.vue')
+    }]
   },
   // {
   //   path: '/components',
@@ -407,8 +396,7 @@ export default [
       mustLogin: true
     },
     component: Main,
-    children: [
-      {
+    children: [{
         path: 'update_table_page',
         name: 'update_table_page',
         meta: {
@@ -565,8 +553,7 @@ export default [
       mustLogin: true
     },
     component: Main,
-    children: [
-      {
+    children: [{
         path: 'level_2_1',
         name: 'level_2_1',
         meta: {
@@ -587,8 +574,7 @@ export default [
           mustLogin: true
         },
         component: parentView,
-        children: [
-          {
+        children: [{
             path: 'level_2_2_1',
             name: 'level_2_2_1',
             meta: {
@@ -631,8 +617,7 @@ export default [
       mustLogin: true
     },
     component: Main,
-    children: [
-      {
+    children: [{
         path: '/dev_agent',
         name: 'dev_agent',
         meta: {
@@ -643,44 +628,34 @@ export default [
         component: () => import('@/view/dev-manage/dev-agent.vue')
       },
       {
-        path: '/ic_card_manage',
-        name: 'ic_card_manage',
+        path: '/accessauth',
+        name: 'accessauth',
         meta: {
           icon: 'md-funnel',
-          title: 'IC卡管理',
+          title: '认证设备',
           mustLogin: true
         },
-        component: () => import('@/view/dev-manage/ic-card-manage.vue')
+        component: () => import('@/view/dev-manage/accessauth.vue')
       },
       {
-        path: '/face_dev',
-        name: 'face_dev',
+        path: '/accessctrl',
+        name: 'accessctrl',
         meta: {
           icon: 'md-funnel',
-          title: '人脸设备',
+          title: '控制设备',
           mustLogin: true
         },
-        component: () => import('@/view/dev-manage/face-dev.vue')
+        component: () => import('@/view/dev-manage/accessctrl.vue')
       },
       {
-        path: '/door_manage',
-        name: 'door_manage',
+        path: '/trl_auth',
+        name: 'trl_auth',
         meta: {
           icon: 'md-funnel',
-          title: '门磁设备',
+          title: '控制设备与认证设备的关系',
           mustLogin: true
         },
-        component: () => import('@/view/dev-manage/door-manage.vue')
-      },
-      {
-        path: '/gate',
-        name: 'gate',
-        meta: {
-          icon: 'md-funnel',
-          title: '闸机',
-          mustLogin: true
-        },
-        component: () => import('@/view/dev-manage/gate.vue')
+        component: () => import('@/view/dev-manage/trl-auth.vue')
       },
       {
         path: '/dev_region',

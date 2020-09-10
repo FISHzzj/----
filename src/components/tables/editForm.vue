@@ -65,6 +65,7 @@ export default {
   data () {
     return {
       formValidate: {
+        f_id:'',
         f_username: '',
         f_name: '',
         f_mobile: '',

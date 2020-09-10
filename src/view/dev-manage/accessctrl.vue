@@ -9,7 +9,7 @@
         search-place="top"
         v-model="tableData"
         :border="border"
-        :addSearchBtn="addSearchBtn"
+        :devaddBtn="devaddBtn"
         :searchCol="searchCol"
         :columns="columns"
         :title="title"
@@ -19,13 +19,11 @@
         :arrsearch="arrsearch"
         :height="height"
         @on-delete="handleDelete"
-        @on-save-edit="handleSaveEdit"
         @onPageChage="onPageChage"
         @onPageSizeChage="onPageSizeChage"
         @onHandleSearch="onHandleSearch"
-        @on-handle-from="onHandleFrom"
+        @on-agent-handle-from="onAgentHandleFrom"
       />
-      <!-- <Button style="margin: 10px 0;" type="primary" @click="exportExcel">导出为Csv文件</Button> -->
       <Editfrom
         v-if="editfromshow"
         @on-handle-save="onHandleSave"
@@ -38,10 +36,9 @@
 
 <script>
 import Tables from "_c/tables";
-import Editfrom from "_c/tables/editForm.vue";
-// import { getTableData } from '@/api/data'
+import Editfrom from "_c/tables/editdevAgentForm.vue";
 export default {
-  name: "user_information",
+  name: "accessctrl",
   components: {
     Tables,
     Editfrom,
@@ -50,24 +47,36 @@ export default {
     return {
       columns: [
         {
-          title: "账号",
-          key: "username",
-          editable: true,
+          title: "设备名称",
+          key: "f_name",
         },
         {
-          title: "用户名",
-          key: "name",
-          editable: true,
+          title: "IP地址",
+          key: "f_ip_addr",
         },
         {
-          title: "手机号",
-          key: "mobile",
-          editable: true,
+          title: "端口",
+          key: "f_port",
         },
         {
-          title: "时间",
-          key: "createTime",
-          editable: true,
+          title: "安装地址",
+          key: "f_installnation_addr",
+        },
+        {
+          title: "编码",
+          key: "f_code",
+        },
+        {
+          title: "联系人",
+          key: "f_contact",
+        },
+        {
+          title: "添加日期",
+          key: "f_add_date",
+        },
+        {
+          title: "拓展信息",
+          key: "f_extense_info",
         },
         {
           title: "删除",
@@ -105,6 +114,7 @@ export default {
                       },
                       style: {
                         marginRight: "10px",
+                        marginBottom: "5px"
                       },
                     },
                     "删除"
@@ -135,101 +145,85 @@ export default {
         },
       ],
       tableData: [],
-      tableJson: [
-        {
-          name: "zhuanghzuangjie",
-          initRowIndex: 0,
-          mobile: "1169254794@qq.com",
-          createTime: "2020-08-02",
-        },
-        {
-          name: "zhuanghzuangjie",
-          initRowIndex: 1,
-          mobile: "1169254794@qq.com",
-          createTime: "2020-08-02",
-        },
-        {
-          name: "zhuanghzuangjie",
-          initRowIndex: 2,
-          mobile: "1169254794@qq.com",
-          createTime: "2020-08-02",
-        },
-        {
-          name: "zhuanghzuangjie",
-          initRowIndex: 3,
-          mobile: "1169254794@qq.com",
-          createTime: "2020-08-02",
-        },
-      ],
-      title: "用户信息添加",
+      title: "设备管理添加",
       pageTotal: 10,
       pageNum: 1,
       pageSize: 10,
-      addSearchBtn: true,
+      devaddBtn: true,
       searchCol: true,
       border: true,
       addListArr: [
         {
-          nametitle: "账号",
-          key: "f_username",
-          valuetext: "",
-        },
-        {
-          nametitle: "用户名",
+          nametitle: "设备名称",
           key: "f_name",
           valuetext: "",
         },
         {
-          nametitle: "手机号",
-          key: "f_mobile",
+          nametitle: "IP地址",
+          key: "f_ip_addr",
           valuetext: "",
         },
         {
-          nametitle: "员工号",
-          key: "f_emid",
+          nametitle: "端口",
+          key: "f_port",
           valuetext: "",
         },
         {
-          nametitle: "昵称",
-          key: "f_nickname",
+          nametitle: "安装地址",
+          key: "f_installnation_addr",
           valuetext: "",
         },
         {
-          nametitle: "性别",
-          key: "f_sex",
+          nametitle: "编码",
+          key: "f_code",
           valuetext: "",
         },
         {
-          nametitle: "生日",
-          key: "f_birthday",
+          nametitle: "联系人",
+          key: "f_contact",
           valuetext: "",
         },
         {
-          nametitle: "用户属性",
-          key: "f_attribute",
+          nametitle: "日期",
+          key: "f_add_date",
           valuetext: "",
         },
         {
-          nametitle: "头像",
-          key: "f_img",
+          nametitle: "扩展信息",
+          key: "f_extense_info",
           valuetext: "",
         },
       ],
       arrsearch: [
         {
-          title: "账号",
-          val: "",
-          name: "f_username",
-        },
-        {
-          title: "用户名",
+          title: "设备名称",
           val: "",
           name: "f_name",
         },
         {
-          title: "手机号",
+          title: "IP地址",
           val: "",
-          name: "f_mobile",
+          name: "f_ip_addr",
+        },
+        {
+          title: "端口",
+          val: "",
+          name: "f_port",
+        },
+        {
+          title: "安装地址",
+          val: "",
+          name: "f_installnation_addr",
+        },
+        {
+          title: "编码",
+          val: "",
+          name: "f_code",
+        },
+        {
+          title: "联系人",
+          val: "",
+          name: "f_contact",
         },
       ],
       height: 450,
@@ -239,26 +233,18 @@ export default {
   },
   methods: {
     // 新增 表单 确认btn
-    async onHandleFrom(arrData) {
-      let res = await $ajax("userDataAdd", "post", arrData);
+    async onAgentHandleFrom(arrData) {
+      console.log(arrData);
+      let res = await $ajax("accessctrl", "post", arrData);
       if (!res) return;
-      this.getdata();
-    },
-    async handleSaveEdit(params) {
-      // console.log(params)
-      let data = {};
-      data["f_id"] = params.id;
-      data[`f_${params.column.key}`] = params[params.column.key];
-      // 更新字段
-      let res = await $ajax("userDataUpdate", "put", data);
-      if (!res) return false;
-      Toast("更新成功");
+      console.log(res);
+        this.getdata();
     },
     async handleDelete(params) {
       console.log(params);
       // 删除 row
-      let res = await $ajax("userDataDelete", "delete", {
-        f_id: params.row.id,
+      let res = await $ajax("accessctrl", "delete", {
+        f_id: params.row.f_id,
       });
       if (!res) return false;
       Toast("删除成功");
@@ -283,10 +269,11 @@ export default {
     // 搜索
     onHandleSearch(...obj) {
       let data = obj[0];
+      console.log(data)
       this.getSearchData(data);
     },
     async getdata() {
-      let res = await $ajax("userdataget", "get", {
+      let res = await $ajax("accessctrl", "get", {
         f_page: this.pageNum,
         f_limit: this.pageSize,
       });
@@ -297,38 +284,43 @@ export default {
       let tableJson = [];
       res.f_data_json.f_values.forEach((item, index) => {
         tableJson.push({
-          id: item.f_id,
-          username: item.f_username, // 账号
-          name: item.f_name, // 用户名
-          initRowIndex: index,
-          mobile: item.f_mobile, // 手机号
-          createTime: item.f_join_time,
+          f_id: item.f_id,
+          f_name: item.f_name,
+          f_ip_addr: item.f_ip_addr,
+          f_port: item.f_port,
+          f_installnation_addr: item.f_installnation_addr,
+          f_code: item.f_code,
+          f_contact: item.f_contact,
+          f_add_date: item.f_add_date,
+          f_extense_info: item.f_extense_info,
         });
       });
       this.tableData = tableJson;
     },
     // 搜索
     async getSearchData(data) {
-      let res = await $ajax("userdataget", "get", data);
+      let res = await $ajax("accessctrl", "get", data);
       if (!res) return false;
       this.pageTotal = res.f_data_json.f_count;
       this.pageNum = res.f_data_json.f_page;
       let tableJson = [];
       res.f_data_json.f_values.forEach((item, index) => {
         tableJson.push({
-          id: item.id,
-          username: item.f_username, // 账号
-          name: item.f_name, // 用户名
-          initRowIndex: index,
-          mobile: item.f_mobile, // 手机号
-          createTime: item.f_join_time,
+          f_name: item.f_name,
+          f_ip_addr: item.f_ip_addr,
+          f_port: item.f_port,
+          f_installnation_addr: item.f_installnation_addr,
+          f_code: item.f_code,
+          f_contact: item.f_contact,
+          f_add_date: item.f_add_date,
+          f_extense_info: item.f_extense_info,
         });
       });
       this.tableData = tableJson;
     },
     // 编辑获取单条数据
     async getEditHandle(data) {
-      let res = await $ajax("userdataget", "get", data);
+      let res = await $ajax("accessctrl", "get", data);
       if (!res) return false;
       this.pageTotal = res.f_data_json.f_count;
       this.pageNum = res.f_data_json.f_page;
@@ -336,27 +328,26 @@ export default {
       res.f_data_json.f_values.forEach((item, index) => {
         formdata.push({
           f_id: item.f_id,
-          f_username: item.f_username, // 账号
-          f_name: item.f_name, // 用户名
-          f_mobile: item.f_mobile, // 手机号
-          f_emid: item.f_emid,
-          f_nickname: item.f_nickname,
-          f_sex: item.f_sex,
-          f_birthday: item.f_birthday,
-          f_attribute: item.f_attribute,
-          f_img: item.f_img,
+          f_name: item.f_name,
+          f_ip_addr: item.f_ip_addr,
+          f_port: item.f_port,
+          f_installnation_addr: item.f_installnation_addr,
+          f_code: item.f_code,
+          f_contact: item.f_contact,
+          f_add_date: item.f_add_date,
+          f_extense_info: item.f_extense_info,
         });
       });
-      // console.log(formdata)
+      console.log(formdata)
       this.getEditData = formdata[0];
 
       this.editfromshow = true;
     },
     // 编辑显示
     editshow(params) {
-      // console.log(params)
+      console.log(params)
       let data = {
-        f_username: params.row.username,
+        f_name: params.row.f_name,
       };
       this.getEditHandle(data);
       // console.log(res)
@@ -364,7 +355,7 @@ export default {
     // 编辑保存
     async onHandleSave(data) {
       console.log(data);
-      let res = await $ajax("userDataUpdate", "put", data);
+      let res = await $ajax("accessctrl", "put", data);
       if (!res) return false;
       Toast("更新成功");
       this.editfromshow = false;

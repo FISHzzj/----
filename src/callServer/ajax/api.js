@@ -25,6 +25,15 @@ export default {
   systemtypeget: `${common}/ktacs/sys/org/orgtype/`, // 系统 组织类型 get Read  //put  //delete //post
   organization: `${common}/ktacs/sys/org/`, // 系统  组织架构 get Read // post // 
   userOrg: `${common}/ktacs/sys/users/toorg/`, // 用户与组织架构的关系 get Read //post 
+  proxyservermanage: `${common}/ktacs/dev/proxyserver/`, //代理服务器 设备管理 get Read
+  accessauth: `${common}/ktacs/dev/accessauth/`, //人脸、IC卡 设备管理 get Read
+  accessctrl: `${common}/ktacs/dev/accessctrl/`, //门禁、闸机 设备管理 get Read
+  aadtoacd: `${common}/ktacs/dev/aadtoacd/`, //访问认证设备与访问控制设备关系管理
+  proxytoorg: `${common}/ktacs/dev/proxytoorg/`, //代理设备与组织关系管理
+  aadtoorg: `${common}/ktacs/dev/aadtoorg/`, //8.2.6.	认证设备与区域型组织关系管理
+  event: `${common}/ktacs/sys/logs/query/event/`, //系统事件查询
   loginlog: `${common}/ktacs/sys/logs/query/login/`, //系统登陆查询 get Read 
-  devmanage: `${common}/ktacs/dev/`, //设备管理 get Read
+  request: `${common}/ktacs/sys/logs/query/request/`, //网络请求 get Read
+  operation: `${common}/ktacs/sys/logs/query/operation/`, //系统操作查询 get Read
+
 } 

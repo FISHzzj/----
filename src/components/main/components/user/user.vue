@@ -6,9 +6,9 @@
       </Badge>
       <Icon :size="18" type="md-arrow-dropdown"></Icon>
       <DropdownMenu slot="list">
-        <DropdownItem name="message">
+        <!-- <DropdownItem name="message">
           消息中心<Badge style="margin-left: 10px" :count="messageUnreadCount"></Badge>
-        </DropdownItem>
+        </DropdownItem> -->
         <DropdownItem name="logout">退出登录</DropdownItem>
       </DropdownMenu>
     </Dropdown>
@@ -18,6 +18,7 @@
 <script>
 import './user.less'
 import { mapActions } from 'vuex'
+import Cookies from 'js-cookie'
 export default {
   name: 'User',
   props: {
@@ -35,11 +36,13 @@ export default {
       'handleLogOut'
     ]),
     logout () {
-      this.handleLogOut().then(() => {
+      Cookies.remove('csrftoken')
+      Cookies.remove('sessionid')
+      // this.handleLogOut().then(() => {
         this.$router.push({
           name: 'login'
         })
-      })
+      // })
     },
     message () {
       this.$router.push({

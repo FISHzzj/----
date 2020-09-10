@@ -152,15 +152,15 @@ export default {
       let valuesarr = res.f_data_json.f_values;
       if (valuesarr.length > 0) {
         this.f_id = res.f_data_json.f_values[0].f_id;
-        let f_OrgType = res.f_data_json.f_values[0].f_OrgType;
+        this.model1 = res.f_data_json.f_values[0].f_OrgType;
         let tableJson = [];
         res.f_data_json.f_values.forEach((item, index) => {
           tableJson.push(item.f_orgid);
         });
         console.log(tableJson);
         this.targetKeys1 = tableJson;
-        this.model1 = f_OrgType;
-
+        // this.model1 = f_OrgType;
+        console.log(this.model1)
         let data_f_OrgType_id = {};
         data_f_OrgType_id["f_OrgType_name"] = this.model1;
         this.getorganization(data_f_OrgType_id);
@@ -207,6 +207,8 @@ export default {
           });
         });
         this.data2 = data1;
+      }else{
+        this.data2 = []
       }
     },
     onSelectChange(domNode, index) {
