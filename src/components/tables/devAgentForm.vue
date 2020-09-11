@@ -26,7 +26,7 @@
         </Select>
       </FormItem>
        <FormItem label="设备出入" prop="f_aad_direction" style="width:285px">
-        <Select v-model="formValidate.f_type" placeholder="请输入设备出入">
+        <Select v-model="formValidate.f_aad_direction" placeholder="请输入设备出入">
           <Option value="出口">出口</Option>
           <Option value="入口">入口</Option>
         </Select>

@@ -33,7 +33,13 @@
       <Modal v-model="modal1" :title="titlemodal" @on-ok="ok" @on-cancel="cancel">
         <Card title="区域" style="height:450px; overflow-y:scroll;">
           <RadioGroup v-model="area" vertical size="large">
-            <Radio :label="item.f_name" border v-for="(item, index) in areaArr" :key="item.f_id"></Radio>
+            <Radio
+              :label="item.f_id"
+              border
+              v-for="(item, index) in areaArr"
+              :key="item.f_id"
+              :value="item.f_id"
+            >{{item.f_name}}</Radio>
           </RadioGroup>
         </Card>
       </Modal>
@@ -110,30 +116,6 @@ export default {
                 on: {
                   click: () => {
                     this.authregion(params);
-                  },
-                },
-              },
-              "绑定关系"
-            );
-          },
-        },
-        {
-          title: "设备与代理服务器关系",
-          key: "authserver",
-          align: "center",
-          width: 135,
-          render: (h, params) => {
-            return h(
-              "Button",
-              {
-                props: {
-                  type: "info",
-                  size: "small",
-                  icon: "ios-build",
-                },
-                on: {
-                  click: () => {
-                    this.authserver(params);
                   },
                 },
               },
@@ -377,12 +359,13 @@ export default {
       if (!res) return false;
       console.log(res);
       let f_values = res.f_data_json.f_values;
-      if (f_values == null) return false;
-      this.f_id = res.f_data_json.f_values.f_id; //认证设备与组织的关系id
-      let f_Organization_id = res.f_data_json.f_values.f_Organization_id;
-      this.area = f_Organization_id;
+      if (f_values.length == 0) return false;
+      this.f_id = res.f_data_json.f_values[0].id; //认证设备与组织区域的关系id
+      let f_Organization_id = res.f_data_json.f_values[0].f_Organization_id; //组织类型 区域id
+      this.area = f_Organization_id.toString();
     },
     async ok() {
+      if(!this.area) return Toast('请选择区域')
       if (this.f_id) {
         let data = {};
         data["f_id"] = this.f_id;
@@ -400,6 +383,8 @@ export default {
         console.log(res);
         Toast("保存成功！");
       }
+      this.f_id = ""
+      this.area = ""
     },
     cancel() {},
     // 新增 表单 确认btn

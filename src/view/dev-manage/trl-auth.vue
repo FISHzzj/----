@@ -21,7 +21,7 @@
         />
       </div>
       <div slot="right" class="demo-split-pane">
-        <Card title="出口" style="margin-bottom:10px">
+        <Card title="入口" style="margin-bottom:10px">
           <!-- <CheckboxGroup v-model="social" size="large" @on-change="onChangeHandle">
             <Checkbox :label="item.f_id" v-for="(item, index) in authJson" :key="index">
               <Icon type="logo-twitter"></Icon>
@@ -31,7 +31,7 @@
           <div class="exit">
             <div>
               <span>人脸：</span>
-              <Select v-model="formItem.selectface" >
+              <Select v-model="formItem.selectface">
                 <Option
                   :value="item.f_id"
                   v-for="(item, index) in tableJsonface"
@@ -41,7 +41,7 @@
             </div>
             <div>
               <span>IC卡：</span>
-              <Select v-model="formItem.selectIC" >
+              <Select v-model="formItem.selectIC">
                 <Option
                   :value="item.f_id"
                   v-for="(item, index) in tableJsonICCard"
@@ -51,7 +51,7 @@
             </div>
             <div>
               <span>二维码：</span>
-              <Select v-model="formItem.selectQP" >
+              <Select v-model="formItem.selectQP">
                 <Option
                   :value="item.f_id"
                   v-for="(item, index) in tableJsonQPCard"
@@ -61,7 +61,7 @@
             </div>
             <div>
               <span>身份证：</span>
-              <Select v-model="formItem.selectID" >
+              <Select v-model="formItem.selectID">
                 <Option
                   :value="item.f_id"
                   v-for="(item, index) in tableJsonIDCard"
@@ -71,7 +71,7 @@
             </div>
           </div>
         </Card>
-        <Card title="入口" style="margin-bottom:10px">
+        <Card title="出口" style="margin-bottom:10px">
           <div class="entrance">
             <div>
               <span>人脸：</span>
@@ -155,6 +155,7 @@ export default {
       ],
       // direction: [], //方向
       f_AccessCtrlDev_id: "", //控制设备
+      f_id: "", //认证设备与访问设备的关系id
       tableJsonface: [], //人脸 入口
       tableJsonICCard: [], // IC卡 入口
       tableJsonQPCard: [], //二维码 入口
@@ -230,9 +231,35 @@ export default {
       let res = await $ajax("aadtoacd", "get", data);
       if (!res) return false;
       console.log(res);
-      let obj = res.f_data_json.f_values[0];
-      // this.social.push(obj.f_AccessAuthDev_id); //认证
-      // this.direction.push(obj.f_aad_direction); //方向
+      this.pageTotal = res.f_data_json.f_count;
+      this.pageNum = res.f_data_json.f_page;
+
+      res.f_data_json.f_values.forEach((item, index) => {
+        let f_id = item.id;
+        this.f_id = f_id;
+        console.log(f_id)
+        if (item.f_aad_direction == "入口") {
+          if (item.f_AccessAuthDev_type == "人脸") {
+            this.formItem.selectface = item.f_AccessAuthDev_id;
+          } else if (item.f_AccessAuthDev_type == "IC卡") {
+            this.formItem.selectIC = item.f_AccessAuthDev_id;
+          } else if (item.f_AccessAuthDev_type == "二维码") {
+            this.formItem.selectQP = item.f_AccessAuthDev_id;
+          } else if (item.f_AccessAuthDev_type == "身份证") {
+            this.formItem.selectID = item.f_AccessAuthDev_id;
+          }
+        } else if (item.f_aad_direction == "出口") {
+          if (item.f_AccessAuthDev_type == "人脸") {
+            this.entrance.entranceface = item.f_AccessAuthDev_id;
+          } else if (item.f_AccessAuthDev_type == "IC卡") {
+            this.entrance.entranceIC = item.f_AccessAuthDev_id;
+          } else if (item.f_AccessAuthDev_type == "二维码") {
+            this.entrance.entranceQP = item.f_AccessAuthDev_id;
+          } else if (item.f_AccessAuthDev_type == "身份证") {
+            this.entrance.entranceID = item.f_AccessAuthDev_id;
+          }
+        }
+      });
     },
     onHandleSearch(data) {
       // console.log(obj)
@@ -303,7 +330,7 @@ export default {
               f_type: item.f_type,
             });
           }
-        }else if(item.f_aad_direction == "出口"){
+        } else if (item.f_aad_direction == "出口") {
           if (item.f_type == "人脸") {
             entranceface.push({
               f_id: item.f_id,
@@ -331,6 +358,15 @@ export default {
           }
         }
       });
+      // console.log(tableJsonface);
+      // console.log(tableJsonICCard);
+      // console.log(tableJsonQPCard);
+      // console.log(tableJsonIDCard);
+      // console.log(entranceface);
+      // console.log(entranceICCard);
+      // console.log(entranceQPCard);
+      // console.log(entranceIDCard);
+
       this.tableJsonface = tableJsonface;
       this.tableJsonICCard = tableJsonICCard;
       this.tableJsonQPCard = tableJsonQPCard;
@@ -345,18 +381,36 @@ export default {
     },
     async savebtn() {
       let data = {};
-      let {selectface, selectIC, selectQP, selectID} = this.formItem
-      let {entranceface, entranceIC, entranceQP, entranceID} = this.entrance
-      if(selectface||selectIC||selectQP||selectID||entranceIC||entranceQP||entranceID) {
-        data["f_AccessCtrlDev_id"] = this.f_AccessCtrlDev_id;
-        let res = await $ajax("aadtoacd", "post", data);
-        if (!res) return false;
-        console.log(res);
-        Toast('保存成功！')
-      }else {
-        Toast('请选择其中一个')
-      }
+      let { selectface, selectIC, selectQP, selectID } = this.formItem;
+      let { entranceface, entranceIC, entranceQP, entranceID } = this.entrance;
       
+      if (
+        selectface ||
+        selectIC ||
+        selectQP ||
+        selectID ||
+        entranceIC ||
+        entranceQP ||
+        entranceID
+      ) {
+        data["f_AccessCtrlDev_id"] = this.f_AccessCtrlDev_id;
+        data["f_AccessAuthDev_id"] = selectface;
+        if (this.f_id) {
+          data['f_id'] = this.f_id
+          let res = await $ajax("aadtoacd", "put", data);
+          if (!res) return false;
+          console.log(res);
+          Toast("保存成功！");
+        }else {
+          
+          let res = await $ajax("aadtoacd", "post", data);
+          if (!res) return false;
+          console.log(res);
+          Toast("保存成功！");
+        }
+      } else {
+        Toast("请选择其中一个");
+      }
     },
   },
   mounted() {

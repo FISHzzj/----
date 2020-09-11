@@ -30,8 +30,8 @@
         @on-handle-close="onHandleClose"
         :getEditData="getEditData"
       ></Editfrom>
-      <Modal v-model="modal1" title="设备与组织的关系" @on-ok="ok" @on-cancel="cancel">
-        <Tree :data="data4" multiple @on-select-change="onSelectChange"></Tree>
+      <Modal v-model="modal1" title="代理服务器与组织类型(区域)的关系" @on-ok="ok" @on-cancel="cancel">
+        <Tree :data="data4" @on-select-change="onSelectChange"></Tree>
       </Modal>
     </Card>
   </div>
@@ -40,11 +40,7 @@
 <script>
 import Tables from "_c/tables";
 import Editfrom from "_c/tables/editdevAgentForm.vue";
-import {
-  formatTreeData,
-  formatTreeDataEx,
-  formatTreePremsToString,
-} from "../../func/dev.js";
+import { toTreeData } from "../../func/dev.js";
 export default {
   name: "dev_agent",
   components: {
@@ -87,7 +83,7 @@ export default {
           key: "f_extense_info",
         },
         {
-          title: "设备与组织关系",
+          title: "代理设备与区域型组织关系",
           key: "relationship",
           align: "center",
           width: 150,
@@ -103,6 +99,30 @@ export default {
                 on: {
                   click: () => {
                     this.relationship(params);
+                  },
+                },
+              },
+              "绑定关系"
+            );
+          },
+        },
+        {
+          title: "代理服务器与认证设备的关系",
+          key: "serverauth",
+          align: "center",
+          width: 135,
+          render: (h, params) => {
+            return h(
+              "Button",
+              {
+                props: {
+                  type: "info",
+                  size: "small",
+                  icon: "ios-build",
+                },
+                on: {
+                  click: () => {
+                    this.serverauth(params);
                   },
                 },
               },
@@ -298,9 +318,16 @@ export default {
       ],
       f_ProxyServerInfo_id: "", //代理设备id
       f_Organization_id: "", //组织id
+      proxytoorgid: "", //已经选中的组织id
+      aadtoorgId: "", //认证设备与区域型组织关系id
     };
   },
   methods: {
+    async serverauth() {
+      let res = await $ajax("proxyservermanage", "post", arrData);
+      if (!res) return;
+      console.log(res);
+    },
     // 新增 表单 确认btn
     async onAgentHandleFrom(arrData) {
       console.log(arrData);
@@ -446,68 +473,43 @@ export default {
       if (!resproxytoorg) return false;
       console.log(resproxytoorg);
       let proxytoorgvalues = resproxytoorg.f_data_json.f_values;
-      let proxytoorgarr = [];
+      // let proxytoorgarr = [];
       proxytoorgvalues.forEach((item, index) => {
-        proxytoorgarr.push(item.f_Organization_id);
+        this.proxytoorgid = item.f_Organization_id;
+        this.aadtoorgId = item.id; //	认证设备与区域型组织关系id
       });
-      console.log(proxytoorgarr);
-      //获取所有类型及类型下的所有组织
+      console.log(this.proxytoorgid);
+      //获取组织类型下 的 区域的组织架构名称
       let data = {
-        f_orgs_info: "1",
+        f_OrgType_id: "8",
       };
-      let res = await $ajax("systemtypeget", "get", data);
+      this.getorganization(data);
+    },
+    // 获取组织类型=》组织架构的关系
+    async getorganization(data) {
+      let res = await $ajax("organization", "get", data);
       if (!res) return false;
       console.log(res);
-
-      let resall = Promise.all([resproxytoorg, res]);
-      if (!resall) return false;
-
-      let d_perms_all = res.f_data_json.f_values;
-      // console.log(d_perms_all);
-      let data4 = [];
-      let promise = new Promise((resolve, reject) => {
-        Object.keys(d_perms_all).forEach((key) => {
-          // console.log(key);
-          data4.push({
-            title: key,
-            expand: true,
-            children: [],
-          });
-        });
-        resolve(data4);
-      });
-      promise.then((data4) => {
-        Object.keys(d_perms_all).forEach((key, num) => {
-          d_perms_all[key].forEach((item, index) => {
-            data4[num].children.push({
-              id: item.id,
-              title: item.f_name,
-              expand: true,
-            });
-          });
+      if (res.f_data_json.f_values.length > 0) {
+        let f_values = res.f_data_json.f_values;
+        f_values.forEach((item, index) => {
+          if (item.f_id == this.proxytoorgid) {
+            f_values[index]["selected"] = true;
+          }
         });
 
-        return data4;
-      });
-      // promise.then((data4) => {
-      
-      //     Object.keys(d_perms_all).forEach((key, num) => {
-      //       d_perms_all[key].forEach((item, index) => {
-      //           proxytoorgarr.forEach((proxy, i) => {
-      //         console.log(proxy)
+        let f_org = res.f_data_json.f_values;
+        let attr = {
+          id: "f_id",
+          parendId: "f_Organization_id",
+          name: "f_name",
+          rootId: null,
+        };
 
-      //         // data4[num].children.push({
-      //         //   id: item.id,
-      //         //   title: item.f_name,
-      //         //   expand: true,
-      //         // });
-      //       });
-      //     });
-      //   });
-      // });
-
-      console.log(data4);
-      this.data4 = data4;
+        let tree = toTreeData(f_org, attr);
+        console.log("tree", tree);
+        this.data4 = tree;
+      }
     },
     onSelectChange(params, index) {
       console.log(params, index);
@@ -518,10 +520,20 @@ export default {
       let data = {};
       data["f_Organization_id"] = this.f_Organization_id;
       data["f_ProxyServerInfo_id"] = this.f_ProxyServerInfo_id;
-      let res = await $ajax("proxytoorg", "post", data);
-      if (!res) return false;
-      console.log(res);
-      Toast("绑定成功！");
+      if (!this.f_Organization_id) return Toast("请选择区域！");
+      if (this.aadtoorgId) {
+        data['f_id'] = this.aadtoorgId
+        let res = await $ajax("proxytoorg", "put", data);
+        if (!res) return false;
+        console.log(res);
+        Toast("修改成功！");
+      }else{
+        
+         let res = await $ajax("proxytoorg", "post", data);
+        if (!res) return false;
+        console.log(res);
+        Toast("绑定成功！");
+      }
     },
     cancel() {
       this.$Message.info("Clicked cancel");
