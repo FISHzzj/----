@@ -10,12 +10,13 @@
             search-place="top"
             v-model="tableData"
             :columns="columns"
-            :border="border"
             :height="height"
+            :border="border"
             :searchCol="searchCol"
             :pageTotal="pageTotal"
             :pageNum="pageNum"
             :arrsearch="arrsearch"
+            :rowClassName="rowClassName"
             @onPageChage="onPageChage"
             @onPageSizeChage="onPageSizeChage"
             @onHandleSearch="onHandleSearch"
@@ -34,6 +35,7 @@
           :render-format="render1"
           :titles="titles"
           @on-change="handleChange1"
+          class="transfer"
         ></Transfer>
         <Button type="error" @click="savebtn">保存</Button>
       </div>
@@ -50,10 +52,13 @@ export default {
   data() {
     return {
       split1: 0.35,
+      height:450,
       columns: [
         {
           title: "用户名",
           key: "f_name",
+          resizable: true,
+          width: 180,
         },
         {
           title: "手机号",
@@ -68,7 +73,6 @@ export default {
         },
       ],
       border: true,
-      height: 450,
       searchCol: true,
       tableData: [],
       pageTotal: 10,
@@ -80,9 +84,18 @@ export default {
       titles: ["源组织名称", "已选组织名称"],
       model1: "",
       orgtypeList: [],
+      selectRow: "",
     };
   },
   methods: {
+    rowClassName(row, index) {
+      // console.log(row)
+      if (row.f_id == this.selectRow) {
+        //随便挑个唯一变量比较
+        return "addcolor"; //自己的css类名  iview文档table那块有几个现成的样式，建议写进公共样式里
+      }
+      return "";
+    },
     //选择组织类型 -》 获取组织信息
     onhandlechange() {
       let data_f_OrgType_id = {};
@@ -115,6 +128,7 @@ export default {
     //双击
     onRowDblclick(row, index) {
       console.log(row, index);
+      this.selectRow = row.f_id;
       let data = {};
       data["f_userid"] = row.f_id;
       this.getuserorg(data);
@@ -160,7 +174,7 @@ export default {
         console.log(tableJson);
         this.targetKeys1 = tableJson;
         // this.model1 = f_OrgType;
-        console.log(this.model1)
+        console.log(this.model1);
         let data_f_OrgType_id = {};
         data_f_OrgType_id["f_OrgType_name"] = this.model1;
         this.getorganization(data_f_OrgType_id);
@@ -207,8 +221,8 @@ export default {
           });
         });
         this.data2 = data1;
-      }else{
-        this.data2 = []
+      } else {
+        this.data2 = [];
       }
     },
     onSelectChange(domNode, index) {
@@ -256,16 +270,26 @@ export default {
   mounted() {
     this.getdata();
     this.getorgtype();
+    this.height = window.innerHeight - this.$refs.tables.$el.offsetTop - 300;
+    console.log(this.height);
   },
 };
 </script>
 <style lang="less" scoped>
 .demo-split {
-  height: calc(100% - 10px);
+  height: calc(100%+0px);
   border: 1px solid #dcdee2;
 }
 .demo-split-pane {
-  padding: 10px;
+  padding: 20px;
+}
+/deep/ .ivu-transfer {
+  // margin: 20px 10px 20px;
+  margin-bottom: 20px;
+  .ivu-transfer-list {
+    width: 250px;
+    height: 280px;
+  }
 }
 </style>
 

@@ -35,5 +35,7 @@ export default {
   loginlog: `${common}/ktacs/sys/logs/query/login/`, //系统登陆查询 get Read 
   request: `${common}/ktacs/sys/logs/query/request/`, //网络请求 get Read
   operation: `${common}/ktacs/sys/logs/query/operation/`, //系统操作查询 get Read
-
+  areaproxies: `${common}/ktacs/dev/areaproxies/`, //查看所有区域型组织下所有的代理设备
+  aadbinedinfo: `${common}/ktacs/dev/aadbinedinfo/`, //查看未与代理服务器绑定的认证设备
+  aadtoproxy: `${common}/ktacs/dev/aadtoproxy/`, //认证设备与代理服务器关系管理
 } 

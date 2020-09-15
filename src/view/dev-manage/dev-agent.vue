@@ -107,30 +107,6 @@ export default {
           },
         },
         {
-          title: "代理服务器与认证设备的关系",
-          key: "serverauth",
-          align: "center",
-          width: 135,
-          render: (h, params) => {
-            return h(
-              "Button",
-              {
-                props: {
-                  type: "info",
-                  size: "small",
-                  icon: "ios-build",
-                },
-                on: {
-                  click: () => {
-                    this.serverauth(params);
-                  },
-                },
-              },
-              "绑定关系"
-            );
-          },
-        },
-        {
           title: "操作",
           key: "handle",
           options: ["delete", "edit"],
@@ -323,11 +299,11 @@ export default {
     };
   },
   methods: {
-    async serverauth() {
-      let res = await $ajax("proxyservermanage", "post", arrData);
-      if (!res) return;
-      console.log(res);
-    },
+    // async serverauth() {
+    //   let res = await $ajax("proxyservermanage", "post", arrData);
+    //   if (!res) return;
+    //   console.log(res);
+    // },
     // 新增 表单 确认btn
     async onAgentHandleFrom(arrData) {
       console.log(arrData);
@@ -479,6 +455,7 @@ export default {
         this.aadtoorgId = item.id; //	认证设备与区域型组织关系id
       });
       console.log(this.proxytoorgid);
+      console.log(this.aadtoorgId);
       //获取组织类型下 的 区域的组织架构名称
       let data = {
         f_OrgType_id: "8",
@@ -522,28 +499,45 @@ export default {
       data["f_ProxyServerInfo_id"] = this.f_ProxyServerInfo_id;
       if (!this.f_Organization_id) return Toast("请选择区域！");
       if (this.aadtoorgId) {
-        data['f_id'] = this.aadtoorgId
+        data["f_id"] = this.aadtoorgId;
         let res = await $ajax("proxytoorg", "put", data);
         if (!res) return false;
         console.log(res);
         Toast("修改成功！");
-      }else{
-        
-         let res = await $ajax("proxytoorg", "post", data);
+        this.aadtoorgId = " ";
+      } else {
+        let res = await $ajax("proxytoorg", "post", data);
         if (!res) return false;
         console.log(res);
         Toast("绑定成功！");
       }
     },
     cancel() {
+      this.proxytoorgid = "";
+      this.aadtoorgId = "";
+      // console.log(this.proxytoorgid);
+      // console.log(this.aadtoorgId)
       this.$Message.info("Clicked cancel");
     },
   },
   mounted() {
     this.getdata();
+    this.height = window.innerHeight - this.$refs.tables.$el.offsetTop - 290;
+    console.log(this.height);
+    // this.$store.commit({
+    //   type: "changeFType",
+    //   f_type: true,
+    //   f_aad_direction: true,
+    // });
   },
 };
 </script>
 
-<style>
+<style lang="less" scoped>
+/deep/ .ivu-modal-body {
+  height: 500px;
+  overflow-y: scroll;
+}
 </style>
+
+

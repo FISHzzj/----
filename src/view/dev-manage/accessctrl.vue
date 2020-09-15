@@ -368,6 +368,8 @@ export default {
   },
   mounted() {
     this.getdata();
+    this.height = window.innerHeight - this.$refs.tables.$el.offsetTop - 290;
+    console.log(this.height);
   },
 };
 </script>

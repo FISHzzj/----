@@ -17,7 +17,7 @@
       <FormItem label="设备名称" prop="f_name">
         <Input v-model="formValidate.f_name" placeholder="请输入设备名称"></Input>
       </FormItem>
-      <FormItem label="设备类型" prop="f_tyep" style="width:285px">
+      <FormItem label="设备类型" prop="f_tyep" style="width:285px" v-if="f_type">
         <Select v-model="formValidate.f_type" placeholder="请输入设备名称">
           <Option value="人脸">人脸</Option>
           <Option value="IC卡">IC卡</Option>
@@ -25,7 +25,7 @@
           <Option value="身份证">身份证</Option>
         </Select>
       </FormItem>
-       <FormItem label="设备出入" prop="f_aad_direction" style="width:285px">
+      <FormItem label="设备出入" prop="f_aad_direction" style="width:285px" v-if="f_aad_direction">
         <Select v-model="formValidate.f_aad_direction" placeholder="请输入设备出入">
           <Option value="出口">出口</Option>
           <Option value="入口">入口</Option>
@@ -57,6 +57,9 @@
 export default {
   data() {
     return {
+      f_type: false,
+      f_aad_direction: false,
+
       formValidate: {
         f_name: "",
         f_type: "",
@@ -82,7 +85,7 @@ export default {
           },
         ],
         f_aad_direction: [
-           {
+          {
             required: true,
             message: "设备出入不能为空",
             trigger: "blur",
@@ -147,6 +150,13 @@ export default {
       this.$emit("on-handle-close", "关闭");
     },
   },
+  mounted() {
+    console.log('f_type', this.$store.state.devAgent.f_type)
+    console.log('f_aad_direction', this.$store.state.devAgent.f_aad_direction)
+    this.f_type = this.$store.state.devAgent.f_type
+    this.f_aad_direction = this.$store.state.devAgent.f_aad_direction
+  },
+
 };
 </script>
 
@@ -205,6 +215,5 @@ export default {
 }
 
 .formItem {
-
 }
 </style>

@@ -662,7 +662,7 @@ export default [{
         name: 'dev_region',
         meta: {
           icon: 'md-funnel',
-          title: '设备与区域的关系',
+          title: '代理服务器与认证设备的关系',
           mustLogin: true
         },
         component: () => import('@/view/dev-manage/dev-region.vue')

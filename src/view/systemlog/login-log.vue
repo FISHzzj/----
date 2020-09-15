@@ -6,7 +6,6 @@
         editable
         searchable
         border
-        height="450"
         search-place="top"
         v-model="tableData"
         :columns="columns"
@@ -34,19 +33,18 @@ export default {
   data() {
     return {
       border: true,
-      height: 450,
       columns: [
-        { title: "用户姓名", key: "f_user_cname" },
-        { title: "用户手机", key: "f_user_mobile" },
-        { title: "登录登出", key: "f_type" },
-        { title: "请求时间", key: "f_time" },
-        { title: "远端地址", key: "f_ipaddr" },
-        { title: "请求方法", key: "f_method " },
-        { title: "请求URL", key: "f_url" },
-        { title: "返回码", key: "f_errcode" },
-        { title: "终端类型", key: "f_ttype" },
-        { title: "登录方式", key: "f_ltype" },
-        { title: "错误信息", key: "f_errmsg" },
+        { title: "用户姓名", key: "f_user_cname",resizable: true, width: 120 },
+        { title: "用户手机", key: "f_user_mobile",resizable: true, width: 120 },
+        { title: "登录登出", key: "f_type",resizable: true, width: 120 },
+        { title: "请求时间", key: "f_time", resizable: true, width: 180 },
+        { title: "远端地址", key: "f_ipaddr", resizable: true, width: 160 },
+        { title: "请求方法", key: "f_method", resizable: true, width: 120 },
+        { title: "请求URL", key: "f_url", resizable: true, width: 280 },
+        { title: "返回码", key: "f_errcode", resizable: true, width: 120 },
+        { title: "终端类型", key: "f_ttype", resizable: true, width: 120 },
+        { title: "登录方式", key: "f_ltype", resizable: true, width: 120 },
+        { title: "错误信息", key: "f_errmsg", resizable: true, width: 120 },
       ],
       tableData: [],
       getdate: true,

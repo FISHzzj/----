@@ -17,6 +17,7 @@
             :pageTotal="pageTotal"
             :pageNum="pageNum"
             :arrsearch="arrsearch"
+            :rowClassName="rowClassName"
             @onPageChage="onPageChage"
             @onPageSizeChage="onPageSizeChage"
             @onHandleSearch="onHandleSearch"
@@ -25,6 +26,7 @@
         </Card>
       </div>
       <div slot="right" class="demo-split-pane">
+        <span>权限分组：</span>
         <Transfer
           :data="data2"
           :target-keys="targetKeys1"
@@ -80,13 +82,22 @@ export default {
       pageSize: 10,
       d_permsGroup_all: [], // 权限分组
       data2: [], //源数据
-      targetKeys1: [],  // 目的数据
+      targetKeys1: [], // 目的数据
       titles: ["源权限分组", "已选权限分组"],
-      f_id: "",  //用户id
+      f_id: "", //用户id
       f_id_arr: [], //用户与分组绑定的f_id 集合
+      selectRow: "",
     };
   },
   methods: {
+    rowClassName(row, index) {
+      // console.log(row)
+      if (row.f_id == this.selectRow) {
+        //随便挑个唯一变量比较
+        return "addcolor"; //自己的css类名  iview文档table那块有几个现成的样式，建议写进公共样式里
+      }
+      return "";
+    },
     render1(item) {
       return item.label;
     },
@@ -104,26 +115,26 @@ export default {
         });
         if (!res) return false;
         // console.log(res);
-        Toast('添加成功！')
+        Toast("添加成功！");
       } else {
         this.f_id_arr.forEach(async (item, index) => {
-          if(item.f_groupid == moveKeys[0]){
+          if (item.f_groupid == moveKeys[0]) {
             let res = await $ajax("togroupPost", "delete", {
               f_id: item.f_id,
             });
             if (!res) return false;
             // console.log(res);
-            Toast('删除成功！')
+            Toast("删除成功！");
           }
-        })
-        
+        });
       }
     },
     // 双击行
     onRowDblclick(row, index) {
       console.log(row, index);
-      this.data2=[]
-      this.targetKeys1=[]
+      this.selectRow = row.f_id;
+      this.data2 = [];
+      this.targetKeys1 = [];
       let data = {};
       data["f_userid"] = row.f_id;
       this.f_id = row.f_id;
@@ -170,7 +181,7 @@ export default {
           f_mobile: item.f_mobile,
         });
       });
-      console.log(tableJson)
+      console.log(tableJson);
       this.tableData = tableJson;
     },
     // 获取用户=》权限分组的关系
@@ -178,7 +189,7 @@ export default {
       let res = await $ajax("togroupGet", "get", data);
       if (!res) return false;
       console.log(res);
-   
+
       if (res.f_data_json.f_values.length == 0) return false;
       let f_perms_groups = res.f_data_json.f_values;
       let targetkeyarr = [];
@@ -186,16 +197,16 @@ export default {
         targetkeyarr.push(item.f_groupid);
       });
       //用户与权限分组 f_id 的集合
-      let f_id_arr = [] 
+      let f_id_arr = [];
       f_perms_groups.forEach((item, index) => {
         f_id_arr.push({
           f_id: item.f_id,
           f_groupid: item.f_groupid,
-          f_groupname: item.f_groupname
-        })
-      })
+          f_groupname: item.f_groupname,
+        });
+      });
       this.targetKeys1 = targetkeyarr;
-      this.f_id_arr = f_id_arr
+      this.f_id_arr = f_id_arr;
       // this.getpermsgroup();
     },
     // 搜索
@@ -225,28 +236,37 @@ export default {
       let data1 = [];
       this.d_permsGroup_all.forEach((item, index) => {
         data1.push({
-          key: item.f_id+ '',
+          key: item.f_id + "",
           label: item.f_name,
         });
       });
       this.data2 = data1;
-      console.log(data1)
+      console.log(data1);
     },
   },
   mounted() {
     this.getdata();
-     
+    this.height = window.innerHeight - this.$refs.tables.$el.offsetTop - 270;
+    console.log(this.height);
   },
 };
 </script>
 
 <style lang="less" scoped>
 .demo-split {
-  height: calc(100% - 10px);
+  height: calc(100% + 0px);
   border: 1px solid #dcdee2;
 }
 
 .demo-split-pane {
-  padding: 10px;
+  padding: 20px;
+}
+/deep/ .ivu-transfer {
+  // margin: 20px 10px 20px;
+  margin: 20px 0;
+  .ivu-transfer-list {
+    width: 250px;
+    height: 280px;
+  }
 }
 </style>

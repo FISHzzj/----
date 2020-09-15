@@ -532,6 +532,57 @@ export default {
       f_data_json
     }
   },
+  areaproxies(data) {
+    console.log(data)
+    if (mistake(data)) return false
+    let {
+      f_ver,
+      f_type,
+      f_mac,
+      f_data
+    } = data
+    let f_data_json = JSON.parse(f_data)
+    return {
+      f_ver,
+      f_type,
+      f_mac,
+      f_data_json
+    }
+  },
+  aadbinedinfo(data) {
+    console.log(data)
+    if (mistake(data)) return false
+    let {
+      f_ver,
+      f_type,
+      f_mac,
+      f_data
+    } = data
+    let f_data_json = JSON.parse(f_data)
+    return {
+      f_ver,
+      f_type,
+      f_mac,
+      f_data_json
+    }
+  },
+  aadtoproxy(data) {
+    console.log(data)
+    if (mistake(data)) return false
+    let {
+      f_ver,
+      f_type,
+      f_mac,
+      f_data
+    } = data
+    let f_data_json = JSON.parse(f_data)
+    return {
+      f_ver,
+      f_type,
+      f_mac,
+      f_data_json
+    }
+  },
 
 
 

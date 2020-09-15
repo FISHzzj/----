@@ -3,7 +3,6 @@
     <Card>
       <tables
         ref="tables"
-        editable
         searchable
         stripe
         search-place="top"
@@ -25,7 +24,6 @@
         @onHandleSearch="onHandleSearch"
         @on-handle-from="onHandleFrom"
       />
-      <!-- <Button style="margin: 10px 0;" type="primary" @click="exportExcel">导出为Csv文件</Button> -->
       <Editfrom
         v-if="editfromshow"
         @on-handle-save="onHandleSave"
@@ -52,22 +50,30 @@ export default {
         {
           title: "账号",
           key: "username",
-          editable: true,
+          // editable: true,
+          resizable: true,
+          width: 180,
         },
         {
           title: "用户名",
           key: "name",
-          editable: true,
+          // editable: true,
+          resizable: true,
+          width: 180,
         },
         {
           title: "手机号",
           key: "mobile",
-          editable: true,
+          // editable: true,
+          resizable: true,
+          width: 180,
         },
         {
           title: "时间",
           key: "createTime",
-          editable: true,
+          // editable: true,
+          resizable: true,
+          width: 280,
         },
         {
           title: "删除",
@@ -377,6 +383,8 @@ export default {
   },
   mounted() {
     this.getdata();
+    this.height = window.innerHeight - this.$refs.tables.$el.offsetTop - 240;
+    console.log(this.height);
   },
 };
 </script>

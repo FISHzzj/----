@@ -14,6 +14,7 @@
           :pageTotal="pageTotal"
           :pageNum="pageNum"
           :arrsearch="arrsearch"
+          :rowClassName="rowClassName"
           @onPageChage="onPageChage"
           @onPageSizeChage="onPageSizeChage"
           @on-row-dblclick="onRowDblclick"
@@ -21,6 +22,7 @@
         />
       </div>
       <div slot="right" class="demo-split-pane">
+        <h2 style="margin: 0 0 10px 10px">认证设备</h2>
         <Card title="入口" style="margin-bottom:10px">
           <!-- <CheckboxGroup v-model="social" size="large" @on-change="onChangeHandle">
             <Checkbox :label="item.f_id" v-for="(item, index) in authJson" :key="index">
@@ -148,7 +150,7 @@ export default {
       height: 450,
       arrsearch: [
         {
-          title: "控制设备名称",
+          title: "设备名称",
           val: "",
           name: "f_name",
         },
@@ -178,9 +180,18 @@ export default {
         entranceQP: "",
         entranceID: "",
       },
+      selectRow: "",
     };
   },
   methods: {
+    rowClassName(row, index) {
+      // console.log(row)
+      if (row.f_id == this.selectRow) {
+        //随便挑个唯一变量比较
+        return "addcolor"; //自己的css类名  iview文档table那块有几个现成的样式，建议写进公共样式里
+      }
+      return "";
+    },
     // 获取页码
     onPageChage(pageNum) {
       console.log(pageNum);
@@ -221,6 +232,7 @@ export default {
     //双击
     onRowDblclick(row, index) {
       console.log(row, index);
+      this.selectRow = row.f_id
       let data = {};
       this.f_AccessCtrlDev_id = row.f_id; //控制设备
       data["f_AccessCtrlDev_id"] = row.f_id;
@@ -237,7 +249,7 @@ export default {
       res.f_data_json.f_values.forEach((item, index) => {
         let f_id = item.id;
         this.f_id = f_id;
-        console.log(f_id)
+        console.log(f_id);
         if (item.f_aad_direction == "入口") {
           if (item.f_AccessAuthDev_type == "人脸") {
             this.formItem.selectface = item.f_AccessAuthDev_id;
@@ -383,7 +395,7 @@ export default {
       let data = {};
       let { selectface, selectIC, selectQP, selectID } = this.formItem;
       let { entranceface, entranceIC, entranceQP, entranceID } = this.entrance;
-      
+
       if (
         selectface ||
         selectIC ||
@@ -396,13 +408,12 @@ export default {
         data["f_AccessCtrlDev_id"] = this.f_AccessCtrlDev_id;
         data["f_AccessAuthDev_id"] = selectface;
         if (this.f_id) {
-          data['f_id'] = this.f_id
+          data["f_id"] = this.f_id;
           let res = await $ajax("aadtoacd", "put", data);
           if (!res) return false;
           console.log(res);
           Toast("保存成功！");
-        }else {
-          
+        } else {
           let res = await $ajax("aadtoacd", "post", data);
           if (!res) return false;
           console.log(res);
@@ -416,6 +427,8 @@ export default {
   mounted() {
     this.getdatatrltrl();
     this.getdataAuth();
+    this.height = window.innerHeight - this.$refs.tables.$el.offsetTop - 260;
+    console.log(this.height);
   },
 };
 </script>
@@ -424,7 +437,7 @@ export default {
   height: 100%;
   border: 1px solid #dcdee2;
   .demo-split-pane {
-    padding: 10px;
+    padding: 10px 15px;
     .exit {
       display: flex;
       flex-direction: row;

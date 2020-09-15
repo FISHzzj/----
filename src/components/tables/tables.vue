@@ -8,12 +8,16 @@
       <div v-for="(item, index) in arrsearch" :key="index">
         <div v-if="item.name=='f_type' || item.name=='f_aad_direction'">
           <span style="width:70px;display:inline-block;">{{item.title}}：</span>
-          <Select v-model="item.val"  class="search-col">
-            <Option v-for="itemkey in item.arrtype" :value="itemkey.title" :key="itemkey.id">{{ itemkey.title }}</Option>
+          <Select v-model="item.val" class="search-col">
+            <Option
+              v-for="itemkey in item.arrtype"
+              :value="itemkey.title"
+              :key="itemkey.id"
+            >{{ itemkey.title }}</Option>
           </Select>
         </div>
         <div v-else>
-          <span style="width:70px;display:inline-block;">{{item.title}}：</span>
+          <span style="width:70px;display:inline-block;white-space: nowrap;">{{item.title}}：</span>
           <Input placeholder="输入关键字搜索" class="search-input" v-model="item.val" />
         </div>
       </div>
@@ -260,6 +264,13 @@ export default {
         return [];
       },
     },
+    /**
+     * @description 判断是否是devAgentForm.vue 传过来的
+     */
+    devSelect: {
+      type: Boolean,
+      default: false,
+    },
   },
   /**
    * Events
@@ -444,6 +455,21 @@ export default {
     },
     devBtn() {
       this.devAgentfromshow = true;
+      if (this.devSelect) {
+        console.log(2222);
+        this.$store.commit({
+          type: "changeFType",
+          f_type: true,
+          f_aad_direction: true,
+        });
+      } else {
+        console.log(333);
+        this.$store.commit({
+          type: "changeFType",
+          f_type: false,
+          f_aad_direction: false,
+        });
+      }
     },
     // 重置按钮
     Resetbtn() {

@@ -4,6 +4,7 @@ import Vuex from 'vuex'
 import user from './module/user'
 import app from './module/app'
 import menu from './module/menu'
+import devAgent from './module/devAgent'
 
 Vue.use(Vuex)
 
@@ -20,6 +21,7 @@ export default new Vuex.Store({
   modules: {
     user,
     app,
-    menu
+    menu,
+    devAgent
   }
 })

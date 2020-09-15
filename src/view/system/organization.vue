@@ -358,6 +358,8 @@ export default {
   mounted() {
     this.getdata();
     // this.delete()
+    this.height = window.innerHeight - this.$refs.tables.$el.offsetTop - 260;
+    console.log(this.height);
   },
   destroyed() {
     clearTimeout(this.timer);
@@ -367,7 +369,7 @@ export default {
 
 <style lang="less" scoped>
 .demo-split {
-  height: 100%;
+  height:calc(100% + 0px);
   border: 1px solid #dcdee2;
 }
 

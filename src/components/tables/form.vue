@@ -96,36 +96,36 @@ export default {
           trigger: 'blur'
         }
         ],
-        f_emid: [{
-          required: true,
-          message: '员工号不能为空',
-          trigger: 'blur'
-        }],
-        f_nickname: [{
-          required: true,
-          message: '昵称不能为空',
-          trigger: 'blur'
-        }],
-        f_sex: [{
-          required: true,
-          message: '请选择性别',
-          trigger: 'change'
-        }],
-        f_birthday: [{
-          required: true,
-          type: 'date',
-          message: '请选择出生日期',
-          trigger: 'change'
-        }],
-        f_attribute: [{
-          required: true,
-          message: '请选择用户属性',
-          trigger: 'change'
-        }],
-        f_img: [{
-          required: true,
-          message: '请上传图片'
-        }]
+        // f_emid: [{
+        //   required: true,
+        //   message: '员工号不能为空',
+        //   trigger: 'blur'
+        // }],
+        // f_nickname: [{
+        //   required: true,
+        //   message: '昵称不能为空',
+        //   trigger: 'blur'
+        // }],
+        // f_sex: [{
+        //   required: true,
+        //   message: '请选择性别',
+        //   trigger: 'change'
+        // }],
+        // f_birthday: [{
+        //   required: true,
+        //   type: 'date',
+        //   message: '请选择出生日期',
+        //   trigger: 'change'
+        // }],
+        // f_attribute: [{
+        //   required: true,
+        //   message: '请选择用户属性',
+        //   trigger: 'change'
+        // }],
+        // f_img: [{
+        //   required: true,
+        //   message: '请上传图片'
+        // }]
 
       },
       hideRequiredMark: true,

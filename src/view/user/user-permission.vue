@@ -17,7 +17,9 @@
             :permaddBtn="permaddBtn"
             :permsReset="permsReset"
             :height="height"
+            :border="border"
             :arrsearch="arrsearch"
+            :rowClassName="rowClassName"
             @on-delete="handleDelete"
             @onPageChage="onPageChage"
             @onPageSizeChage="onPageSizeChage"
@@ -63,10 +65,12 @@ export default {
     return {
       split1: 0.3,
       height: 450,
+      border:true,
       columns: [
         {
           title: "分组名称",
           key: "name",
+          
         },
         {
           title: "删除",
@@ -168,9 +172,18 @@ export default {
       },
       subdata: "",
       d_perms_all: [], // 源数据--tree
+      selectRow: "",
     };
   },
   methods: {
+    rowClassName(row, index) {
+      // console.log(row)
+      if (row.id == this.selectRow) {
+        //随便挑个唯一变量比较
+        return "addcolor"; //自己的css类名  iview文档table那块有几个现成的样式，建议写进公共样式里
+      }
+      return "";
+    },
     // 新增
     async onPermHandleFrom(arrData) {
       let res = await $ajax("permsGroupsAdd", "post", arrData);
@@ -180,6 +193,7 @@ export default {
     // 双击行
     onRowDblclick(row, index) {
       console.log(row, index);
+      this.selectRow = row.id; //获取行数据
       let data = {};
       data["f_name"] = row.name;
       this.perms.f_id = row.id;
@@ -268,7 +282,6 @@ export default {
       if (!res) return false;
       console.log(res);
       this.tableData = res.f_data_json.f_values;
-
     },
     // 修改
     async update() {
@@ -365,18 +378,22 @@ export default {
     // })
     this.getdata();
     this.getpermsinform();
+    this.height = window.innerHeight - this.$refs.tables.$el.offsetTop - 300;
+    console.log(this.height);
   },
 };
 </script>
 
 <style lang="less" scoped>
 .demo-split {
-  height: calc(100% - 10px);
+  height: calc(100% + 0px);
   border: 1px solid #dcdee2;
 }
 
 .demo-split-pane {
   padding: 10px;
+  height: calc(100% + 0px);
+  overflow-y: scroll;
 }
 
 .treeflex {
@@ -392,3 +409,4 @@ export default {
   margin-bottom: 10px;
 }
 </style>
+

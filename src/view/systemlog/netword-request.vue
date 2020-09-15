@@ -10,7 +10,6 @@
         :columns="columns"
         :evevtType="evevtType"
         :searchCol="searchCol"
-        :height="height"
         :border="border"
         :pageTotal="pageTotal"
         :pageNum="pageNum"
@@ -38,14 +37,12 @@ export default {
   data() {
     return {
       border: true,
-      height: 450,
       columns: [
-        { title: "用户姓名", key: "f_user_cname" },
-        { title: "用户手机", key: "f_user_mobile" },
-        { title: "请求时间", key: "f_time" },
-        { title: "远端地址", key: "f_ipaddr" },
-        { title: "请求方法", key: "f_method " },
-        { title: "请求URL", key: "f_url" },
+        { title: "用户手机", key: "f_user_mobile", resizable: true, width: 120 },
+        { title: "请求时间", key: "f_time",resizable: true, width: 180 },
+        { title: "远端地址", key: "f_ipaddr",resizable: true, width: 140 },
+        { title: "请求方法", key: "f_method",resizable: true, width: 120 },
+        { title: "请求URL", key: "f_url",resizable: true, width: 340 },
         { title: "返回时间", key: "f_res_time" },
       ],
       evevtType: [
@@ -104,6 +101,7 @@ export default {
           f_url:item.f_url
         });
       });
+      console.log(tableJson)
       this.tableData = tableJson;
     },
   },

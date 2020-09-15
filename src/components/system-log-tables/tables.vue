@@ -15,12 +15,7 @@
       </div>
       <div class="getTime" v-show="getdate">
         <span>请求时间：</span>
-        <DatePicker
-          type="datetimerange"
-          placeholder="请选择请求时间"
-         
-          v-model="formvalue.f_time"
-        ></DatePicker>
+        <DatePicker type="datetimerange" placeholder="请选择请求时间" v-model="formvalue.f_time"></DatePicker>
       </div>
       <div class="getTime" v-if="searchCol">
         <span>{{label}}：</span>
@@ -107,9 +102,9 @@ export default {
     width: {
       type: [Number, String],
     },
-    height: {
-      type: [Number, String],
-    },
+    // height: {
+    //   type: [Number, String],
+    // },
     stripe: {
       type: Boolean,
       default: false,
@@ -268,6 +263,7 @@ export default {
    */
   data() {
     return {
+      height:450,
       insideColumns: [],
       insideTableData: [],
       edittingCellId: "",
@@ -368,12 +364,12 @@ export default {
     // },
     handleSearch() {
       let obj = {};
-      let formvalue = this.formvalue
+      let formvalue = this.formvalue;
       Object.keys(formvalue).forEach((key) => {
-        if(formvalue[key]){
-          obj[key] = formvalue[key]
+        if (formvalue[key]) {
+          obj[key] = formvalue[key];
         }
-      })
+      });
       console.log(obj);
       this.$emit("onHandleSearch", obj);
     },
@@ -486,6 +482,9 @@ export default {
     this.handleColumns(this.columns);
     // this.setDefaultSearchKey();
     this.handleTableData();
+    this.height = window.innerHeight - this.$refs.tablesMain.$el.offsetTop - 160;
+    console.log(window.innerHeight)
+    console.log(this.$refs.tablesMain.$el.offsetTop)
   },
 };
 </script>

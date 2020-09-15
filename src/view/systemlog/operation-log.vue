@@ -10,7 +10,6 @@
         :columns="columns"
         :evevtType="evevtType"
         :searchCol="searchCol"
-        :height="height"
         :border="border"
         :pageTotal="pageTotal"
         :pageNum="pageNum"
@@ -38,20 +37,19 @@ export default {
   data() {
     return {
       border: true,
-      height: 450,
       columns: [
-        { title: "用户姓名", key: "f_user_cname" },
-        { title: "用户手机", key: "f_user_mobile" },
-        { title: "请求时间", key: "f_time" },
-        { title: "远端地址", key: "f_ipaddr" },
-        { title: "请求方法", key: "f_method " },
-        { title: "请求URL", key: "f_url" },
-        { title: "请求数据", key: "f_req_data" },
-        { title: "描述", key: "f_desc" },
-        { title: "原数据", key: "f_olddata" },
-        { title: "新数据", key: "f_newdata" },
-        { title: "返回结果", key: "f_errcode" },
-        { title: "失败信息", key: "f_errmsg" },
+        { title: "用户姓名", key: "f_user_cname",resizable: true, width: 100 },
+        { title: "用户手机", key: "f_user_mobile",resizable: true, width: 120 },
+        { title: "请求时间", key: "f_time",resizable: true, width: 120 },
+        { title: "远端地址", key: "f_ipaddr",resizable: true, width: 120 },
+        { title: "请求方法", key: "f_method", resizable: true, width: 100 },
+        { title: "请求URL", key: "f_url", resizable: true, width: 320 },
+        { title: "请求数据", key: "f_req_data", resizable: true, width: 420 },
+        { title: "描述", key: "f_desc", resizable: true, width: 220 },
+        { title: "原数据", key: "f_olddata", resizable: true, width: 420 },
+        { title: "新数据", key: "f_newdata", resizable: true, width: 420 },
+        { title: "返回结果", key: "f_errcode", resizable: true, width: 120 },
+        { title: "失败信息", key: "f_errmsg", resizable: true, width: 120 },
       ],
       evevtType: [
         { title: "GET", key: "get" },

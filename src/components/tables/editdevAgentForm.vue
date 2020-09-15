@@ -1,7 +1,7 @@
 <template>
   <div class="formModel">
     <cellGroup>
-      <Cell title="新增">
+      <Cell title="编辑">
         <Icon type="md-close" size="24" slot="extra" @click="onHandleClose" />
       </Cell>
     </cellGroup>
@@ -17,8 +17,19 @@
       <FormItem label="设备名称" prop="f_name">
         <Input v-model="formValidate.f_name" placeholder="请输入设备名称"></Input>
       </FormItem>
-      <FormItem label="设备名称" prop="f_type">
-        <Input v-model="formValidate.f_type" placeholder="请输入设备类型"></Input>
+      <FormItem label="设备类型" prop="f_tyep" style="width:285px" v-if="f_type">
+        <Select v-model="formValidate.f_type" placeholder="请输入设备名称">
+          <Option value="人脸">人脸</Option>
+          <Option value="IC卡">IC卡</Option>
+          <Option value="二维码">二维码</Option>
+          <Option value="身份证">身份证</Option>
+        </Select>
+      </FormItem>
+      <FormItem label="设备出入" prop="f_aad_direction" style="width:285px" v-if="f_aad_direction">
+        <Select v-model="formValidate.f_aad_direction" placeholder="请输入设备出入">
+          <Option value="出口">出口</Option>
+          <Option value="入口">入口</Option>
+        </Select>
       </FormItem>
       <FormItem label="IP地址" prop="f_ip_addr">
         <Input v-model="formValidate.f_ip_addr" placeholder="请输入IP地址"></Input>
@@ -44,13 +55,27 @@
 
 <script>
 export default {
-  props: ["getEditData"],
+  props: {
+    getEditData: {
+      type:Object,
+      default:null
+    },
+    f_type: {
+      type:Boolean,
+      default:false
+    },
+    f_aad_direction: {
+      type:Boolean,
+      default:false
+    }
+  },
   data() {
     return {
       formValidate: {
         f_id: "",
         f_name: "",
         f_type: "",
+        f_aad_direction: "",
         f_ip_addr: "",
         f_port: "",
         f_installnation_addr: "",
@@ -64,24 +89,31 @@ export default {
             trigger: "blur",
           },
         ],
-        f_type:[
+        f_type: [
           {
             required: true,
             message: "设备类型不能为空",
             trigger: "blur",
           },
         ],
+        f_aad_direction: [
+          {
+            required: true,
+            message: "设备出入不能为空",
+            trigger: "blur",
+          },
+        ],
         f_ip_addr: [
           {
             required: true,
-            message: "IP地址不能为空",
+            message: "系统地址不能为空",
             trigger: "blur",
           },
         ],
         f_port: [
           {
             required: true,
-            message: "端口不能为空",
+            message: "系统端口不能为空",
             trigger: "blur",
           },
         ],

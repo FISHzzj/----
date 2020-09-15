@@ -11,7 +11,6 @@
         :evevtType="evevtType"
         :searchCol="searchCol"
         :label="label"
-        :height="height"
         :border="border"
         :pageTotal="pageTotal"
         :pageNum="pageNum"
@@ -35,11 +34,10 @@ export default {
   data() {
     return {
       border: true,
-      height: 450,
       columns: [
-        { title: "事件类型", key: "f_type" },
-        { title: "时间", key: "f_time" },
-        { title: "简短信息", key: "f_msg" },
+        { title: "事件类型", key: "f_type", resizable: true, width: 180 },
+        { title: "时间", key: "f_time", resizable: true, width: 180 },
+        { title: "简短信息", key: "f_msg", resizable: true, width: 240 },
         { title: "详细信息", key: "f_detial" },
       ],
       evevtType: [

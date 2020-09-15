@@ -18,6 +18,7 @@
         :addListArr="addListArr"
         :arrsearch="arrsearch"
         :height="height"
+        :devSelect="devSelect"
         @on-delete="handleDelete"
         @onPageChage="onPageChage"
         @onPageSizeChage="onPageSizeChage"
@@ -26,6 +27,8 @@
       />
       <Editfrom
         v-if="editfromshow"
+        :f_type="f_type"
+        :f_aad_direction="f_aad_direction"
         @on-handle-save="onHandleSave"
         @on-handle-close="onHandleClose"
         :getEditData="getEditData"
@@ -58,6 +61,8 @@ export default {
   },
   data() {
     return {
+      f_type:true,
+      f_aad_direction:true,
       columns: [
         {
           title: "设备名称",
@@ -194,6 +199,7 @@ export default {
       pageTotal: 10,
       pageNum: 1,
       pageSize: 10,
+      devSelect:true,
       devaddBtn: true,
       searchCol: true,
       border: true,
@@ -333,7 +339,7 @@ export default {
     //获取组织类型下“区域”的 组织架构
     async getorgtype() {
       let res = await $ajax("organization", "get", {
-        f_OrgType_name: "区域",
+        f_OrgType_id: "8",
       });
       if (!res) return false;
       console.log(res);
@@ -365,7 +371,7 @@ export default {
       this.area = f_Organization_id.toString();
     },
     async ok() {
-      if(!this.area) return Toast('请选择区域')
+      if (!this.area) return Toast("请选择区域");
       if (this.f_id) {
         let data = {};
         data["f_id"] = this.f_id;
@@ -374,6 +380,8 @@ export default {
         if (!res) return false;
         console.log(res);
         Toast("修改成功！");
+        this.f_id = "";
+        this.area = "";
       } else {
         let data = {};
         data["f_AccessAuthDev_id"] = this.f_AccessAuthDev_id; //认证设备id
@@ -383,10 +391,13 @@ export default {
         console.log(res);
         Toast("保存成功！");
       }
-      this.f_id = ""
-      this.area = ""
+      this.f_id = "";
+      this.area = "";
     },
-    cancel() {},
+    cancel() {
+      this.f_id = "";
+      this.area = "";
+    },
     // 新增 表单 确认btn
     async onAgentHandleFrom(arrData) {
       console.log(arrData);
@@ -530,6 +541,13 @@ export default {
   mounted() {
     this.getdata();
     this.getorgtype();
+    this.height = window.innerHeight - this.$refs.tables.$el.offsetTop - 320;
+    console.log(this.height);
+    // this.$store.commit({
+    //   type: "changeFType",
+    //   f_type: false,
+    //   f_aad_direction: false,
+    // });
   },
 };
 </script>
