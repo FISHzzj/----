@@ -11,6 +11,7 @@
         :data="data"
         :node-render="nodeRender"
         :expand-all="true"
+        :horizontal="true"
         @on-node-click="handleNodeClick"
         collapsable
       ></v-org-tree>

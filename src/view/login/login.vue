@@ -27,6 +27,7 @@
 import LoginForm from '_c/login-form'
 import { setToken, getToken } from '@/libs/util'
 import { mapActions } from 'vuex'
+import hasperms from '../../func/hasperms.js'
 export default {
   components: {
     LoginForm
@@ -35,12 +36,13 @@ export default {
     localStorage.removeItem('f_crypt_key')
   },
   mounted () {
-
+   
   },
   methods: {
     ...mapActions([
       'handleLogin',
-      'getUserInfo'
+      'getUserInfo',
+      'getUserPerms'
     ]),
     async handleSubmit ({ userName, password }) {
       let res = await $ajax('login','post',{
@@ -50,7 +52,12 @@ export default {
       // 如果返回爲 false ,則中斷函數
       if (!res) return false  
       console.log(res)
-      
+      this.getUserPerms().then(res => {
+        console.log(res)
+      })
+
+      this.gethasperms()
+
       // 保存 openid 以及 ip 到本地
       localStorage.setItem('f_crypt_key',  res.f_data_json.f_values[0].f_crypt_key)
       localStorage.setItem('f_secretkey',  res.f_data_json.f_values[0].f_secretkey)
@@ -60,7 +67,16 @@ export default {
         name: "home"
       })
     },
-
+    // 查看用户是否具有指定权限
+    async gethasperms() {
+        let data = {}
+        data['perms'] = hasperms
+       let res = await $ajax('hasperms','get', data)
+       if(!res) return false
+       console.log(res)
+       let f_values = res.f_data_json.f_values.own_perms
+       setToken('access', f_values)
+    }
   }
 }
 </script>

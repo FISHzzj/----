@@ -72,7 +72,7 @@ export default {
       console.log(pageNum);
       this.pageNum = pageNum;
       let data = {};
-      data["pageNum"] = this.pageNum;
+      data["f_page"] = this.pageNum;
       this.getdata(data);
     },
     // 获取页数

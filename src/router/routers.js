@@ -80,7 +80,8 @@ export default [{
     meta: {
       title: '系统管理',
       icon: 'ios-book',
-      mustLogin: true
+      mustLogin: true,
+      access: ['p_web.system'],
     },
     component: Main,
     children: [{
@@ -124,7 +125,8 @@ export default [{
     meta: {
       icon: '_qq',
       title: '用户管理',
-      mustLogin: true
+      mustLogin: true,
+      access: ['p_web.user'],
     },
     component: Main,
     children: [{
@@ -166,6 +168,35 @@ export default [{
           mustLogin: true
         },
         component: () => import('@/view/user/user-permission-group.vue')
+      },
+      {
+        path: 'user_import_pic',
+        name: 'user_import_pic',
+        meta: {
+          icon: '_qq',
+          title: '批量处理',
+          mustLogin: true
+        },
+        component: parentView,
+        children: [{
+          path: 'pic_import',
+          name: 'pic_import',
+          meta: {
+            icon: '_qq',
+            title: '图片批量导入',
+            mustLogin: true
+          },
+          component: () => import('@/view/user/pic-import.vue')
+        }, {
+          path: 'pic_delete',
+          name: 'pic_delete',
+          meta: {
+            icon: '_qq',
+            title: '图片批量删除',
+            mustLogin: true
+          },
+          component: () => import('@/view/user/pic-delete.vue')
+        }]
       }
     ]
   },
@@ -229,45 +260,45 @@ export default [{
   //     icon: 'ios-book'
   //   }
   // },
-  {
-    path: '/join',
-    name: 'join',
-    component: Main,
-    meta: {
-      hideInBread: true,
-      mustLogin: true
-    },
-    children: [{
-      path: 'join_page',
-      name: 'join_page',
-      meta: {
-        icon: '_qq',
-        title: 'QQ群',
-        mustLogin: true
-      },
-      component: () => import('@/view/join-page.vue')
-    }]
-  },
-  {
-    path: '/message',
-    name: 'message',
-    component: Main,
-    meta: {
-      hideInBread: true,
-      hideInMenu: true,
-      mustLogin: true
-    },
-    children: [{
-      path: 'message_page',
-      name: 'message_page',
-      meta: {
-        icon: 'md-notifications',
-        title: '消息中心',
-        mustLogin: true
-      },
-      component: () => import('@/view/single-page/message/index.vue')
-    }]
-  },
+  // {
+  //   path: '/join',
+  //   name: 'join',
+  //   component: Main,
+  //   meta: {
+  //     hideInBread: true,
+  //     mustLogin: true
+  //   },
+  //   children: [{
+  //     path: 'join_page',
+  //     name: 'join_page',
+  //     meta: {
+  //       icon: '_qq',
+  //       title: 'QQ群',
+  //       mustLogin: true
+  //     },
+  //     component: () => import('@/view/join-page.vue')
+  //   }]
+  // },
+  // {
+  //   path: '/message',
+  //   name: 'message',
+  //   component: Main,
+  //   meta: {
+  //     hideInBread: true,
+  //     hideInMenu: true,
+  //     mustLogin: true
+  //   },
+  //   children: [{
+  //     path: 'message_page',
+  //     name: 'message_page',
+  //     meta: {
+  //       icon: 'md-notifications',
+  //       title: '消息中心',
+  //       mustLogin: true
+  //     },
+  //     component: () => import('@/view/single-page/message/index.vue')
+  //   }]
+  // },
   // {
   //   path: '/components',
   //   name: 'components',
@@ -387,37 +418,37 @@ export default [{
   //     }
   //   ]
   // },
-  {
-    path: '/update',
-    name: 'update',
-    meta: {
-      icon: 'md-cloud-upload',
-      title: '数据上传',
-      mustLogin: true
-    },
-    component: Main,
-    children: [{
-        path: 'update_table_page',
-        name: 'update_table_page',
-        meta: {
-          icon: 'ios-document',
-          title: '上传Csv',
-          mustLogin: true
-        },
-        component: () => import('@/view/update/update-table.vue')
-      },
-      {
-        path: 'update_paste_page',
-        name: 'update_paste_page',
-        meta: {
-          icon: 'md-clipboard',
-          title: '粘贴表格数据',
-          mustLogin: true
-        },
-        component: () => import('@/view/update/update-paste.vue')
-      }
-    ]
-  },
+  // {
+  //   path: '/update',
+  //   name: 'update',
+  //   meta: {
+  //     icon: 'md-cloud-upload',
+  //     title: '数据上传',
+  //     mustLogin: true
+  //   },
+  //   component: Main,
+  //   children: [{
+  //       path: 'update_table_page',
+  //       name: 'update_table_page',
+  //       meta: {
+  //         icon: 'ios-document',
+  //         title: '上传Csv',
+  //         mustLogin: true
+  //       },
+  //       component: () => import('@/view/update/update-table.vue')
+  //     },
+  //     {
+  //       path: 'update_paste_page',
+  //       name: 'update_paste_page',
+  //       meta: {
+  //         icon: 'md-clipboard',
+  //         title: '粘贴表格数据',
+  //         mustLogin: true
+  //       },
+  //       component: () => import('@/view/update/update-paste.vue')
+  //     }
+  //   ]
+  // },
   // {
   //   path: '/excel',
   //   name: 'excel',
@@ -544,77 +575,79 @@ export default [{
   //     }
   //   ]
   // },
-  {
-    path: '/multilevel',
-    name: 'multilevel',
-    meta: {
-      icon: 'md-menu',
-      title: '多级菜单',
-      mustLogin: true
-    },
-    component: Main,
-    children: [{
-        path: 'level_2_1',
-        name: 'level_2_1',
-        meta: {
-          icon: 'md-funnel',
-          title: '二级-1',
-          mustLogin: true
-        },
-        component: () => import('@/view/multilevel/level-2-1.vue')
-      },
-      {
-        path: 'level_2_2',
-        name: 'level_2_2',
-        meta: {
-          access: ['super_admin'],
-          icon: 'md-funnel',
-          showAlways: true,
-          title: '二级-2',
-          mustLogin: true
-        },
-        component: parentView,
-        children: [{
-            path: 'level_2_2_1',
-            name: 'level_2_2_1',
-            meta: {
-              icon: 'md-funnel',
-              title: '三级',
-              mustLogin: true
-            },
-            component: () => import('@/view/multilevel/level-2-2/level-2-2-1.vue')
-          },
-          {
-            path: 'level_2_2_2',
-            name: 'level_2_2_2',
-            meta: {
-              icon: 'md-funnel',
-              title: '三级',
-              mustLogin: true
-            },
-            component: () => import('@/view/multilevel/level-2-2/level-2-2-2.vue')
-          }
-        ]
-      },
-      {
-        path: 'level_2_3',
-        name: 'level_2_3',
-        meta: {
-          icon: 'md-funnel',
-          title: '二级-3',
-          mustLogin: true
-        },
-        component: () => import('@/view/multilevel/level-2-3.vue')
-      }
-    ]
-  },
+  // {
+  //   path: '/multilevel',
+  //   name: 'multilevel',
+  //   meta: {
+  //     icon: 'md-menu',
+  //     title: '多级菜单',
+  //     mustLogin: true
+  //   },
+  //   component: Main,
+  //   children: [{
+  //       path: 'level_2_1',
+  //       name: 'level_2_1',
+  //       meta: {
+  //         icon: 'md-funnel',
+  //         title: '二级-1',
+  //         mustLogin: true
+  //       },
+  //       component: () => import('@/view/multilevel/level-2-1.vue')
+  //     },
+  //     {
+  //       path: 'level_2_2',
+  //       name: 'level_2_2',
+  //       meta: {
+  //         access: ['super_admin'],
+  //         icon: 'md-funnel',
+  //         showAlways: true,
+  //         title: '二级-2',
+  //         mustLogin: true
+  //       },
+  //       component: parentView,
+  //       children: [{
+  //           path: 'level_2_2_1',
+  //           name: 'level_2_2_1',
+  //           meta: {
+  //             icon: 'md-funnel',
+  //             title: '三级',
+  //             mustLogin: true
+  //           },
+  //           component: () => import('@/view/multilevel/level-2-2/level-2-2-1.vue')
+  //         },
+  //         {
+  //           path: 'level_2_2_2',
+  //           name: 'level_2_2_2',
+  //           meta: {
+  //             icon: 'md-funnel',
+  //             title: '三级',
+  //             mustLogin: true
+  //           },
+  //           component: () => import('@/view/multilevel/level-2-2/level-2-2-2.vue')
+  //         }
+  //       ]
+  //     },
+  //     {
+  //       path: 'level_2_3',
+  //       name: 'level_2_3',
+  //       meta: {
+  //         icon: 'md-funnel',
+  //         title: '二级-3',
+  //         mustLogin: true
+  //       },
+  //       component: () => import('@/view/multilevel/level-2-3.vue')
+  //     }
+  //   ]
+  // },
   {
     path: '/dev_manage',
     name: 'dev_manage',
     meta: {
       icon: 'md-menu',
       title: '设备管理',
-      mustLogin: true
+      mustLogin: true,
+      access: ['p_web.dev'],
+
     },
     component: Main,
     children: [{
@@ -669,6 +702,297 @@ export default [{
       },
 
     ]
+  },
+  {
+    path: '/opera_manage',
+    name: 'opera_manage',
+    meta: {
+      icon: 'md-menu',
+      title: '运维管理',
+      mustLogin: true,
+      access: ['p_web.oper'],
+
+    },
+    component: Main,
+    children: [{
+      path: '/param_config',
+      name: 'param_config',
+      meta: {
+        icon: 'md-funnel',
+        title: '参数配置',
+        mustLogin: true
+      },
+      component: () => import('@/view/opera-manage/param-config.vue')
+    }, {
+      path: '/equip_status_monit',
+      name: 'equip_status_monit',
+      meta: {
+        icon: 'md-funnel',
+        title: '设备状态监控',
+        mustLogin: true
+      },
+      component: () => import('@/view/opera-manage/equip-status-monit.vue')
+    }, {
+      path: '/equip_param_config',
+      name: 'equip_param_config',
+      meta: {
+        icon: 'md-funnel',
+        title: '设备参数配置',
+        mustLogin: true
+      },
+      component: () => import('@/view/opera-manage/equip-param-config.vue')
+    }, {
+      path: '/equip_policy_template',
+      name: 'equip_policy_template',
+      meta: {
+        icon: 'md-funnel',
+        title: '设备策略模板',
+        mustLogin: true
+      },
+      component: () => import('@/view/opera-manage/equip-policy-template.vue')
+    }, {
+      path: '/face_data_manage',
+      name: 'face_data_manage',
+      meta: {
+        icon: 'md-funnel',
+        title: '人脸数据管理',
+        mustLogin: true
+      },
+      component: () => import('@/view/opera-manage/face-data-manage.vue')
+    }, {
+      path: '/traffic_record',
+      name: 'traffic_record',
+      meta: {
+        icon: 'md-funnel',
+        title: '通行记录',
+        mustLogin: true
+      },
+      component: () => import('@/view/opera-manage/traffic-record.vue')
+    }, {
+      path: '/large_screen_display',
+      name: 'large_screen_display',
+      meta: {
+        icon: 'md-funnel',
+        title: '大屏显示',
+        mustLogin: true
+      },
+      component: () => import('@/view/opera-manage/large-screen-display.vue')
+    }]
+  },
+  {
+    path: '/control_manage',
+    name: 'control_manage',
+    meta: {
+      icon: 'md-funnel',
+      title: '布控管理',
+      mustLogin: true,
+      access: ['p_web.control'],
+    },
+    component: Main,
+    children: [{
+      path: '/black_white_manage',
+      name: 'black_white_manage',
+      meta: {
+        icon: 'md-funnel',
+        title: '黑白名单管理',
+        mustLogin: true
+      },
+      component: () => import('@/view/control-manage/black-white-manage.vue')
+    }, {
+      path: '/policy_manage',
+      name: 'policy_manage',
+      meta: {
+        icon: 'md-funnel',
+        title: '策略管理',
+        mustLogin: true
+      },
+      component: () => import('@/view/control-manage/policy-manage.vue')
+    }]
+  },
+  {
+    path: '/attend_manage',
+    name: 'attend_manage',
+    meta: {
+      icon: 'md-funnel',
+      title: '考勤管理',
+      mustLogin: true,
+      access: ['p_web.attendance']
+
+    },
+    component: Main,
+    children: [{
+      path: '/param_config',
+      name: 'param_config',
+      meta: {
+        icon: 'md-funnel',
+        title: '参数配置',
+        mustLogin: true
+      },
+      component: () => import('@/view/attend-manage/param-config.vue')
+    }, {
+      path: '/record_query',
+      name: 'record_query',
+      meta: {
+        icon: 'md-funnel',
+        title: '记录查询',
+        mustLogin: true
+      },
+      component: () => import('@/view/attend-manage/record-query.vue')
+    }, {
+      path: '/exception_handling',
+      name: 'exception_handling',
+      meta: {
+        icon: 'md-funnel',
+        title: '异常处理',
+        mustLogin: true
+      },
+      component: () => import('@/view/attend-manage/exception-handling.vue')
+    }]
+
+  },
+  {
+    path: 'visitor_manage',
+    name: 'visitor_manage',
+    meta: {
+      icon: 'md-funnel',
+      title: '访客管理',
+      mustLogin: true,
+      access: ['p_web.guest']
+    },
+    component: Main,
+    children: [{
+      path: '/informa_mainten',
+      name: 'informa_mainten',
+      meta: {
+        icon: 'md-funnel',
+        title: '信息维护',
+        mustLogin: true
+      },
+      component: () => import('@/view/visitor-manage/informa-mainten.vue')
+    }, {
+      path: '/site_register',
+      name: 'site_register',
+      meta: {
+        icon: 'md-funnel',
+        title: '现场登记',
+        mustLogin: true
+      },
+      component: () => import('@/view/visitor-manage/site-register.vue')
+    }, {
+      path: '/appoint_register',
+      name: 'appoint_register',
+      meta: {
+        icon: 'md-funnel',
+        title: '预约登记',
+        mustLogin: true
+      },
+      component: () => import('@/view/visitor-manage/appoint-register.vue')
+    }, {
+      path: '/inquiry_record',
+      name: 'inquiry_record',
+      meta: {
+        icon: 'md-funnel',
+        title: '查询记录',
+        mustLogin: true
+      },
+      component: () => import('@/view/visitor-manage/inquiry-record.vue')
+    }]
+  },
+  {
+    path: '/template_management',
+    name: 'template_management',
+    meta: {
+      icon: 'md-funnel',
+      title: '模板管理',
+      mustLogin: true,
+      access: ['p_web.template']
+    },
+    component: Main,
+    children: [{
+      path: '/time_slot',
+      name: 'time_slot',
+      meta: {
+        icon: 'md-funnel',
+        title: '时间段',
+        mustLogin: true
+      },
+      component: () => import('@/view/template-management/time-slot.vue')
+    },{
+      path: '/holiday_vacations',
+      name: 'holiday_vacations',
+      meta: {
+        icon: 'md-funnel',
+        title: '节假日',
+        mustLogin: true
+      },
+      component: () => import('@/view/template-management/holiday-vacations.vue')
+    },{
+      path: '/verification_template',
+      name: 'verification_template',
+      meta: {
+        icon: 'md-funnel',
+        title: '核验模板',
+        mustLogin: true
+      },
+      component: () => import('@/view/template-management/verification-template.vue')
+    },{
+      path: '/visitor_commun_template',
+      name: 'visitor_commun_template',
+      meta: {
+        icon: 'md-funnel',
+        title: '访客通行模板',
+        mustLogin: true
+      },
+      component: () => import('@/view/template-management/visitor-commun-template.vue')
+    },{
+      path: '/open_closed',
+      name: 'open_closed',
+      meta: {
+        icon: 'md-funnel',
+        title: '常开常关',
+        mustLogin: true
+      },
+      component: () => import('@/view/template-management/open-closed.vue')
+    }]
+  },
+  {
+    path: 'data_manage',
+    name: 'data_manage',
+    meta: {
+      icon: 'md-funnel',
+      title: '数据管理',
+      mustLogin: true,
+      access: ['p_web.data']
+    },
+    component: Main,
+    children: [{
+      path: 'basic_data',
+      name: 'basic_data',
+      meta: {
+        icon: 'md-funnel',
+        title: '基础数据',
+        mustLogin: true
+      },
+      component: () => import('@/view/data-manage/basic-data.vue')
+    },{
+      path: 'log_data',
+      name: 'log_data',
+      meta: {
+        icon: 'md-funnel',
+        title: '日志数据',
+        mustLogin: true
+      },
+      component: () => import('@/view/data-manage/log-data.vue')
+    },{
+      path: 'statistic_report',
+      name: 'statistic_report',
+      meta: {
+        icon: 'md-funnel',
+        title: '统计报表',
+        mustLogin: true
+      },
+      component: () => import('@/view/data-manage/statistic-report.vue')
+    }]
   },
   // {
   //   path: '/argu',

@@ -38,4 +38,9 @@ export default {
   areaproxies: `${common}/ktacs/dev/areaproxies/`, //查看所有区域型组织下所有的代理设备
   aadbinedinfo: `${common}/ktacs/dev/aadbinedinfo/`, //查看未与代理服务器绑定的认证设备
   aadtoproxy: `${common}/ktacs/dev/aadtoproxy/`, //认证设备与代理服务器关系管理
+  hasperms: `${common}/ktacs/sys/perms/hasperms/`, //查看用户是否具有指定权限
+  webmenuperms: `${common}/ktacs/sys/perms/webmenuperms/`, //查询登陆用户的菜单权限
+  faceinfo: `${common}/ktacs/oper/faceinfo/`, //设备中的人脸信息
+  
+
 } 

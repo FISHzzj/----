@@ -21,16 +21,17 @@
           <Input placeholder="输入关键字搜索" class="search-input" v-model="item.val" />
         </div>
       </div>
-      <Button @click="handleSearch" class="search-btn" type="success" icon="ios-search">搜索</Button>
+      <Button @click="handleSearch" class="search-btn" type="success" icon="ios-search" >搜索</Button>
       <Button
         class="search-btn"
         type="primary"
         icon="ios-add"
         @click="addBtn"
         v-if="addSearchBtn"
+        v-permission="['p_sys.sys_users.user_post']"
       >新增</Button>
-      <Button class="search-btn" type="primary" icon="ios-add" @click="permBtn" v-if="permaddBtn">新增</Button>
-      <Button class="search-btn" type="primary" icon="ios-add" @click="typeBtn" v-if="typeaddBtn">新增</Button>
+      <Button class="search-btn" type="primary" icon="ios-add" @click="permBtn" v-if="permaddBtn" v-permission="['p_sys.sys_perms.group_post']" >新增</Button>
+      <Button class="search-btn" type="primary" icon="ios-add" @click="typeBtn" v-if="typeaddBtn"  v-permission="['p_sys.sys_orgs.org_post']">新增</Button>
       <Button class="search-btn" type="primary" icon="ios-add" @click="devBtn" v-if="devaddBtn">新增</Button>
       <Button
         class="search-btn"

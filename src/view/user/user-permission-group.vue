@@ -110,15 +110,15 @@ export default {
       if (!this.f_id) return Toast("请先双击用户，否则无效");
       if (direction == "right") {
         let res = await $ajax("togroupPost", "post", {
-          f_userid: this.f_id,
-          f_groupid: newTargetKeys[0],
+          f_user_id: this.f_id,
+          f_group_id: newTargetKeys[0],
         });
         if (!res) return false;
         // console.log(res);
         Toast("添加成功！");
       } else {
         this.f_id_arr.forEach(async (item, index) => {
-          if (item.f_groupid == moveKeys[0]) {
+          if (item.f_group_id == moveKeys[0]) {
             let res = await $ajax("togroupPost", "delete", {
               f_id: item.f_id,
             });
@@ -136,7 +136,7 @@ export default {
       this.data2 = [];
       this.targetKeys1 = [];
       let data = {};
-      data["f_userid"] = row.f_id;
+      data["f_user_id"] = row.f_id;
       this.f_id = row.f_id;
       this.getdatagroup(data);
       this.getpermsgroup();
@@ -194,18 +194,19 @@ export default {
       let f_perms_groups = res.f_data_json.f_values;
       let targetkeyarr = [];
       f_perms_groups.forEach((item, index) => {
-        targetkeyarr.push(item.f_groupid);
+        targetkeyarr.push(item.f_group_id);
       });
       //用户与权限分组 f_id 的集合
       let f_id_arr = [];
       f_perms_groups.forEach((item, index) => {
         f_id_arr.push({
           f_id: item.f_id,
-          f_groupid: item.f_groupid,
+          f_group_id: item.f_group_id,
           f_groupname: item.f_groupname,
         });
       });
       this.targetKeys1 = targetkeyarr;
+      console.log(targetkeyarr)
       this.f_id_arr = f_id_arr;
       // this.getpermsgroup();
     },

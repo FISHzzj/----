@@ -5,8 +5,11 @@ import user from './module/user'
 import app from './module/app'
 import menu from './module/menu'
 import devAgent from './module/devAgent'
+import sidemenu from './module/sidemenu'
+
 
 Vue.use(Vuex)
+
 
 export default new Vuex.Store({
   state: {
@@ -22,6 +25,8 @@ export default new Vuex.Store({
     user,
     app,
     menu,
-    devAgent
-  }
+    devAgent,
+    sidemenu
+  },
+  
 })

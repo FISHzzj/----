@@ -25,6 +25,8 @@ import md5 from 'blueimp-md5'
 import qs from 'qs'
 import $ from 'jquery'
 import OrgTree from 'v-org-tree'
+import permission from './directive/permission.js'
+
 
 // Vue.component('Button', Button)
 // Vue.component('Table', Table)

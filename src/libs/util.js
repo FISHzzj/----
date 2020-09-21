@@ -51,7 +51,7 @@ const showThisMenuEle = (item, access) => {
  * @returns {Array}
  */
 export const getMenuByRouter = (list, access) => {
-  // console.log(list, access)
+  console.log(list, access)
   let res = []
   forEach(list, item => {
     if (!item.meta || (item.meta && !item.meta.hideInMenu)) {
@@ -420,3 +420,25 @@ export const setTitle = (routeItem, vm) => {
   const resTitle = pageTitle ? `${title} - ${pageTitle}` : title
   window.document.title = resTitle
 }
+export const showThisRoute = function (itAccess, currentAccess) {
+  if (Array.isArray(itAccess) && Array.isArray(currentAccess)) {
+      //求两个数据的交集
+      let intersectionSet = new Set([...new Set(itAccess)].filter(x => new Set(currentAccess).has(x)));
+      console.log(1111111)
+      return intersectionSet.size > 0;//如果有交集则返回true
+  } else if (typeof itAccess === 'object' && Array.isArray(itAccess)) {
+    console.log(2222222)
+      return util.oneOf(currentAccess, itAccess);
+  } else {
+    console.log(3333333333)
+      return itAccess === currentAccess;
+  }
+};
+export const oneOf = function (ele, targetArr) {
+  if (targetArr.indexOf(ele) >= 0) {
+      return true;
+  } else {
+      return false;
+  }
+};
+

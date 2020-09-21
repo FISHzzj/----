@@ -1,6 +1,7 @@
 <template>
   <div>
     <Card>
+      
       <tables
         ref="tables"
         searchable
@@ -64,6 +65,13 @@ export default {
         {
           title: "手机号",
           key: "mobile",
+          // editable: true,
+          resizable: true,
+          width: 180,
+        },
+        {
+          title: "用户类型",
+          key: "f_type",
           // editable: true,
           resizable: true,
           width: 180,
@@ -141,32 +149,7 @@ export default {
         },
       ],
       tableData: [],
-      tableJson: [
-        {
-          name: "zhuanghzuangjie",
-          initRowIndex: 0,
-          mobile: "1169254794@qq.com",
-          createTime: "2020-08-02",
-        },
-        {
-          name: "zhuanghzuangjie",
-          initRowIndex: 1,
-          mobile: "1169254794@qq.com",
-          createTime: "2020-08-02",
-        },
-        {
-          name: "zhuanghzuangjie",
-          initRowIndex: 2,
-          mobile: "1169254794@qq.com",
-          createTime: "2020-08-02",
-        },
-        {
-          name: "zhuanghzuangjie",
-          initRowIndex: 3,
-          mobile: "1169254794@qq.com",
-          createTime: "2020-08-02",
-        },
-      ],
+      tableJson: [],
       title: "用户信息添加",
       pageTotal: 10,
       pageNum: 1,
@@ -188,6 +171,11 @@ export default {
         {
           nametitle: "手机号",
           key: "f_mobile",
+          valuetext: "",
+        },
+        {
+          nametitle: "用户类型",
+          key: "f_type",
           valuetext: "",
         },
         {
@@ -308,6 +296,7 @@ export default {
           name: item.f_name, // 用户名
           initRowIndex: index,
           mobile: item.f_mobile, // 手机号
+          f_type: item.f_type, //用户类型
           createTime: item.f_join_time,
         });
       });
@@ -327,6 +316,7 @@ export default {
           name: item.f_name, // 用户名
           initRowIndex: index,
           mobile: item.f_mobile, // 手机号
+          f_type: item.f_type, //用户类型
           createTime: item.f_join_time,
         });
       });
@@ -345,6 +335,7 @@ export default {
           f_username: item.f_username, // 账号
           f_name: item.f_name, // 用户名
           f_mobile: item.f_mobile, // 手机号
+          f_type: item.f_type, //用户类型
           f_emid: item.f_emid,
           f_nickname: item.f_nickname,
           f_sex: item.f_sex,
