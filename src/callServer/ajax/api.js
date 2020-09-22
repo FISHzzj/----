@@ -41,6 +41,6 @@ export default {
   hasperms: `${common}/ktacs/sys/perms/hasperms/`, //查看用户是否具有指定权限
   webmenuperms: `${common}/ktacs/sys/perms/webmenuperms/`, //查询登陆用户的菜单权限
   faceinfo: `${common}/ktacs/oper/faceinfo/`, //设备中的人脸信息
-  
+  passrecord: `${common}/ktacs/oper/passrecord/`, //通行记录
 
 } 
