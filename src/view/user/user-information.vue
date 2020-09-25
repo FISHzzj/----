@@ -1,7 +1,6 @@
 <template>
   <div>
     <Card>
-      
       <tables
         ref="tables"
         searchable
@@ -31,6 +30,23 @@
         @on-handle-close="onHandleClose"
         :getEditData="getEditData"
       ></Editfrom>
+      <Modal v-model="modal1" title="用户扩展信息" @on-ok="ok" @on-cancel="cancel">
+        <div class="icInput">
+          <span>IC卡号：</span>
+          <Input v-model="value1" placeholder="请输入IC卡号" style="100%" />
+        </div>
+        <div class="upfront">
+          <span>上传人脸：</span>
+          <van-uploader :after-read="upFront" :before-read="upFrontBefore">
+            <p
+              :class="['upLoadIDCard', frontImg ? '' : 'plus']"
+              :style="'background-image: url('+frontImg+')'"
+            >
+              <span v-if="!frontImg">{{'上传人脸' }}</span>
+            </p>
+          </van-uploader>
+        </div>
+      </Modal>
     </Card>
   </div>
 </template>
@@ -82,6 +98,30 @@ export default {
           // editable: true,
           resizable: true,
           width: 280,
+        },
+        {
+          title: "扩展信息",
+          key: "exinfo",
+          align: "center",
+          width: 150,
+          render: (h, params) => {
+            return h(
+              "Button",
+              {
+                props: {
+                  type: "success",
+                  size: "small",
+                  icon: "ios-build",
+                },
+                on: {
+                  click: () => {
+                    this.exinfo(params);
+                  },
+                },
+              },
+              "扩展信息"
+            );
+          },
         },
         {
           title: "删除",
@@ -229,9 +269,88 @@ export default {
       height: 450,
       editfromshow: false,
       getEditData: {},
+      modal1: false,
+      value1: "",
+      frontImg: "",
+      f_UserInfo_id: "",
+      f_id: "",
     };
   },
   methods: {
+    // 获取扩展信息
+    async getuserinfoex() {
+      let res = await $ajax("userinfoex", "get", {
+        f_UserInfo_id: this.f_UserInfo_id,
+      });
+
+      if (!res) return false;
+      console.log(res);
+      if(res.f_data_json.f_values.length == 0) return false
+      this.f_id = res.f_data_json.f_values[0].f_id;
+      this.value1 = res.f_data_json.f_values[0].f_ic_num;
+      this.frontImg = res.f_data_json.f_values[0].f_pic;
+    },
+    async upFront(file) {
+      console.log(file);
+      this.frontImg = file.content; // 設置預覽头像
+      console.log(file.content);
+      let res = await $ajax("uploader", "post", {
+        img: file.file,
+      });
+
+      if (!res) return false;
+      console.log(res);
+      let f_file_path = res.f_data_json.f_values[0].f_file_path;
+      this.frontImg = `http://192.168.34.113:7083/ktacs${f_file_path}`;
+    },
+    upFrontBefore(file) {
+      if (file.size > 5242880) {
+        Toast("上传图片大小, 不得大于5M");
+        return false;
+      }
+      return true;
+    },
+    cancel() {},
+    // 提交扩展信息
+    async ok() {
+      if (!this.value1) return Toast("请输入IC卡号");
+      if (!this.frontImg) return Toast("请上传人脸");
+      if (this.f_id) {
+        let res = await $ajax("userinfoex", "put", {
+          f_id: this.f_id,
+          f_UserInfo_id: this.f_UserInfo_id,
+          f_ic_num: this.value1,
+          f_pic: this.frontImg,
+        });
+        console.log(res);
+        if (!res) return false;
+        Toast('修改成功')
+        this.modal1 = false;
+        this.value1 = ""
+        this.frontImg = ""
+        this.f_UserInfo_id = ""
+      }else {
+        let res = await $ajax("userinfoex", "post", {
+          f_UserInfo_id: this.f_UserInfo_id,
+          f_ic_num: this.value1,
+          f_pic: this.frontImg,
+        });
+        console.log(res);
+        if (!res) return false;
+        Toast('保存成功')
+        this.modal1 = false;
+        this.value1 = ""
+        this.frontImg = ""
+        this.f_UserInfo_id = ""
+      }
+    },
+    // 扩展信息
+    exinfo(params) {
+      console.log(params);
+      this.modal1 = true;
+      this.f_UserInfo_id = params.row.id;
+      this.getuserinfoex();
+    },
     // 新增 表单 确认btn
     async onHandleFrom(arrData) {
       let res = await $ajax("userDataAdd", "post", arrData);
@@ -380,5 +499,52 @@ export default {
 };
 </script>
 
-<style>
+<style lang="less" scoped>
+.icInput {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  span {
+    white-space: nowrap;
+    width: 80px;
+  }
+}
+.upfront {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: nowrap;
+}
+.upLoadIDCard {
+  height: 7rem;
+  width: 10rem;
+  border: 1px solid #ccc;
+  margin: 0;
+  box-sizing: border-box;
+  background-size: 100% 100%;
+
+  > span {
+    display: inline-block;
+    width: calc(100% - 2px);
+    text-align: center;
+    position: absolute;
+    height: 2rem;
+    line-height: 2rem;
+    bottom: 1px;
+    background-color: #eee;
+  }
+}
+
+.plus::after {
+  content: "+";
+  position: absolute;
+  font-size: 150px;
+  height: 150px;
+  width: 150px;
+  font-weight: 100;
+  text-align: center;
+  line-height: 3rem;
+  color: #ccc;
+  left: 0;
+  top: 20px;
+}
 </style>

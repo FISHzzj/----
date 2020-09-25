@@ -1,7 +1,6 @@
 <template>
   <div>
     <Card>
-      
       <tables
         ref="tables"
         searchable
@@ -271,7 +270,7 @@ export default {
       this.getSearchData(data);
     },
     async getdata() {
-      let res = await $ajax("userdataget", "get", {
+      let res = await $ajax("faceinaad", "get", {
         f_page: this.pageNum,
         f_limit: this.pageSize,
       });
@@ -282,13 +281,16 @@ export default {
       let tableJson = [];
       res.f_data_json.f_values.forEach((item, index) => {
         tableJson.push({
-          id: item.f_id,
-          username: item.f_username, // 账号
-          name: item.f_name, // 用户名
-          initRowIndex: index,
-          mobile: item.f_mobile, // 手机号
-          f_type: item.f_type, //用户类型
-          createTime: item.f_join_time,
+          f_id: item.f_id,
+          f_UserInfo_id: item.f_UserInfo_id,
+          f_UserInfo_name: item.f_UserInfo_name,
+          f_UserInfoEx_pic: item.f_UserInfoEx_pic,
+          f_uid: item.f_uid,
+          f_AccessAuthDev_id: item.f_AccessAuthDev_id,
+          f_AccessAuthDev_name: item.f_AccessAuthDev_name,
+          f_proc_result: item.f_proc_result,
+          f_fail_info: item.f_fail_info,
+          f_expire: item.f_expire,
         });
       });
       this.tableData = tableJson;

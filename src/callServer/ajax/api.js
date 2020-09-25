@@ -40,7 +40,9 @@ export default {
   aadtoproxy: `${common}/ktacs/dev/aadtoproxy/`, //认证设备与代理服务器关系管理
   hasperms: `${common}/ktacs/sys/perms/hasperms/`, //查看用户是否具有指定权限
   webmenuperms: `${common}/ktacs/sys/perms/webmenuperms/`, //查询登陆用户的菜单权限
-  faceinfo: `${common}/ktacs/oper/faceinfo/`, //设备中的人脸信息
+  faceinaad: `${common}/ktacs/oper/faceinaad/`, //设备中的人脸信息
   passrecord: `${common}/ktacs/oper/passrecord/`, //通行记录
+  userinfoex: `${common}/ktacs/sys/users/userinfoex/`, //用户扩展信息维护
+
 
 } 

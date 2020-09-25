@@ -17,6 +17,7 @@
             :height="height"
             :border="border"
             :searchCol="searchCol"
+            :rowClassName="rowClassName"
             @onPageChage="onPageChage"
             @onPageSizeChage="onPageSizeChage"
             @onHandleSearch="onHandleSearch"
@@ -152,6 +153,7 @@ export default {
       f_id: "", //用于编辑的f_id
       timer: null, //d定时器
       modelTitle: "添加组织名称",
+      selectRow: "",
     };
   },
   computed: {
@@ -163,6 +165,14 @@ export default {
     // },
   },
   methods: {
+    rowClassName(row, index) {
+      // console.log(row)
+      if (row.f_id == this.selectRow) {
+        //随便挑个唯一变量比较
+        return "addcolor"; //自己的css类名  iview文档table那块有几个现成的样式，建议写进公共样式里
+      }
+      return "";
+    },
     // 新增 组织名称
     async ok() {
       if (this.edit1 == "edit") {
@@ -196,7 +206,6 @@ export default {
     },
     // 添加组织架构顶级
     addorg(data) {
-      
       this.edit1 = data;
       if (data == "edit") {
         this.modelTitle = "编辑组织名称";
@@ -233,6 +242,7 @@ export default {
     // 双击行
     onRowDblclick(row, index) {
       console.log(row, index);
+      this.selectRow = row.f_id; //获取行数据
       let data = {};
       data["f_OrgType_id"] = row.f_id;
       this.f_OrgType_id = row.f_id;
@@ -369,7 +379,7 @@ export default {
 
 <style lang="less" scoped>
 .demo-split {
-  height:calc(100% + 0px);
+  height: calc(100% + 0px);
   border: 1px solid #dcdee2;
 }
 
